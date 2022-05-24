@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "560084543445",
+    "project_id": "hora-certa-79244",
+    "storage_bucket": "hora-certa-79244.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:560084543445:android:6298e19f8e2da6ed34bf5c",
+        "android_client_info": {
+          "package_name": "com.ramonguimaraes.horacerta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "560084543445-orputnojmqdqt5h57t5vkn7obfbf3r06.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ramonguimaraes.horacerta",
+            "certificate_hash": "05c818cfd76244541a8747825b0264fa8391c4c3"
+          }
+        },
+        {
+          "client_id": "560084543445-sjcsmqjhamao63o4l7jiprbv6k49ddi8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDF1suQJx1HqWQ5ZLNl2gMG5j7Bn2PQlv0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "560084543445-sjcsmqjhamao63o4l7jiprbv6k49ddi8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
