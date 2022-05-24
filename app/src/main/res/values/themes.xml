@@ -13,4 +13,21 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="CustomButtonTheme">
+        <item name="android:paddingVertical">15dp</item>
+    </style>
+
+    <style name="ButtonPrimary" parent="CustomButtonTheme">
+        <item name="backgroundTint">#2F2E41</item>
+        <item name="strokeColor">#00BFA6</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="ButtonSecondary" parent="CustomButtonTheme">
+        <item name="backgroundTint">#FFFFFF</item>
+        <item name="strokeColor">#00BFA6</item>
+        <item name="strokeWidth">2dp</item>
+        <item name="android:textColor">#2F2E41</item>
+    </style>
 </resources>
