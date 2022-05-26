@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.firebase.auth.FirebaseAuth
 import com.ramonguimaraes.horacerta.databinding.FragmentClientProfileBinding
 import com.ramonguimaraes.horacerta.domain.base.Result
@@ -23,9 +24,16 @@ class ClientProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         mBinding = FragmentClientProfileBinding.inflate(inflater)
+
+        val email = GoogleSignIn.getLastSignedInAccount(requireContext())?.email
+        val displayName = GoogleSignIn.getLastSignedInAccount(requireContext())?.displayName
+        mBinding.editTextClientProfileEmail.setText(email)
+        mBinding.editTextClientProfileName.setText(displayName)
+
         mBinding.buttonProfileNext.setOnClickListener {
             saveClientProfile()
         }
+
         observer()
         return mBinding.root
     }
@@ -44,11 +52,29 @@ class ClientProfileFragment : Fragment() {
     private fun observer() {
         mViewModel.result.observe(viewLifecycleOwner) {
             when (it) {
-                is Result.Loading -> Toast.makeText(context, "Carregando", Toast.LENGTH_SHORT)
-                    .show()
-                is Result.Success -> Toast.makeText(context, it.data, Toast.LENGTH_SHORT).show()
-                is Result.Failure -> Toast.makeText(context, it.error, Toast.LENGTH_SHORT).show()
+                is Result.Loading -> showProgress()
+                is Result.Success -> doSuccess()
+                is Result.Failure -> doFailure(it.error)
             }
         }
+    }
+
+    private fun doSuccess() {
+        hideProgress()
+        Toast.makeText(context, "Perfil criado com sucesso", Toast.LENGTH_SHORT).show()
+        // VAI PARA A PROXIMA TELA E FAZ O QUE TEM QUE FAZER
+    }
+
+    private fun doFailure(error: String) {
+        hideProgress()
+        Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun hideProgress() {
+        mBinding.progressBar.visibility = View.GONE
+    }
+
+    private fun showProgress() {
+        mBinding.progressBar.visibility = View.VISIBLE
     }
 }

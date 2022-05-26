@@ -79,7 +79,13 @@ class LoginFragment : Fragment() {
         val credential = GoogleAuthProvider.getCredential(token, null)
         FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful) {
-                findNavController().navigate(R.id.action_loginFragment_to_clientProfileFragment)
+                val isNewUser = it.result.additionalUserInfo?.isNewUser
+                if (isNewUser == true) {
+                    findNavController().navigate(R.id.action_loginFragment_to_clientProfileFragment)
+                } else {
+                    // Se usuario ja existe, então vai para a tela principal de usuario.
+                    Toast.makeText(context, "USUARIO QUE JÁ EXISTE", Toast.LENGTH_SHORT).show()
+                }
             } else {
                 signOut(googleSignInClient)
                 Toast.makeText(context, "Deu errado", Toast.LENGTH_SHORT).show()
