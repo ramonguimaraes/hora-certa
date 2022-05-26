@@ -7,5 +7,13 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.ramonguimaraes.horacerta.ui.authentication.mainLogin.LoginFragment"
-        android:label="LoginFragment" />
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_clientProfileFragment"
+            app:destination="@id/clientProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/clientProfileFragment"
+        android:name="com.ramonguimaraes.horacerta.ui.clientProfileFragment.ClientProfileFragment"
+        android:label="ClientProfileFragment" />
 </navigation>

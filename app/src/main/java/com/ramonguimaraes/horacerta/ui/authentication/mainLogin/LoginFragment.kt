@@ -11,11 +11,13 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.ramonguimaraes.horacerta.R
 import com.ramonguimaraes.horacerta.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment() {
@@ -77,7 +79,7 @@ class LoginFragment : Fragment() {
         val credential = GoogleAuthProvider.getCredential(token, null)
         FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful) {
-                Toast.makeText(context, "Deu certo", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_loginFragment_to_clientProfileFragment)
             } else {
                 signOut(googleSignInClient)
                 Toast.makeText(context, "Deu errado", Toast.LENGTH_SHORT).show()

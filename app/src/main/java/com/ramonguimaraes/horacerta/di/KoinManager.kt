@@ -1,5 +1,6 @@
 package com.ramonguimaraes.horacerta.di
 
+import com.ramonguimaraes.horacerta.di.clientProfile.clientProfileModule
 import org.koin.core.module.Module
 
 object KoinManager {
@@ -9,5 +10,7 @@ object KoinManager {
      *
      * @return List<Module>
      */
-    fun getModules() = listOf<Module>()
+    fun getModules() = listOf<Module>(
+        clientProfileModule()
+    )
 }
