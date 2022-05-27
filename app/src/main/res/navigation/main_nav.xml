@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_companyLoginFragment"
+            app:destination="@id/companyLoginFragment" />
     </fragment>
     <fragment
         android:id="@+id/clientProfileFragment"
@@ -31,4 +34,12 @@
         android:id="@+id/addressFragment"
         android:name="com.ramonguimaraes.horacerta.ui.companyRegistration.AddressFragment"
         android:label="AddressFragment" />
+    <fragment
+        android:id="@+id/companyLoginFragment"
+        android:name="com.ramonguimaraes.horacerta.ui.authentication.mainLogin.CompanyLoginFragment"
+        android:label="CompanyLoginFragment" >
+        <action
+            android:id="@+id/action_companyLoginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+    </fragment>
 </navigation>
