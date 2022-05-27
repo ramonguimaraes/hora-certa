@@ -11,9 +11,24 @@
         <action
             android:id="@+id/action_loginFragment_to_clientProfileFragment"
             app:destination="@id/clientProfileFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
     </fragment>
     <fragment
         android:id="@+id/clientProfileFragment"
         android:name="com.ramonguimaraes.horacerta.ui.clientProfileFragment.ClientProfileFragment"
         android:label="ClientProfileFragment" />
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.ramonguimaraes.horacerta.ui.companyRegistration.RegisterFragment"
+        android:label="RegisterFragment" >
+        <action
+            android:id="@+id/action_registerFragment_to_addressFragment"
+            app:destination="@id/addressFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addressFragment"
+        android:name="com.ramonguimaraes.horacerta.ui.companyRegistration.AddressFragment"
+        android:label="AddressFragment" />
 </navigation>

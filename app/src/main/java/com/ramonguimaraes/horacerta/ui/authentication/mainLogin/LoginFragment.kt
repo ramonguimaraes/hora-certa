@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -97,6 +98,10 @@ class LoginFragment : Fragment() {
     private fun configButtonsOnClick() {
         mBinding.buttonGoogleAuth.setOnClickListener {
             signIn(googleSignInClient)
+        }
+
+        mBinding.textViewCompanyRegistration.setOnClickListener {
+            it.findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
     }
 

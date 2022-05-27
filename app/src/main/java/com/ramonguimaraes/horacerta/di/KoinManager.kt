@@ -11,6 +11,7 @@ object KoinManager {
      * @return List<Module>
      */
     fun getModules() = listOf<Module>(
-        clientProfileModule()
+        clientProfileModule(),
+        companyModule()
     )
 }

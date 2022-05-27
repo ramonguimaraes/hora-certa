@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#D0CDE1"
+        android:orientation="vertical"
+        android:weightSum="3">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.3"
+            android:paddingTop="20dp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.7"
+            android:background="@drawable/shape_login"
+            android:paddingHorizontal="40dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <LinearLayout
+                android:id="@+id/linearLayoutRowStreet"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="80dp"
+                android:weightSum="3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <EditText
+                    android:id="@+id/editTextTextStreet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2.2"
+                    android:hint="Rua"
+                    android:inputType="textPersonName" />
+
+                <EditText
+                    android:id="@+id/editTextTextNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.8"
+                    android:hint="N°"
+                    android:inputType="number" />
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/editTextTextComplement"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="Complemento"
+                android:inputType="textPersonName"
+                app:layout_constraintEnd_toEndOf="@+id/linearLayoutRowStreet"
+                app:layout_constraintStart_toStartOf="@+id/linearLayoutRowStreet"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayoutRowStreet" />
+
+            <EditText
+                android:id="@+id/editTextTextDistrict"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="Bairro"
+                android:inputType="textPersonName"
+                app:layout_constraintEnd_toEndOf="@+id/editTextTextComplement"
+                app:layout_constraintStart_toStartOf="@+id/editTextTextComplement"
+                app:layout_constraintTop_toBottomOf="@+id/editTextTextComplement" />
+
+            <LinearLayout
+                android:id="@+id/linearLayoutRowCity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:weightSum="3"
+                app:layout_constraintEnd_toEndOf="@+id/editTextTextDistrict"
+                app:layout_constraintStart_toStartOf="@+id/editTextTextDistrict"
+                app:layout_constraintTop_toBottomOf="@+id/editTextTextDistrict">
+
+                <EditText
+                    android:id="@+id/editTextTextCity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2.2"
+                    android:hint="Cidade"
+                    android:inputType="textPersonName" />
+
+                <Spinner
+                    android:id="@+id/spinnerState"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.8" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/buttonRegisterAddress"
+                style="@style/ButtonPrimary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="80dp"
+                android:text="Registrar"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</layout>

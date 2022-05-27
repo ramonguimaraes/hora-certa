@@ -10,7 +10,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.firebase.auth.FirebaseAuth
 import com.ramonguimaraes.horacerta.databinding.FragmentClientProfileBinding
 import com.ramonguimaraes.horacerta.domain.base.Result
-import com.ramonguimaraes.horacerta.presentation.clientProfile.ClientProfileViewModel
+import com.ramonguimaraes.horacerta.presentation.clientProfile.viewmode.ClientProfileViewModel
 import com.ramonguimaraes.horacerta.presentation.clientProfile.model.ClientView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
