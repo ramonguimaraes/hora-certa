@@ -103,6 +103,10 @@ class LoginFragment : Fragment() {
         mBinding.textViewCompanyRegistration.setOnClickListener {
             it.findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
+
+        mBinding.buttonCompanyLogin.setOnClickListener {
+            it.findNavController().navigate(R.id.action_loginFragment_to_companyLoginFragment)
+        }
     }
 
     companion object {
