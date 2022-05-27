@@ -8,7 +8,7 @@ import com.ramonguimaraes.horacerta.data.clientProfile.dataSource.ClientRemoteDa
 import com.ramonguimaraes.horacerta.data.clientProfile.mapper.ClientDataMapper
 import com.ramonguimaraes.horacerta.domain.clientProfile.repository.ClientProfileRepository
 import com.ramonguimaraes.horacerta.domain.clientProfile.useCase.ClientProfileUseCase
-import com.ramonguimaraes.horacerta.presentation.clientProfile.ClientProfileViewModel
+import com.ramonguimaraes.horacerta.presentation.clientProfile.viewmode.ClientProfileViewModel
 import com.ramonguimaraes.horacerta.presentation.clientProfile.mapper.ClientViewMapper
 import com.ramonguimaraes.horacerta.remote.clientProfile.serviceImpl.ClientService
 import org.koin.androidx.viewmodel.dsl.viewModel

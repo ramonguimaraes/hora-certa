@@ -1,4 +1,4 @@
-package com.ramonguimaraes.horacerta.presentation.clientProfile
+package com.ramonguimaraes.horacerta.presentation.clientProfile.viewmode
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
