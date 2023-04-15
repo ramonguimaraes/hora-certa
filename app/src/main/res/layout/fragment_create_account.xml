@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".CreateAccountFragment">
+
+        <EditText
+            android:id="@+id/txtName"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="264dp"
+            android:layout_marginEnd="32dp"
+            android:autofillHints="name"
+            android:hint="@string/nome_de_usuario"
+            android:inputType="textPersonName"
+            android:maxWidth="480dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_max="480dp"
+            tools:text="Nome de usuario" />
+
+        <EditText
+            android:id="@+id/txtEmail"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:autofillHints="emailAddress"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress"
+            android:maxWidth="480dp"
+            app:layout_constraintEnd_toEndOf="@+id/txtName"
+            app:layout_constraintStart_toStartOf="@+id/txtName"
+            app:layout_constraintTop_toBottomOf="@+id/txtName"
+            tools:text="emaildousuario@email.com" />
+
+        <EditText
+            android:id="@+id/txtPassword"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:importantForAutofill="no"
+            android:inputType="textPassword"
+            app:layout_constraintEnd_toEndOf="@+id/txtEmail"
+            app:layout_constraintStart_toStartOf="@+id/txtEmail"
+            app:layout_constraintTop_toBottomOf="@+id/txtEmail"
+            tools:ignore="DuplicateSpeakableTextCheck"
+            tools:text="senha123456" />
+
+        <EditText
+            android:id="@+id/txtRepeatPassword"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:importantForAutofill="no"
+            android:inputType="textPassword"
+            android:maxWidth="480dp"
+            app:layout_constraintEnd_toEndOf="@+id/txtPassword"
+            app:layout_constraintStart_toStartOf="@+id/txtPassword"
+            app:layout_constraintTop_toBottomOf="@+id/txtPassword"
+            tools:text="senha123456" />
+
+        <Button
+            android:id="@+id/btnCreateAccount"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="16dp"
+            android:maxWidth="480dp"
+            android:text="@string/criar_conta"
+            app:layout_constraintEnd_toEndOf="@+id/txtRepeatPassword"
+            app:layout_constraintStart_toStartOf="@+id/txtRepeatPassword"
+            app:layout_constraintTop_toBottomOf="@+id/txtRepeatPassword"
+            app:layout_constraintWidth_max="320dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
