@@ -1,5 +1,6 @@
 package com.ramonguimaraes.horacerta
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
@@ -15,6 +16,7 @@ class AuthRepositoryImpl(
             val result = firebaseAuth.signInWithEmailAndPassword(email, password).await()
             Resource.Success(result.user)
         } catch (e: Exception) {
+            Log.e(TAG, e.message.toString())
             Resource.Failure(e)
         }
     }
@@ -28,11 +30,16 @@ class AuthRepositoryImpl(
             val result = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
             Resource.Success(result.user)
         } catch (e: Exception) {
+            Log.e(TAG, e.message.toString())
             Resource.Failure(e)
         }
     }
 
     override fun logout() {
         firebaseAuth.signOut()
+    }
+
+    private companion object {
+        private const val TAG = "AuthRepository"
     }
 }
