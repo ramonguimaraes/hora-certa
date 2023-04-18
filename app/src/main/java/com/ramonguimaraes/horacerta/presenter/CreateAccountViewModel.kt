@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ramonguimaraes.horacerta.domain.authentication.useCase.SingUpUseCase
+import com.ramonguimaraes.horacerta.utils.isValid
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -37,28 +38,28 @@ class CreateAccountViewModel(private val singUpUseCase: SingUpUseCase) : ViewMod
         val password = password.value
         val repeatedPassword = repeatedPassword.value
 
-        if (validateString(name)) {
+        if (name.isValid()) {
             nameError.value = ""
         } else {
             nameError.value = "Campo obrigarótio"
             isValid = false
         }
 
-        if (validateString(email)) {
+        if (email.isValid()) {
             emailError.value = ""
         } else {
             emailError.value = "Campo obrigarótio"
             isValid = false
         }
 
-        if (validateString(password)) {
+        if (password.isValid()) {
             passwordError.value = ""
         } else {
             passwordError.value = "Campo obrigarótio"
             isValid = false
         }
 
-        if (validateString(repeatedPassword)) {
+        if (repeatedPassword.isValid()) {
             repeatedPasswordError.value = ""
         } else {
             repeatedPasswordError.value = "Campo obrigarótio"
@@ -66,9 +67,5 @@ class CreateAccountViewModel(private val singUpUseCase: SingUpUseCase) : ViewMod
         }
 
         return isValid
-    }
-
-    private fun validateString(value: String?): Boolean {
-        return value != null && value.isNotBlank() && value.isNotEmpty()
     }
 }
