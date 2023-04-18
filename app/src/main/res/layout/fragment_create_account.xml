@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.ramonguimaraes.horacerta.presenter.CreateAccountViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.CreateAccountFragment">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtInpName"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="329dp"
+            android:layout_height="wrap_content"
+            app:error="@{viewModel.nameError}"
+            android:layout_marginBottom="10dp"
+            app:errorEnabled="true"
+            app:layout_constraintBottom_toTopOf="@+id/txtInpEmail"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtName"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:autofillHints="name"
+                android:hint="@string/nome_de_usuario"
+                android:inputType="textPersonName"
+                android:maxLength="80"
+                android:maxLines="1"
+                android:text="@={viewModel.name}"
+                tools:text="Nome de usuario" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtInpEmail"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="329dp"
+            android:layout_height="wrap_content"
+            app:error="@{viewModel.emailError}"
+            app:errorEnabled="true"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/txtInpPass"
+            app:layout_constraintEnd_toEndOf="@+id/txtInpName"
+            app:layout_constraintStart_toStartOf="@+id/txtInpName"
+            app:layout_constraintTop_toBottomOf="@+id/txtInpName">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtEmail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:autofillHints="emailAddress"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                android:maxLength="80"
+                android:maxLines="1"
+                android:text="@={viewModel.email}"
+                tools:text="Email" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtInpPass"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="329dp"
+            android:layout_height="wrap_content"
+            app:error="@{viewModel.passwordError}"
+            app:errorEnabled="true"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/txtInpRepPass"
+            app:layout_constraintEnd_toEndOf="@+id/txtInpEmail"
+            app:layout_constraintStart_toStartOf="@+id/txtInpEmail"
+            app:layout_constraintTop_toBottomOf="@+id/txtInpEmail">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtPass"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:autofillHints="name"
+                android:hint="@string/senha"
+                android:inputType="textPassword"
+                android:maxLength="80"
+                android:maxLines="1"
+                android:text="@={viewModel.password}"
+                tools:text="Senha" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtInpRepPass"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="329dp"
+            android:layout_height="wrap_content"
+            app:error="@{viewModel.repeatedPasswordError}"
+            app:errorEnabled="true"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/btnCreateAccount"
+            app:layout_constraintEnd_toEndOf="@+id/txtInpPass"
+            app:layout_constraintStart_toStartOf="@+id/txtInpPass"
+            app:layout_constraintTop_toBottomOf="@+id/txtInpPass">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtRepPass"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:autofillHints="name"
+                android:hint="@string/repita_a_senha"
+                android:inputType="textPassword"
+                android:maxLength="80"
+                android:maxLines="1"
+                android:text="@={viewModel.repeatedPassword}"
+                tools:text="Repetir senha" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnCreateAccount"
+            android:layout_width="320dp"
+            android:layout_height="48dp"
+            android:onClick="@{() -> viewModel.singUp()}"
+            android:text="@string/criar_conta"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/txtInpRepPass"
+            app:layout_constraintStart_toStartOf="@+id/txtInpRepPass"
+            app:layout_constraintTop_toBottomOf="@+id/txtInpRepPass" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
