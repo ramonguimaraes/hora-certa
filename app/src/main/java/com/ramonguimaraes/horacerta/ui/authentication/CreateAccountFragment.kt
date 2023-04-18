@@ -1,4 +1,4 @@
-package com.ramonguimaraes.horacerta.ui
+package com.ramonguimaraes.horacerta.ui.authentication
 
 import android.os.Bundle
 import android.view.LayoutInflater
