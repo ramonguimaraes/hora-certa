@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".CreateAccountFragment">
+        tools:context=".ui.CreateAccountFragment">
 
         <EditText
             android:id="@+id/txtName"
@@ -22,8 +22,8 @@
             android:autofillHints="name"
             android:hint="@string/nome_de_usuario"
             android:inputType="textPersonName"
-            android:maxLines="1"
             android:maxLength="80"
+            android:maxLines="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -49,6 +49,7 @@
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_marginTop="8dp"
+            android:hint="@string/senha"
             android:importantForAutofill="no"
             android:inputType="textPassword"
             android:maxLines="1"
@@ -63,6 +64,7 @@
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_marginTop="8dp"
+            android:hint="@string/repita_a_senha"
             android:importantForAutofill="no"
             android:inputType="textPassword"
             android:maxLines="1"

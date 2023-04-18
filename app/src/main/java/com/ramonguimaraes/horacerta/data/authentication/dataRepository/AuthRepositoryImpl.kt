@@ -1,8 +1,11 @@
-package com.ramonguimaraes.horacerta
+package com.ramonguimaraes.horacerta.data.authentication.dataRepository
 
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.ramonguimaraes.horacerta.await
+import com.ramonguimaraes.horacerta.domain.authentication.repository.AuthRepository
+import com.ramonguimaraes.horacerta.domain.resource.Resource
 
 class AuthRepositoryImpl(
     private val firebaseAuth: FirebaseAuth

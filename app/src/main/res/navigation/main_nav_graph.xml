@@ -6,7 +6,7 @@
     app:startDestination="@id/createAccountFragment">
     <fragment
         android:id="@+id/createAccountFragment"
-        android:name="com.ramonguimaraes.horacerta.CreateAccountFragment"
+        android:name="com.ramonguimaraes.horacerta.ui.CreateAccountFragment"
         tools:layout="@layout/fragment_create_account"
         android:label="CreateAccountFragment" />
 </navigation>

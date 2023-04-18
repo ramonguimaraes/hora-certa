@@ -1,4 +1,4 @@
-package com.ramonguimaraes.horacerta
+package com.ramonguimaraes.horacerta.domain.resource
 
 sealed class Resource<out R> {
     data class Success<out R>(val result: R) : Resource<R>()
