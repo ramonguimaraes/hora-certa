@@ -1,5 +1,6 @@
 package com.ramonguimaraes.horacerta.utils
 
+import android.content.res.Resources
 import android.widget.EditText
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter

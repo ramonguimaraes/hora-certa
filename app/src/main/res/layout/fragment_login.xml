@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.ramonguimaraes.horacerta.presenter.authentication.LoginViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,6 +23,8 @@
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
             android:layout_marginBottom="10dp"
+            app:error="@{viewModel.emailError}"
+            app:errorEnabled="true"
             app:layout_constraintBottom_toTopOf="@+id/txtInpPass"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -33,7 +38,7 @@
                 android:layout_height="match_parent"
                 android:autofillHints="name"
                 android:hint="@string/email"
-                android:inputType="textPassword"
+                android:inputType="textEmailAddress"
                 android:maxLength="80"
                 android:maxLines="1"
                 android:text="@={viewModel.email}" />
@@ -45,6 +50,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            app:error="@{viewModel.passwordError}"
+            app:errorEnabled="true"
             app:layout_constraintBottom_toTopOf="@+id/btnLogin"
             app:layout_constraintEnd_toEndOf="@+id/txtInpEmail"
             app:layout_constraintStart_toStartOf="@+id/txtInpEmail"
@@ -73,5 +80,16 @@
             app:layout_constraintStart_toStartOf="@+id/txtInpPass"
             app:layout_constraintTop_toBottomOf="@+id/txtInpPass"
             app:layout_constraintWidth_max="320dp" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

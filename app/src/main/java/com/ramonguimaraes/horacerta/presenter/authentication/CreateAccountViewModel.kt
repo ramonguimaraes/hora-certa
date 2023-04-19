@@ -1,4 +1,4 @@
-package com.ramonguimaraes.horacerta.presenter
+package com.ramonguimaraes.horacerta.presenter.authentication
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
