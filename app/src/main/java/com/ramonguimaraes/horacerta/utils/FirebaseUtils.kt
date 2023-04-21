@@ -1,4 +1,4 @@
-package com.ramonguimaraes.horacerta
+package com.ramonguimaraes.horacerta.utils
 
 import com.google.android.gms.tasks.Task
 import kotlinx.coroutines.ExperimentalCoroutinesApi
