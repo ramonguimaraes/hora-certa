@@ -3,12 +3,16 @@ package com.ramonguimaraes.horacerta.presenter.authentication
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ramonguimaraes.horacerta.domain.ProfileRepository
 import com.ramonguimaraes.horacerta.domain.authentication.useCase.SingUpUseCase
+import com.ramonguimaraes.horacerta.utils.isEmail
 import com.ramonguimaraes.horacerta.utils.isValid
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class CreateAccountViewModel(private val singUpUseCase: SingUpUseCase) : ViewModel() {
+class CreateAccountViewModel(
+    private val singUpUseCase: SingUpUseCase
+) : ViewModel() {
 
     var name = MutableLiveData("")
     var nameError = MutableLiveData<String?>()
@@ -45,11 +49,10 @@ class CreateAccountViewModel(private val singUpUseCase: SingUpUseCase) : ViewMod
             isValid = false
         }
 
-        if (email.isValid()) {
-            emailError.value = ""
-        } else {
-            emailError.value = "Campo obrigarótio"
-            isValid = false
+        emailError.value = when {
+            !email.isValid() -> "Campo obrigarótio"
+            !email.isEmail() -> "Email invalido"
+            else -> ""
         }
 
         if (password.isValid()) {
@@ -59,11 +62,10 @@ class CreateAccountViewModel(private val singUpUseCase: SingUpUseCase) : ViewMod
             isValid = false
         }
 
-        if (repeatedPassword.isValid()) {
-            repeatedPasswordError.value = ""
-        } else {
-            repeatedPasswordError.value = "Campo obrigarótio"
-            isValid = false
+        repeatedPasswordError.value = when {
+            !repeatedPassword.isValid() -> "Campo obrigatório"
+            repeatedPassword != password -> "As senhas digitadas não coincidem"
+            else -> ""
         }
 
         return isValid

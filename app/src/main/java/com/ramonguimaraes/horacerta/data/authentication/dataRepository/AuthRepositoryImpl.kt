@@ -5,7 +5,7 @@ import com.google.firebase.FirebaseError.ERROR_OPERATION_NOT_ALLOWED
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseUser
-import com.ramonguimaraes.horacerta.await
+import com.ramonguimaraes.horacerta.utils.await
 import com.ramonguimaraes.horacerta.domain.authentication.repository.AuthRepository
 import com.ramonguimaraes.horacerta.domain.resource.Resource
 
