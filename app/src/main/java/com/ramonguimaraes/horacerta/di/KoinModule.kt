@@ -1,9 +1,12 @@
 package com.ramonguimaraes.horacerta.di
 
-import com.ramonguimaraes.horacerta.di.authentication.authModule
+import com.ramonguimaraes.horacerta.di.authentication.*
 
 object KoinModule {
     fun modules() = listOf(
-        authModule()
+        firebaseModule(),
+        authModule(),
+        createAccountModule(),
+        loginModule()
     )
 }

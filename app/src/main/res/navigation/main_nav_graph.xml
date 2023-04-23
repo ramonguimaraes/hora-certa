@@ -12,6 +12,9 @@
         <argument
             android:name="accountType"
             app:argType="com.ramonguimaraes.horacerta.utils.AccountType" />
+        <action
+            android:id="@+id/action_createAccountFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
