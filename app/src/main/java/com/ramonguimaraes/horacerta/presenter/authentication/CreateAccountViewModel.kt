@@ -1,19 +1,27 @@
 package com.ramonguimaraes.horacerta.presenter.authentication
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ramonguimaraes.horacerta.domain.ProfileRepository
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.DocumentReference
 import com.ramonguimaraes.horacerta.domain.authentication.useCase.SingUpUseCase
+import com.ramonguimaraes.horacerta.domain.resource.Resource
+import com.ramonguimaraes.horacerta.domain.user.model.User
+import com.ramonguimaraes.horacerta.domain.user.useCase.SaveUserUseCase
+import com.ramonguimaraes.horacerta.utils.AccountType
 import com.ramonguimaraes.horacerta.utils.isEmail
 import com.ramonguimaraes.horacerta.utils.isValid
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class CreateAccountViewModel(
-    private val singUpUseCase: SingUpUseCase
+    private val singUpUseCase: SingUpUseCase,
+    private val saveUserUseCase: SaveUserUseCase
 ) : ViewModel() {
 
+    var accountType: AccountType = AccountType.CLIENT
     var name = MutableLiveData("")
     var nameError = MutableLiveData<String?>()
     var email = MutableLiveData("")
@@ -22,17 +30,48 @@ class CreateAccountViewModel(
     var passwordError = MutableLiveData<String?>()
     var repeatedPassword = MutableLiveData("")
     var repeatedPasswordError = MutableLiveData<String?>()
+    private val mSingUpError = MutableLiveData<Resource<FirebaseUser?>>()
+    val singUpError: LiveData<Resource<FirebaseUser?>> get() = mSingUpError
+
+    private val mAccountCreated = MutableLiveData<Resource<DocumentReference?>>()
+    val accountCreated: LiveData<Resource<DocumentReference?>> get() = mAccountCreated
 
     fun singUp() {
         if (validate()) {
-            singUp(name.value!!, email.value!!, password.value!!)
+            singUp(name.value!!, email.value!!, password.value!!, accountType)
         }
     }
 
-    private fun singUp(name: String, email: String, password: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            singUpUseCase.execute(name, email, password)
+    private fun singUp(name: String, email: String, password: String, accountType: AccountType) {
+        viewModelScope.launch {
+            val docRef = saveUser(name, email, accountType)
+            if (docRef is Resource.Success) {
+                val res = singUpUseCase.execute(email, password)
+                if (res is Resource.Success) {
+                    res.result?.uid?.let {
+                        val user = User(
+                            uid = it,
+                            name = name,
+                            email = email,
+                            accountType = accountType
+                        )
+                        val accountCreated = saveUserUseCase.execute(docRef.result, user)
+                        mAccountCreated.postValue(accountCreated)
+                    }
+                } else {
+                    mSingUpError.postValue(res)
+                }
+            }
         }
+    }
+
+    private suspend fun saveUser(
+        name: String,
+        email: String,
+        accountType: AccountType
+    ): Resource<DocumentReference?> {
+        val user = User(name = name, email = email, accountType = accountType)
+        return saveUserUseCase.execute(user = user)
     }
 
     private fun validate(): Boolean {
