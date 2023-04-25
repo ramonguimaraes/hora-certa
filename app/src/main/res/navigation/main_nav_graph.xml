@@ -7,8 +7,8 @@
     <fragment
         android:id="@+id/createAccountFragment"
         android:name="com.ramonguimaraes.horacerta.ui.authentication.CreateAccountFragment"
-        tools:layout="@layout/fragment_create_account"
-        android:label="CreateAccountFragment" >
+        android:label="CreateAccountFragment"
+        tools:layout="@layout/fragment_create_account">
         <argument
             android:name="accountType"
             app:argType="com.ramonguimaraes.horacerta.utils.AccountType" />
@@ -19,10 +19,18 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.ramonguimaraes.horacerta.ui.authentication.LoginFragment"
-        tools:layout="@layout/fragment_login"
-        android:label="LoginFragment" >
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_createAccountFragment"
             app:destination="@id/createAccountFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_companyProfileFragment"
+            app:destination="@id/companyProfileFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/companyProfileFragment"
+        android:name="com.ramonguimaraes.horacerta.ui.companyProfile.CompanyProfileFragment"
+        android:label="CompanyProfileFragment"
+        tools:layout="@layout/fragment_company_profile" />
 </navigation>
