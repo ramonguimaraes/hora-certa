@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.ramonguimaraes.horacerta.R
 import com.ramonguimaraes.horacerta.databinding.FragmentLoginBinding
 import com.ramonguimaraes.horacerta.domain.resource.Resource
 import com.ramonguimaraes.horacerta.presenter.authentication.LoginViewModel
@@ -47,7 +48,7 @@ class LoginFragment : Fragment() {
                 is Resource.Success -> {
                     hideLoading()
                     showSuccess()
-                    moveToHome()
+                    viewModel.checkUserType()
                 }
                 is Resource.Failure -> {
                     hideLoading()
@@ -56,6 +57,23 @@ class LoginFragment : Fragment() {
                 is Resource.Loading -> showLoading()
             }
         }
+
+        viewModel.accountTypeClient.observe(viewLifecycleOwner) {
+            goToClientHome()
+        }
+
+        viewModel.accountTypeCompany.observe(viewLifecycleOwner) {
+            goToCompanyHome()
+        }
+    }
+
+    private fun goToCompanyHome() {
+        findNavController().navigate(R.id.action_loginFragment_to_companyHomeFragment)
+
+    }
+
+    private fun goToClientHome() {
+        findNavController().navigate(R.id.action_loginFragment_to_clientHomeFragment)
     }
 
     private fun showLoading() {
@@ -65,8 +83,6 @@ class LoginFragment : Fragment() {
     private fun hideLoading() {
         binding.progressBar.gone()
     }
-
-    private fun moveToHome() {}
 
     private fun setAccountTypeDialog() {
         val builder = AlertDialog.Builder(context)

@@ -6,13 +6,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.ktx.Firebase
+import com.ramonguimaraes.horacerta.domain.authentication.useCase.GetCurrentUserUseCase
 import com.ramonguimaraes.horacerta.domain.authentication.useCase.LoginUseCase
 import com.ramonguimaraes.horacerta.domain.resource.Resource
+import com.ramonguimaraes.horacerta.utils.AccountType
 import com.ramonguimaraes.horacerta.utils.isEmail
 import com.ramonguimaraes.horacerta.utils.isValid
 import kotlinx.coroutines.launch
 
-class LoginViewModel(private val loginUseCase: LoginUseCase) : ViewModel() {
+class LoginViewModel(
+    private val loginUseCase: LoginUseCase,
+    private val getCurrentUserUseCase: GetCurrentUserUseCase
+) : ViewModel() {
 
     var password = MutableLiveData("")
     var passwordError = MutableLiveData<String>()
@@ -22,12 +27,30 @@ class LoginViewModel(private val loginUseCase: LoginUseCase) : ViewModel() {
     private val mUser = MutableLiveData<Resource<FirebaseUser?>>()
     val user: LiveData<Resource<FirebaseUser?>> get() = mUser
 
+    private val mAccountTypeClient = MutableLiveData<AccountType?>()
+    val accountTypeClient: LiveData<AccountType?> get() = mAccountTypeClient
+
+    private val mAccountTypeCompany = MutableLiveData<AccountType?>()
+    val accountTypeCompany: LiveData<AccountType?> get() = mAccountTypeCompany
+
     fun login() {
         if (isFormValid()) {
             mUser.value = Resource.Loading
             viewModelScope.launch {
                 val result = loginUseCase.execute(email.value!!, password.value!!)
                 mUser.postValue(result)
+            }
+        }
+    }
+
+    fun checkUserType() {
+        viewModelScope.launch {
+            getCurrentUserUseCase.getUserType().mapResourceSuccess { user ->
+                if (user?.accountType == AccountType.COMPANY) {
+                    mAccountTypeCompany.postValue(AccountType.COMPANY)
+                } else {
+                    mAccountTypeClient.postValue(AccountType.CLIENT)
+                }
             }
         }
     }

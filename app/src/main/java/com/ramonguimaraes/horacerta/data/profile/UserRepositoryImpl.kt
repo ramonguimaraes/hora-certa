@@ -7,6 +7,7 @@ import com.ramonguimaraes.horacerta.domain.resource.Resource
 import com.ramonguimaraes.horacerta.domain.user.model.User
 import com.ramonguimaraes.horacerta.domain.user.model.toHashMap
 import com.ramonguimaraes.horacerta.domain.user.repository.UserRepository
+import com.ramonguimaraes.horacerta.utils.AccountType
 import kotlinx.coroutines.tasks.await
 
 class UserRepositoryImpl(private val db: FirebaseFirestore) : UserRepository {
@@ -37,6 +38,26 @@ class UserRepositoryImpl(private val db: FirebaseFirestore) : UserRepository {
         } catch (e: Exception) {
             Log.e(TAG, e.message.toString())
             Resource.Failure(e)
+        }
+    }
+
+    override suspend fun load(uid: String): Resource<User?> {
+        return try {
+            val result = db.collection(DOCUMENT).whereEqualTo("uid", uid).get().await()
+            val user = result.toObjects(User::class.java).single()
+
+            Resource.Success(user)
+        } catch (e: Exception) {
+            Log.e(TAG, e.message.toString())
+            Resource.Failure(e)
+        }
+    }
+
+    private fun getAccountTypeFromValue(value: Int): AccountType {
+        return when (value) {
+            AccountType.CLIENT.type -> AccountType.CLIENT
+            AccountType.COMPANY.type -> AccountType.COMPANY
+            else -> AccountType.NONE
         }
     }
 

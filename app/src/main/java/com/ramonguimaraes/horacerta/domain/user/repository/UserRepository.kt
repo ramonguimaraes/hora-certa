@@ -7,4 +7,5 @@ import com.ramonguimaraes.horacerta.domain.user.model.User
 interface UserRepository {
     suspend fun save(user: User): Resource<DocumentReference?>
     suspend fun update(user: User, documentReference: DocumentReference): Resource<DocumentReference>
+    suspend fun load(uid: String): Resource<User?>
 }
