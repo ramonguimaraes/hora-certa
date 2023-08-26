@@ -68,12 +68,11 @@ class LoginFragment : Fragment() {
     }
 
     private fun goToCompanyHome() {
-        findNavController().navigate(R.id.action_loginFragment_to_companyHomeFragment)
-
+        findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
     }
 
     private fun goToClientHome() {
-        findNavController().navigate(R.id.action_loginFragment_to_clientHomeFragment)
+        findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
     }
 
     private fun showLoading() {
