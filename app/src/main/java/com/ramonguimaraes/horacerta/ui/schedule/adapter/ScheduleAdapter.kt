@@ -1,4 +1,4 @@
-package com.ramonguimaraes.horacerta.ui.schedule
+package com.ramonguimaraes.horacerta.ui.schedule.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

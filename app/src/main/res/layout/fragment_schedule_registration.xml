@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.schedule.ScheduleRegistrationFragment">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="10dp"
+        android:paddingTop="20dp">
+
+        <TextView
+            android:id="@+id/txtSelectService"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Slecione os serviços:"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvServices"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@+id/guideline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/txtSelectService"
+            app:layout_constraintTop_toBottomOf="@+id/txtSelectService"
+            tools:itemCount="6"
+            tools:listitem="@layout/services_item_layout" />
+
+        <Button
+            android:id="@+id/btnOpenCalendar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="calendario"
+            app:layout_constraintEnd_toEndOf="@+id/rvServices"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/rvServices"
+            app:layout_constraintTop_toBottomOf="@+id/rvServices" />
+
+        <TextView
+            android:id="@+id/txtSelectedDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sexta - 27 Ago 2023"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/btnOpenCalendar"
+            app:layout_constraintTop_toBottomOf="@+id/btnOpenCalendar" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvAvailableHours"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toTopOf="@+id/btnMark"
+            app:layout_constraintTop_toBottomOf="@+id/txtSelectedDate"
+            app:spanCount="3"
+            tools:itemCount="8"
+            tools:layout_editor_absoluteX="10dp"
+            tools:listitem="@layout/available_hours_item_layout" />
+
+        <Button
+            android:id="@+id/btnMark"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="marcar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/rvAvailableHours"
+            app:layout_constraintStart_toStartOf="@+id/rvAvailableHours" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.40" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

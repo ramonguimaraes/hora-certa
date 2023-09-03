@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ramonguimaraes.horacerta.R
 import com.ramonguimaraes.horacerta.databinding.FragmentScheduleBinding
+import com.ramonguimaraes.horacerta.ui.schedule.adapter.ScheduleAdapter
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -66,24 +67,7 @@ class ScheduleFragment : Fragment() {
         }
 
         val recyclerView = mBinding.rvSchedule
-        recyclerView.adapter = ScheduleAdapter(
-            listOf(
-                Appointment("08:00 - 09:00", "Cliente 1", "Corte de cabelo"),
-                Appointment("09:00 - 10:00", "Cliente 2", "Corte de cabelo"),
-                Appointment("10:00 - 11:00", "Cliente 3", "Corte de cabelo"),
-                Appointment("11:00 - 12:00", "Cliente 4", "Corte de cabelo"),
-                Appointment("12:00 - 13:00", "Cliente 5", "Corte de cabelo"),
-                Appointment("12:00 - 13:00", "Cliente 5", "Corte de cabelo"),
-                Appointment("12:00 - 13:00", "Cliente 5", "Corte de cabelo"),
-                Appointment("12:00 - 13:00", "Cliente 5", "Corte de cabelo"),
-                Appointment("12:00 - 13:00", "Cliente 5", "Corte de cabelo"),
-                Appointment("12:00 - 13:00", "Cliente 5", "Corte de cabelo"),
-                Appointment("12:00 - 13:00", "Cliente 5", "Corte de cabelo"),
-                Appointment("12:00 - 13:00", "Cliente 5", "Corte de cabelo"),
-                Appointment("12:00 - 13:00", "Cliente 5", "Corte de cabelo"),
-                Appointment("12:00 - 13:00", "Cliente 5", "Corte de cabelo"),
-            )
-        )
+        recyclerView.adapter = ScheduleAdapter(emptyList())
         recyclerView.layoutManager = LinearLayoutManager(context)
         return mBinding.root
     }
