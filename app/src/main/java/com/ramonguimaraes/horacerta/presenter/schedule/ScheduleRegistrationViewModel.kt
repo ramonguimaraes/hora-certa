@@ -12,6 +12,8 @@ import com.ramonguimaraes.horacerta.domain.schedule.useCase.GetAvailableHorsUseC
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.lang.Exception
+import java.lang.IndexOutOfBoundsException
 import java.util.Calendar
 
 class ScheduleRegistrationViewModel(
@@ -22,32 +24,59 @@ class ScheduleRegistrationViewModel(
     private val mLivedata = MutableLiveData<List<TimeInterval>>()
     val liveData get() = mLivedata
 
+    private val mServices = MutableLiveData<List<ServiceItem>>()
+    val services get() = mServices
+
     private val mDate = MutableLiveData<Calendar>()
     val date: LiveData<Calendar> get() = mDate
+
+    private val mTotalTime = MutableLiveData(0)
+    val totalTime get() = mTotalTime
+
+    init {
+        mServices.value = listOf(
+            ServiceItem("Corte de cabelo", false, 60),
+            ServiceItem("Barba", false, 90),
+            ServiceItem("Pintura", false, 30),
+            ServiceItem("Corte personalizado", false, 30),
+            ServiceItem("Sombrancelha", false, 200)
+        )
+    }
 
     fun load(calendar: Calendar = Calendar.getInstance()) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 val res = useCase.getAvailableHors(calendar)
                 mLivedata.postValue(res)
+                // Dando update no totalTime com o valor dele mesmo
+                // garanto que o usuario não tenha que clicar de novo
+                // nos servicos mesmo que ele mude de data
+                // TODO: 23/09/2023 Aplicar melhoria nesse código
+                mTotalTime.postValue(totalTime.value)
             }
         }
     }
 
-    private fun configuraListaDeHoras(checkedServices: MutableList<ServiceItem>) {
+    fun configuraListaDeHoras(totalTime: Int) {
         val hours = liveData.value ?: emptyList()
-        val total = checkedServices.sumOf { it.duration }
-        val disponiveis: MutableList<TimeInterval> = mutableListOf()
-        val qtdIntervalos = total / 30
+        val qtdIntervalos = totalTime / 30
 
-        for (i in 0 until hours.size - (qtdIntervalos - 1)) {
-            val subLista = hours.subList(i, i + qtdIntervalos)
-            if (subLista.all { it.disponivel }) {
-                disponiveis.add(hours[i])
+        if (qtdIntervalos > 0) {
+            for (i in hours.indices) {
+                val subList = hours.subListOrNull(i, i + qtdIntervalos)
+                if (subList != null) {
+                    hours[i].show = subList.all { it.disponivel }
+                } else {
+                    hours[i].show = false
+                }
+            }
+        } else {
+            hours.forEach {
+                it.show = it.disponivel
             }
         }
 
-        mLivedata.value = disponiveis
+        mLivedata.value = hours
     }
 
     fun getToday(): Calendar {
@@ -79,5 +108,21 @@ class ScheduleRegistrationViewModel(
                 repository.save(scheduleTime)
             }
         }
+    }
+
+    fun updateTotalTime(item: ServiceItem, isChecked: Boolean) {
+        if (isChecked) {
+            mTotalTime.value = mTotalTime.value?.plus(item.duration)
+        } else {
+            mTotalTime.value = mTotalTime.value?.minus(item.duration)
+        }
+    }
+}
+
+fun <E> List<E>.subListOrNull(startOf: Int, endOf: Int): List<E>? {
+    return try {
+        subList(startOf, endOf)
+    } catch (e: Exception) {
+        null
     }
 }

@@ -30,11 +30,12 @@ class GetAvailableHorsUseCase(private val repository: ScheduleRepository) {
             lista.forEach { interval ->
                 if (interval.time == a) {
                     interval.disponivel = false
+                    interval.show = false
                 }
             }
         }
 
-        return lista.filter { it.disponivel }
+        return lista
     }
 
     private fun geraLista(

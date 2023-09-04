@@ -7,9 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.ramonguimaraes.horacerta.databinding.FragmentScheduleRegistrationBinding
 import com.ramonguimaraes.horacerta.presenter.schedule.ScheduleRegistrationViewModel
 import com.ramonguimaraes.horacerta.ui.schedule.adapter.AvailableHorsAdapter
+import com.ramonguimaraes.horacerta.ui.schedule.adapter.ServicesAdapter
 import com.ramonguimaraes.horacerta.utils.formattedDate
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.Calendar
@@ -21,6 +23,7 @@ class ScheduleRegistrationFragment : Fragment() {
         FragmentScheduleRegistrationBinding.inflate(layoutInflater)
     }
     private var availableHorsAdapter: AvailableHorsAdapter = AvailableHorsAdapter()
+    private var servicesAdapter: ServicesAdapter = ServicesAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,8 +39,19 @@ class ScheduleRegistrationFragment : Fragment() {
         binding.txtSelectedDate.text = viewModel.getToday().formattedDate()
         configureRecycler()
         viewModel.liveData.observe(viewLifecycleOwner) {
-            availableHorsAdapter.submitList(it)
+            availableHorsAdapter.submitList(it.toMutableList())
         }
+
+        viewModel.services.observe(viewLifecycleOwner) {
+            servicesAdapter.submitList(it)
+        }
+
+        servicesAdapter.setCheckListener { item, isChecked ->
+            viewModel.updateTotalTime(item, isChecked)
+        }
+
+        binding.rvServices.adapter = servicesAdapter
+        binding.rvServices.layoutManager = LinearLayoutManager(context)
 
         viewModel.date.observe(viewLifecycleOwner) {
             binding.txtSelectedDate.text = it.formattedDate()
@@ -46,6 +60,10 @@ class ScheduleRegistrationFragment : Fragment() {
 
         binding.btnOpenCalendar.setOnClickListener {
             datePickerDialog()
+        }
+
+        viewModel.totalTime.observe(viewLifecycleOwner) {
+            viewModel.configuraListaDeHoras(it)
         }
 
         availableHorsAdapter.setOnClick {

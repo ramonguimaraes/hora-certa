@@ -25,6 +25,10 @@ class AvailableHorsAdapter :
     override fun onBindViewHolder(holder: AvailableHorsViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
+
+    override fun submitList(list: MutableList<TimeInterval>?) {
+        super.submitList(list?.filter { it.show })
+    }
 }
 
 class AvailableHorsViewHolder(
