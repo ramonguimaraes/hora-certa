@@ -9,6 +9,7 @@ import com.ramonguimaraes.horacerta.domain.schedule.model.ServiceItem
 import com.ramonguimaraes.horacerta.domain.schedule.model.TimeInterval
 import com.ramonguimaraes.horacerta.domain.schedule.repository.ScheduleRepository
 import com.ramonguimaraes.horacerta.domain.schedule.useCase.GetAvailableHorsUseCase
+import com.ramonguimaraes.horacerta.domain.services.ServicesRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -18,7 +19,8 @@ import java.util.Calendar
 
 class ScheduleRegistrationViewModel(
     private val useCase: GetAvailableHorsUseCase,
-    private val repository: ScheduleRepository
+    private val repository: ScheduleRepository,
+    private val servicesRepository: ServicesRepository
 ) : ViewModel() {
 
     private val mLivedata = MutableLiveData<List<TimeInterval>>()
@@ -34,13 +36,16 @@ class ScheduleRegistrationViewModel(
     val totalTime get() = mTotalTime
 
     init {
-        mServices.value = listOf(
-            ServiceItem("Corte de cabelo", false, 60),
-            ServiceItem("Barba", false, 90),
-            ServiceItem("Pintura", false, 30),
-            ServiceItem("Corte personalizado", false, 30),
-            ServiceItem("Sombrancelha", false, 200)
-        )
+        loadServices()
+    }
+
+    private fun loadServices() {
+        viewModelScope.launch {
+            val res = servicesRepository.load("")
+            res.mapResourceSuccess {
+                mServices.postValue(it)
+            }
+        }
     }
 
     fun load(calendar: Calendar = Calendar.getInstance()) {
