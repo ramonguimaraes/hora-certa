@@ -2,7 +2,6 @@ package com.ramonguimaraes.horacerta.data.schedule.dataRepository
 
 import android.util.Log
 import com.google.firebase.Timestamp
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.ramonguimaraes.horacerta.domain.resource.Resource
 import com.ramonguimaraes.horacerta.domain.schedule.model.ScheduledTime
@@ -14,10 +13,12 @@ import java.util.Date
 
 class ScheduleRepositoryImpl(private val db: FirebaseFirestore) : ScheduleRepository {
 
-    override suspend fun save(scheduledTime: ScheduledTime): Resource<DocumentReference?> {
+    override suspend fun save(scheduledTimes: List<ScheduledTime>): Resource<Boolean?> {
         return try {
-            val result = db.collection(COLLECTION).add(scheduledTime.toHashMap()).await()
-            Resource.Success(result)
+            scheduledTimes.forEach { scheduledTime ->
+                db.collection(COLLECTION).add(scheduledTime.toHashMap()).await()
+            }
+            Resource.Success(true)
         } catch (e: Exception) {
             Log.e(TAG, e.message.toString())
             Resource.Failure(e)

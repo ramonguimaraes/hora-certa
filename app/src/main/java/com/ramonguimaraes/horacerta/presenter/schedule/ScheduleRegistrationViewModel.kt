@@ -4,22 +4,20 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ramonguimaraes.horacerta.domain.schedule.model.ScheduledTime
+import com.ramonguimaraes.horacerta.domain.resource.Resource
 import com.ramonguimaraes.horacerta.domain.schedule.model.ServiceItem
 import com.ramonguimaraes.horacerta.domain.schedule.model.TimeInterval
-import com.ramonguimaraes.horacerta.domain.schedule.repository.ScheduleRepository
 import com.ramonguimaraes.horacerta.domain.schedule.useCase.GetAvailableHorsUseCase
+import com.ramonguimaraes.horacerta.domain.schedule.useCase.SaveScheduledTimeUseCase
 import com.ramonguimaraes.horacerta.domain.services.ServicesRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.lang.Exception
-import java.lang.IndexOutOfBoundsException
 import java.util.Calendar
 
 class ScheduleRegistrationViewModel(
     private val useCase: GetAvailableHorsUseCase,
-    private val repository: ScheduleRepository,
+    private val saveScheduledTimeUseCase: SaveScheduledTimeUseCase,
     private val servicesRepository: ServicesRepository
 ) : ViewModel() {
 
@@ -34,6 +32,9 @@ class ScheduleRegistrationViewModel(
 
     private val mTotalTime = MutableLiveData(0)
     val totalTime get() = mTotalTime
+
+    private val mSaveResult = MutableLiveData<Resource<Boolean?>>()
+    val saveResult get() = mSaveResult
 
     init {
         loadServices()
@@ -102,15 +103,17 @@ class ScheduleRegistrationViewModel(
     }
 
     fun save(it: TimeInterval) {
+        saveResult.value = Resource.Loading
         val calendar = date.value
         calendar?.set(Calendar.HOUR_OF_DAY, it.time.hour)
         calendar?.set(Calendar.MINUTE, it.time.minute)
         calendar?.set(Calendar.SECOND, 0)
 
-        val scheduleTime = ScheduledTime("", calendar!!, "", "")
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                repository.save(scheduleTime)
+                if (calendar != null && totalTime.value != null) {
+                    saveResult.postValue(saveScheduledTimeUseCase.save(calendar, totalTime.value!!))
+                }
             }
         }
     }

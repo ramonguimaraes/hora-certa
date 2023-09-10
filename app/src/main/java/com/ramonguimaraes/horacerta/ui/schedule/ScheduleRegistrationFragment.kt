@@ -1,5 +1,6 @@
 package com.ramonguimaraes.horacerta.ui.schedule
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +9,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ramonguimaraes.horacerta.R
 import com.ramonguimaraes.horacerta.databinding.FragmentScheduleRegistrationBinding
+import com.ramonguimaraes.horacerta.domain.resource.Resource
+import com.ramonguimaraes.horacerta.domain.schedule.model.TimeInterval
 import com.ramonguimaraes.horacerta.presenter.schedule.ScheduleRegistrationViewModel
 import com.ramonguimaraes.horacerta.ui.schedule.adapter.AvailableHorsAdapter
 import com.ramonguimaraes.horacerta.ui.schedule.adapter.ServicesAdapter
@@ -67,10 +71,38 @@ class ScheduleRegistrationFragment : Fragment() {
         }
 
         availableHorsAdapter.setOnClick {
-            viewModel.save(it)
+            showConfirmeDialog(it)
+        }
+
+        viewModel.saveResult.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Success -> activity?.supportFragmentManager?.popBackStackImmediate()
+                is Resource.Loading -> {
+                    // TODO Implementar loading
+                }
+
+                is Resource.Failure -> {
+                    // TODO Implementar mensagem de erro
+                }
+            }
         }
 
         return binding.root
+    }
+
+    private fun showConfirmeDialog(timeInterval: TimeInterval) {
+        val message = resources.getString(R.string.alert_message, timeInterval.time)
+        AlertDialog.Builder(context)
+            .setTitle("Agendamento")
+            .setMessage(message)
+            .setPositiveButton("Agendar") { dialog, _ ->
+                viewModel.save(timeInterval)
+                dialog.dismiss()
+            }
+            .setNegativeButton("Cancelar") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 
     private fun configureRecycler() {

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ramonguimaraes.horacerta.R
 import com.ramonguimaraes.horacerta.databinding.FragmentScheduleBinding
@@ -24,6 +25,9 @@ class ScheduleFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        mBinding.floatingActionButton.setOnClickListener {
+            openScheduleRegistration()
+        }
 
         mBinding.txtDate.setOnClickListener {
             val year = Calendar.getInstance().get(Calendar.YEAR)
@@ -70,5 +74,14 @@ class ScheduleFragment : Fragment() {
         recyclerView.adapter = ScheduleAdapter(emptyList())
         recyclerView.layoutManager = LinearLayoutManager(context)
         return mBinding.root
+    }
+
+    private fun openScheduleRegistration() {
+        val supportFragmentManager = activity?.supportFragmentManager
+        supportFragmentManager?.beginTransaction()?.replace(
+            R.id.fragmentContainerView,
+            ScheduleRegistrationFragment(),
+            "scheduleRegistrationFragment"
+        )?.addToBackStack(null)?.commit()
     }
 }

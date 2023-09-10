@@ -9,4 +9,5 @@
     <string name="login">Login</string>
     <string name="telefone_de_contato">Telefone de contato</string>
     <string name="date_temaplate">%1$s – %2$d %3$s %4$d</string>
+    <string name="alert_message">Deseja marcar horario as %1$s?</string>
 </resources>
