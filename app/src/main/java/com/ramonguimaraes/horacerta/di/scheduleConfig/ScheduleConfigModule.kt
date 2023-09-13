@@ -10,5 +10,5 @@ import org.koin.dsl.module
 fun scheduleConfigModule() = module {
     factory<ScheduleConfigRepository> { ScheduleConfigRepositoryImpl(get()) }
     factory { SaveScheduleConfigUseCase(get()) }
-    viewModel { ScheduleConfigViewModel(get()) }
+    viewModel { ScheduleConfigViewModel(get(), get()) }
 }
