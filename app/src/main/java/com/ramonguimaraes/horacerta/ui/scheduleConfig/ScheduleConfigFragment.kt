@@ -58,68 +58,7 @@ class ScheduleConfigFragment : Fragment() {
         binding.rvScheduleConfig.adapter = adapter
 
         binding.fabAddConfig.setOnClickListener {
-            val bs = BottomSheetDialog(requireContext())
-            bs.setContentView(R.layout.bottom_sheet_register_shedule_config_layout)
-            val open = bs.findViewById<TextView>(R.id.txtOpenHour)
-            val close = bs.findViewById<TextView>(R.id.txtIntervalStart)
-            val reabre = bs.findViewById<TextView>(R.id.txtIntervalEnd)
-            val fecha = bs.findViewById<TextView>(R.id.txtCloseHour)
-            val save = bs.findViewById<Button>(R.id.btnSave)
-
-            open?.setOnClickListener {
-                TimePickerDialog(requireContext(), { _, hour, minute ->
-                    val localTime = LocalTime.of(hour, minute)
-                    open.text = localTime.toString()
-                    viewModel.setOpenHour(localTime)
-                }, 0, 0, true).show()
-            }
-
-            close?.setOnClickListener {
-                TimePickerDialog(requireContext(), { _, hour, minute ->
-                    val localTime = LocalTime.of(hour, minute)
-                    close.text = localTime.toString()
-                    viewModel.setIntervalStartHour(localTime)
-                }, 0, 0, true).show()
-            }
-
-            reabre?.setOnClickListener {
-                TimePickerDialog(requireContext(), { _, hour, minute ->
-                    val localTime = LocalTime.of(hour, minute)
-                    reabre.text = localTime.toString()
-                    viewModel.setIntervalEndHour(localTime)
-                }, 0, 0, true).show()
-            }
-
-            fecha?.setOnClickListener {
-                TimePickerDialog(requireContext(), { _, hour, minute ->
-                    val localTime = LocalTime.of(hour, minute)
-                    fecha.text = localTime.toString()
-                    viewModel.setCloseHour(localTime)
-                }, 0, 0, true).show()
-            }
-
-            save?.setOnClickListener {
-                viewModel.save()
-                bs.dismiss()
-            }
-
-            bs.findViewById<RadioGroup>(R.id.radioGroup)
-                ?.setOnCheckedChangeListener { _, button ->
-                    val dayOfWeek = when (button) {
-                        R.id.radioButtonSunday -> DayOfWeek.SUNDAY
-                        R.id.radioButtonMonday -> DayOfWeek.MONDAY
-                        R.id.radioButtonTuesday -> DayOfWeek.TUESDAY
-                        R.id.radioButtonWednesday -> DayOfWeek.WEDNESDAY
-                        R.id.radioButtonThursday -> DayOfWeek.THURSDAY
-                        R.id.radioButtonFriday -> DayOfWeek.FRIDAY
-                        R.id.radioButtonSaturday -> DayOfWeek.SATURDAY
-                        else -> null
-                    }
-
-                    viewModel.setDayOfWeek(dayOfWeek)
-                }
-
-            bs.show()
+            ScheduleConfigBottomSheetDialog().show(parentFragmentManager, "ScheduleConfigBottomSheetDialog")
         }
         return binding.root
     }
