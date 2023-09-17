@@ -21,7 +21,7 @@
         tools:layout="@layout/fragment_schedule_registration" />
     <fragment
         android:id="@+id/scheduleConfig"
-        android:name="com.ramonguimaraes.horacerta.ui.scheduleConfig.ScheduleConfigFragment"
+        android:name="com.ramonguimaraes.horacerta.ui.scheduleConfig.ScheduleConfigListFragment"
         android:label="ScheduleConfigFragment"
-        tools:layout="@layout/fragment_schedule_config" />
+        tools:layout="@layout/fragment_list_schedule_config" />
 </navigation>

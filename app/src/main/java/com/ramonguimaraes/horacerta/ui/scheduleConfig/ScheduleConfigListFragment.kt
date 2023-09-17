@@ -5,12 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.ramonguimaraes.horacerta.databinding.FragmentScheduleConfigBinding
+import com.ramonguimaraes.horacerta.databinding.FragmentListScheduleConfigBinding
 
-class ScheduleConfigFragment : Fragment() {
+class ScheduleConfigListFragment : Fragment() {
 
-    val binding: FragmentScheduleConfigBinding by lazy {
-        FragmentScheduleConfigBinding.inflate(layoutInflater)
+    val binding: FragmentListScheduleConfigBinding by lazy {
+        FragmentListScheduleConfigBinding.inflate(layoutInflater)
     }
 
     override fun onCreateView(
