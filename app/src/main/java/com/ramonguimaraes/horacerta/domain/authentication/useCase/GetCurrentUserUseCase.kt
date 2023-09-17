@@ -9,4 +9,5 @@ class GetCurrentUserUseCase(
 ) {
     suspend operator fun invoke() = userRepository.load(authRepository.currentUser!!.uid)
     suspend fun getUserType() = userRepository.load(authRepository.currentUser!!.uid)
+    fun currentUid() = authRepository.currentUser?.uid
 }

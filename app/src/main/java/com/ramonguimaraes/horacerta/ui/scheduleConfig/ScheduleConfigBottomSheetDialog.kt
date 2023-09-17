@@ -9,6 +9,7 @@ import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ramonguimaraes.horacerta.R
 import com.ramonguimaraes.horacerta.databinding.BottomSheetRegisterSheduleConfigLayoutBinding
+import com.ramonguimaraes.horacerta.domain.resource.Resource
 import com.ramonguimaraes.horacerta.presenter.scheduleConfig.viewModel.ScheduleConfigViewModel
 import com.ramonguimaraes.horacerta.utils.DayOfWeek
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -24,6 +25,8 @@ class ScheduleConfigBottomSheetDialog : BottomSheetDialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
 
         binding.btnSave.setOnClickListener {
             viewModel.save()
@@ -32,7 +35,6 @@ class ScheduleConfigBottomSheetDialog : BottomSheetDialogFragment() {
         binding.txtOpenHour.setOnClickListener {
             TimePickerDialog(requireContext(), { _, hour, minute ->
                 val localTime = LocalTime.of(hour, minute)
-                binding.txtOpenHour.text = localTime.toString()
                 viewModel.setOpenHour(localTime)
             }, 0, 0, true).show()
         }
@@ -40,7 +42,6 @@ class ScheduleConfigBottomSheetDialog : BottomSheetDialogFragment() {
         binding.txtCloseHour.setOnClickListener {
             TimePickerDialog(requireContext(), { _, hour, minute ->
                 val localTime = LocalTime.of(hour, minute)
-                binding.txtCloseHour.text = localTime.toString()
                 viewModel.setCloseHour(localTime)
             }, 0, 0, true).show()
         }
@@ -48,7 +49,6 @@ class ScheduleConfigBottomSheetDialog : BottomSheetDialogFragment() {
         binding.txtIntervalStart.setOnClickListener {
             TimePickerDialog(requireContext(), { _, hour, minute ->
                 val localTime = LocalTime.of(hour, minute)
-                binding.txtIntervalStart.text = localTime.toString()
                 viewModel.setIntervalStartHour(localTime)
             }, 0, 0, true).show()
         }
@@ -56,7 +56,6 @@ class ScheduleConfigBottomSheetDialog : BottomSheetDialogFragment() {
         binding.txtIntervalEnd.setOnClickListener {
             TimePickerDialog(requireContext(), { _, hour, minute ->
                 val localTime = LocalTime.of(hour, minute)
-                binding.txtIntervalEnd.text = localTime.toString()
                 viewModel.setIntervalEndHour(localTime)
             }, 0, 0, true).show()
         }
@@ -76,11 +75,25 @@ class ScheduleConfigBottomSheetDialog : BottomSheetDialogFragment() {
         viewModel.validate.observe(viewLifecycleOwner) { isValid ->
             if (!isValid) {
                 Toast.makeText(context, "Os campos estão invalidos", Toast.LENGTH_SHORT).show()
-            } else {
-                dismiss()
             }
         }
 
+        viewModel.saveResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Resource.Success -> showSuccess()
+                else -> showFailure()
+            }
+        }
         return binding.root
+    }
+
+    private fun showFailure() {
+        Toast.makeText(context, "Falha ao salvar", Toast.LENGTH_SHORT).show()
+        dismiss()
+    }
+
+    private fun showSuccess() {
+        Toast.makeText(context, "Salvo com sucesso", Toast.LENGTH_SHORT).show()
+        dismiss()
     }
 }

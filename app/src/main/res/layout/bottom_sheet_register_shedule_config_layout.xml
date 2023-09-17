@@ -2,6 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="com.ramonguimaraes.horacerta.presenter.scheduleConfig.viewModel.ScheduleConfigViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -146,7 +152,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="__:__"
+            android:text="@{viewModel.openHour.toString()}"
             android:textColor="@color/teal_200"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -170,7 +176,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="__:__"
+            android:text="@{viewModel.intervalStartHour.toString()}"
             android:textColor="@color/teal_200"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -183,7 +189,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="__:__"
+            android:text="@{viewModel.intervalEndHour.toString()}"
             android:textColor="@color/teal_200"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -217,7 +223,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="__:__"
+            android:text="@{viewModel.closeHour.toString()}"
             android:textColor="@color/teal_200"
             android:textSize="16sp"
             android:textStyle="bold"

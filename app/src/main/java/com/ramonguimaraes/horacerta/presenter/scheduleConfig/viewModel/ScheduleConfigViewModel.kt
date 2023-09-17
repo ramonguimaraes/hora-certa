@@ -1,5 +1,6 @@
 package com.ramonguimaraes.horacerta.presenter.scheduleConfig.viewModel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,41 +17,44 @@ class ScheduleConfigViewModel(
     private val userUseCase: GetCurrentUserUseCase
 ) : ViewModel() {
 
-    private val mSaveResponse = MutableLiveData<Resource<ScheduleConfig>?>()
+    private val mSaveResponse = MutableLiveData<Resource<ScheduleConfig>>()
     val saveResponse get() = mSaveResponse
 
     private val mValidate = MutableLiveData<Boolean>()
     val validate get() = mValidate
 
-    private val openHour = MutableLiveData<LocalTime?>()
-    private val closeHour = MutableLiveData<LocalTime?>()
-    private val intervalStartHour = MutableLiveData<LocalTime?>()
-    private val intervalEndHour = MutableLiveData<LocalTime?>()
-    private val dayOfWeek = MutableLiveData<DayOfWeek?>()
+    private val mOpenHour = MutableLiveData(LocalTime.of(8, 0))
+    val openHour: LiveData<LocalTime> get() = mOpenHour
+
+    private val mIntervalStartHour = MutableLiveData(LocalTime.of(12, 0))
+    val intervalStartHour: LiveData<LocalTime> get() = mIntervalStartHour
+
+    private val mIntervalEndHour = MutableLiveData(LocalTime.of(13, 0))
+    val intervalEndHour: LiveData<LocalTime> get() = mIntervalEndHour
+
+    private val mCloseHour = MutableLiveData(LocalTime.of(18, 0))
+    val closeHour: LiveData<LocalTime> get() = mCloseHour
+
+    private val dayOfWeek = MutableLiveData(DayOfWeek.SUNDAY)
 
     fun save() {
         if (validateFields()) {
             viewModelScope.launch {
-                mSaveResponse.postValue(
-                    saveScheduleConfigUseCase(
-                        ScheduleConfig(
-                            companyUid = currentUserUid()!!,
-                            dayOfWeek = dayOfWeek.value!!,
-                            openTime = openHour.value!!,
-                            intervalStart = intervalStartHour.value!!,
-                            intervalEnd = intervalEndHour.value!!,
-                            closeTime = closeHour.value!!
-                        )
-                    )
-                )
+                val result = saveScheduleConfigUseCase(getScheduleConfig())
+                mSaveResponse.postValue(result)
             }
         }
     }
 
-    private suspend fun currentUserUid(): String? {
-        var uid: String? = null
-        userUseCase().mapResourceSuccess { uid = it?.uid }
-        return uid
+    private fun getScheduleConfig(): ScheduleConfig {
+        return ScheduleConfig(
+            companyUid = userUseCase.currentUid()!!,
+            dayOfWeek = dayOfWeek.value!!,
+            openTime = mOpenHour.value!!,
+            intervalStart = mIntervalStartHour.value!!,
+            intervalEnd = mIntervalEndHour.value!!,
+            closeTime = mCloseHour.value!!
+        )
     }
 
     private fun validateFields(): Boolean {
@@ -66,25 +70,25 @@ class ScheduleConfigViewModel(
     }
 
     private fun validateOpenHour(): Boolean {
-        val openHour = openHour.value
-        val intervalStartHour = intervalStartHour.value
+        val openHour = mOpenHour.value
+        val intervalStartHour = mIntervalStartHour.value
         return openHour != null && intervalStartHour != null && openHour < intervalStartHour
     }
 
     private fun validateCloseHour(): Boolean {
-        val closeHour = closeHour.value
+        val closeHour = mCloseHour.value
         return closeHour != null
     }
 
     private fun validateIntervalStartHour(): Boolean {
-        val intervalStartHour = intervalStartHour.value
-        val intervalEnd = intervalEndHour.value
+        val intervalStartHour = mIntervalStartHour.value
+        val intervalEnd = mIntervalEndHour.value
         return intervalStartHour != null && intervalEnd != null && intervalStartHour < intervalEnd
     }
 
     private fun validateIntervalEndHour(): Boolean {
-        val intervalEnd = intervalEndHour.value
-        val closeHour = closeHour.value
+        val intervalEnd = mIntervalEndHour.value
+        val closeHour = mCloseHour.value
         return intervalEnd != null && closeHour != null && intervalEnd < closeHour
     }
 
@@ -94,19 +98,19 @@ class ScheduleConfigViewModel(
     }
 
     fun setOpenHour(localTime: LocalTime?) {
-        openHour.postValue(localTime)
+        mOpenHour.postValue(localTime)
     }
 
     fun setCloseHour(localTime: LocalTime?) {
-        closeHour.value = localTime
+        mCloseHour.value = localTime
     }
 
     fun setIntervalStartHour(localTime: LocalTime?) {
-        intervalStartHour.value = localTime
+        mIntervalStartHour.value = localTime
     }
 
     fun setIntervalEndHour(localTime: LocalTime?) {
-        intervalEndHour.value = localTime
+        mIntervalEndHour.value = localTime
     }
 
     fun setDayOfWeek(dayOfWeek: DayOfWeek?) {
