@@ -35,6 +35,8 @@ class ScheduleConfigViewModel(
     private val mCloseHour = MutableLiveData(LocalTime.of(18, 0))
     val closeHour: LiveData<LocalTime> get() = mCloseHour
 
+    var daysOfWeek = listOf<DayOfWeek>()
+
     private val dayOfWeek = MutableLiveData(DayOfWeek.SUNDAY)
 
     fun save() {
@@ -94,7 +96,7 @@ class ScheduleConfigViewModel(
 
     private fun validateDayOfWeek(): Boolean {
         val dayOfWeek = dayOfWeek.value
-        return dayOfWeek != null
+        return dayOfWeek != null && daysOfWeek.none { it.day == dayOfWeek.day }
     }
 
     fun setOpenHour(localTime: LocalTime?) {

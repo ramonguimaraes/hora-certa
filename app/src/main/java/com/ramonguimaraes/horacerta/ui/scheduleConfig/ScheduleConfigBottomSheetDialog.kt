@@ -10,12 +10,13 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ramonguimaraes.horacerta.R
 import com.ramonguimaraes.horacerta.databinding.BottomSheetRegisterSheduleConfigLayoutBinding
 import com.ramonguimaraes.horacerta.domain.resource.Resource
+import com.ramonguimaraes.horacerta.domain.scheduleConfig.model.ScheduleConfig
 import com.ramonguimaraes.horacerta.presenter.scheduleConfig.viewModel.ScheduleConfigViewModel
 import com.ramonguimaraes.horacerta.utils.DayOfWeek
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.time.LocalTime
 
-class ScheduleConfigBottomSheetDialog(private val function: () -> Unit) : BottomSheetDialogFragment() {
+class ScheduleConfigBottomSheetDialog(private val function: () -> Unit, private val resultData: List<ScheduleConfig>?) : BottomSheetDialogFragment() {
 
     private val viewModel: ScheduleConfigViewModel by viewModel()
     private val binding: BottomSheetRegisterSheduleConfigLayoutBinding by lazy {
@@ -27,7 +28,7 @@ class ScheduleConfigBottomSheetDialog(private val function: () -> Unit) : Bottom
     ): View {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
-
+        viewModel.daysOfWeek = resultData?.map { it.dayOfWeek } ?: emptyList()
         binding.btnSave.setOnClickListener {
             viewModel.save()
         }

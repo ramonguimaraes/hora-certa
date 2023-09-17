@@ -25,22 +25,23 @@ class ScheduleConfigListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel.scheduleConfigList.observe(viewLifecycleOwner){
-            when(it) {
+        viewModel.scheduleConfigList.observe(viewLifecycleOwner) {
+            when (it) {
                 is Resource.Loading -> showLoading()
                 is Resource.Success -> updateList(it.result)
                 is Resource.Failure -> showFailure()
             }
         }
-        
+
         binding.fabAddConfig.setOnClickListener {
-            if (viewModel.verifyListSize())  {
+            if (viewModel.verifyListSize()) {
                 showToast("Você já configurou todos os dias")
                 return@setOnClickListener
             }
-            showBottomSheet {
-                viewModel.loadScheduleConfigList()
-            }
+            showBottomSheet(
+                { viewModel.loadScheduleConfigList() },
+                viewModel.scheduleConfigList.value?.getResultData()
+            )
         }
         configureRecyclerView()
         return binding.root
@@ -69,8 +70,8 @@ class ScheduleConfigListFragment : Fragment() {
         }
     }
 
-    private fun showBottomSheet(function: () -> Unit) {
-        ScheduleConfigBottomSheetDialog(function)
+    private fun showBottomSheet(function: () -> Unit, resultData: List<ScheduleConfig>?) {
+        ScheduleConfigBottomSheetDialog(function, resultData)
             .show(parentFragmentManager, "scheduleConfigBottomSheet")
     }
 }
