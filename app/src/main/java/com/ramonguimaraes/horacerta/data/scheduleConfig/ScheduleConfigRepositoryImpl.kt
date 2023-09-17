@@ -23,8 +23,24 @@ class ScheduleConfigRepositoryImpl(private val db: FirebaseFirestore) : Schedule
         }
     }
 
+    override suspend fun update(scheduleConfig: ScheduleConfig): Resource<ScheduleConfig> {
+        return try {
+            db.collection("ScheduleConfig").document(scheduleConfig.id).update(scheduleConfig.toHashMap())
+            Resource.Success(scheduleConfig)
+        } catch (e: Exception) {
+            Log.e("ScheduleConfigRepositoryImpl", e.message.toString())
+            Resource.Failure(e)
+        }
+    }
+
     override suspend fun delete(id: String): Resource<Boolean> {
-        TODO("Not yet implemented")
+        return try {
+            db.collection("ScheduleConfig").document(id).delete().await()
+            Resource.Success(true)
+        } catch (e: Exception) {
+            Log.e("ScheduleConfigRepositoryImpl", e.message.toString())
+            Resource.Failure(e)
+        }
     }
 
     override suspend fun list(uid: String?): Resource<List<ScheduleConfig>> {
@@ -35,6 +51,7 @@ class ScheduleConfigRepositoryImpl(private val db: FirebaseFirestore) : Schedule
             result.forEach { docSnapshot ->
                 list.add(
                     ScheduleConfig(
+                        id = docSnapshot.id,
                         companyUid = docSnapshot.get("companyUid", String::class.java)!!,
                         dayOfWeek = docSnapshot.get("dayOfWeek", DayOfWeek::class.java)!!,
                         openTime = LocalTime.parse(docSnapshot.get("openTime", String::class.java)!!),

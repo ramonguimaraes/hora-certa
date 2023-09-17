@@ -7,6 +7,10 @@ import com.ramonguimaraes.horacerta.domain.scheduleConfig.repository.ScheduleCon
 class SaveScheduleConfigUseCase(private val repository: ScheduleConfigRepository) {
 
     suspend operator fun invoke(scheduleConfig: ScheduleConfig): Resource<ScheduleConfig> {
-        return repository.save(scheduleConfig)
+        return if (scheduleConfig.id.isBlank()) {
+            repository.save(scheduleConfig)
+        } else {
+            repository.update(scheduleConfig)
+        }
     }
 }

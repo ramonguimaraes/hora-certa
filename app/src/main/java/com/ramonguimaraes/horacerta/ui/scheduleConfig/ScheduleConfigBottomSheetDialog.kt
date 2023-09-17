@@ -16,7 +16,11 @@ import com.ramonguimaraes.horacerta.utils.DayOfWeek
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.time.LocalTime
 
-class ScheduleConfigBottomSheetDialog(private val function: () -> Unit, private val resultData: List<ScheduleConfig>?) : BottomSheetDialogFragment() {
+class ScheduleConfigBottomSheetDialog(
+    private val function: () -> Unit,
+    private val resultData: List<ScheduleConfig>?,
+    private val scheduleConfig: ScheduleConfig? = null
+) : BottomSheetDialogFragment() {
 
     private val viewModel: ScheduleConfigViewModel by viewModel()
     private val binding: BottomSheetRegisterSheduleConfigLayoutBinding by lazy {
@@ -26,9 +30,14 @@ class ScheduleConfigBottomSheetDialog(private val function: () -> Unit, private 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
+        viewModel.daysOfWeek = resultData?.map { it.dayOfWeek } ?: emptyList()
+        scheduleConfig?.let {
+            viewModel.scheduleConfig.value = it
+            viewModel.isUpdating = true
+        }
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
-        viewModel.daysOfWeek = resultData?.map { it.dayOfWeek } ?: emptyList()
+
         binding.btnSave.setOnClickListener {
             viewModel.save()
         }
@@ -36,30 +45,39 @@ class ScheduleConfigBottomSheetDialog(private val function: () -> Unit, private 
         binding.txtOpenHour.setOnClickListener {
             TimePickerDialog(requireContext(), { _, hour, minute ->
                 val localTime = LocalTime.of(hour, minute)
-                viewModel.setOpenHour(localTime)
+                viewModel.setOpenTime(localTime)
             }, 0, 0, true).show()
         }
 
         binding.txtCloseHour.setOnClickListener {
             TimePickerDialog(requireContext(), { _, hour, minute ->
                 val localTime = LocalTime.of(hour, minute)
-                viewModel.setCloseHour(localTime)
+                viewModel.setCloseTime(localTime)
             }, 0, 0, true).show()
         }
 
         binding.txtIntervalStart.setOnClickListener {
             TimePickerDialog(requireContext(), { _, hour, minute ->
                 val localTime = LocalTime.of(hour, minute)
-                viewModel.setIntervalStartHour(localTime)
+                viewModel.setIntervalStart(localTime)
             }, 0, 0, true).show()
         }
 
         binding.txtIntervalEnd.setOnClickListener {
             TimePickerDialog(requireContext(), { _, hour, minute ->
                 val localTime = LocalTime.of(hour, minute)
-                viewModel.setIntervalEndHour(localTime)
+                viewModel.setIntervalEnd(localTime)
             }, 0, 0, true).show()
         }
+
+        checkDayOfWeek()
+        checkListenerDayOfWeek()
+        observers()
+
+        return binding.root
+    }
+
+    private fun checkListenerDayOfWeek() {
 
         binding.radioGroup.setOnCheckedChangeListener { _, rb ->
             when (rb) {
@@ -72,7 +90,24 @@ class ScheduleConfigBottomSheetDialog(private val function: () -> Unit, private 
                 R.id.radioButtonSaturday -> viewModel.setDayOfWeek(DayOfWeek.SATURDAY)
             }
         }
+    }
 
+    private fun checkDayOfWeek() {
+        binding.radioGroup.check(
+            when (viewModel.scheduleConfig.value?.dayOfWeek) {
+                DayOfWeek.SUNDAY -> R.id.radioButtonSunday
+                DayOfWeek.MONDAY -> R.id.radioButtonMonday
+                DayOfWeek.TUESDAY -> R.id.radioButtonTuesday
+                DayOfWeek.WEDNESDAY -> R.id.radioButtonWednesday
+                DayOfWeek.THURSDAY -> R.id.radioButtonThursday
+                DayOfWeek.FRIDAY -> R.id.radioButtonFriday
+                DayOfWeek.SATURDAY -> R.id.radioButtonSaturday
+                else -> R.id.radioButtonMonday
+            }
+        )
+    }
+
+    private fun observers() {
         viewModel.validate.observe(viewLifecycleOwner) { isValid ->
             if (!isValid) {
                 Toast.makeText(context, "Os campos estão invalidos", Toast.LENGTH_SHORT).show()
@@ -85,7 +120,6 @@ class ScheduleConfigBottomSheetDialog(private val function: () -> Unit, private 
                 else -> showFailure()
             }
         }
-        return binding.root
     }
 
     private fun showFailure() {

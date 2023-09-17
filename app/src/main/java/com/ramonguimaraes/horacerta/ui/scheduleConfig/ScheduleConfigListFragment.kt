@@ -40,9 +40,17 @@ class ScheduleConfigListFragment : Fragment() {
             }
             showBottomSheet(
                 { viewModel.loadScheduleConfigList() },
-                viewModel.scheduleConfigList.value?.getResultData()
+                viewModel.scheduleConfigList.value?.getResultData(), null
             )
         }
+
+        scheduleConfigAdapter.setOnClick { scheduleConfig ->
+            showBottomSheet(
+                { viewModel.loadScheduleConfigList() },
+                viewModel.scheduleConfigList.value?.getResultData(), scheduleConfig
+            )
+        }
+
         configureRecyclerView()
         return binding.root
     }
@@ -52,7 +60,7 @@ class ScheduleConfigListFragment : Fragment() {
     }
 
     private fun updateList(result: List<ScheduleConfig>) {
-        scheduleConfigAdapter.submitList(result)
+        scheduleConfigAdapter.submitList(result.toMutableList())
     }
 
     private fun showFailure() {
@@ -70,8 +78,12 @@ class ScheduleConfigListFragment : Fragment() {
         }
     }
 
-    private fun showBottomSheet(function: () -> Unit, resultData: List<ScheduleConfig>?) {
-        ScheduleConfigBottomSheetDialog(function, resultData)
+    private fun showBottomSheet(
+        function: () -> Unit,
+        resultData: List<ScheduleConfig>?,
+        scheduleConfig: ScheduleConfig?
+    ) {
+        ScheduleConfigBottomSheetDialog(function, resultData, scheduleConfig)
             .show(parentFragmentManager, "scheduleConfigBottomSheet")
     }
 }

@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.ramonguimaraes.horacerta.databinding.ScheduleConfigItemLayoutBinding
 import com.ramonguimaraes.horacerta.domain.scheduleConfig.model.ScheduleConfig
 import com.ramonguimaraes.horacerta.utils.DayOfWeek.FRIDAY
@@ -16,7 +15,18 @@ import com.ramonguimaraes.horacerta.utils.DayOfWeek.TUESDAY
 import com.ramonguimaraes.horacerta.utils.DayOfWeek.WEDNESDAY
 import com.ramonguimaraes.horacerta.utils.DefaultDiffCallback
 
-class ScheduleConfigAdapter : ListAdapter<ScheduleConfig, ScheduleConfigAdapter.ViewHolder>(DefaultDiffCallback<ScheduleConfig>()) {
+class ScheduleConfigAdapter :
+    ListAdapter<ScheduleConfig, ScheduleConfigAdapter.ViewHolder>(DefaultDiffCallback<ScheduleConfig>()) {
+
+    private var onClick: (scheduleConfig: ScheduleConfig) -> Unit = {}
+    fun setOnClick(onClick: (ScheduleConfig) -> Unit) {
+        this.onClick = onClick
+    }
+
+    override fun submitList(list: MutableList<ScheduleConfig>?) {
+        super.submitList(list)
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -31,7 +41,7 @@ class ScheduleConfigAdapter : ListAdapter<ScheduleConfig, ScheduleConfigAdapter.
         holder.bind(getItem(position))
     }
 
-    class ViewHolder(private val binding: ScheduleConfigItemLayoutBinding) :
+    inner class ViewHolder(private val binding: ScheduleConfigItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(scheduleConfig: ScheduleConfig) {
             binding.txtDayOfWeek.text = when (scheduleConfig.dayOfWeek) {
@@ -48,6 +58,10 @@ class ScheduleConfigAdapter : ListAdapter<ScheduleConfig, ScheduleConfigAdapter.
                 "${scheduleConfig.openTime} até ${scheduleConfig.intervalStart}"
             binding.txtAfternoonTime.text =
                 "${scheduleConfig.intervalEnd} até ${scheduleConfig.closeTime}"
+
+            binding.root.setOnClickListener {
+                onClick.invoke(scheduleConfig)
+            }
         }
     }
 }

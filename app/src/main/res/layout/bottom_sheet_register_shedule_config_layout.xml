@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.ramonguimaraes.horacerta.presenter.scheduleConfig.viewModel.ScheduleConfigViewModel" />
@@ -41,6 +43,7 @@
                 android:layout_margin="5dp"
                 android:background="@drawable/day_of_week_background_selector"
                 android:button="@android:color/transparent"
+                android:clickable="@{!viewModel.updating}"
                 android:gravity="center"
                 android:text="D"
                 android:textColor="@color/white"
@@ -54,6 +57,7 @@
                 android:layout_margin="5dp"
                 android:background="@drawable/day_of_week_background_selector"
                 android:button="@android:color/transparent"
+                android:clickable="@{!viewModel.updating}"
                 android:gravity="center"
                 android:text="S"
                 android:textColor="@color/white"
@@ -67,6 +71,7 @@
                 android:layout_margin="5dp"
                 android:background="@drawable/day_of_week_background_selector"
                 android:button="@android:color/transparent"
+                android:clickable="@{!viewModel.updating}"
                 android:gravity="center"
                 android:text="T"
                 android:textColor="@color/white"
@@ -80,6 +85,7 @@
                 android:layout_margin="5dp"
                 android:background="@drawable/day_of_week_background_selector"
                 android:button="@android:color/transparent"
+                android:clickable="@{!viewModel.updating}"
                 android:gravity="center"
                 android:text="Q"
                 android:textColor="@color/white"
@@ -93,6 +99,7 @@
                 android:layout_margin="5dp"
                 android:background="@drawable/day_of_week_background_selector"
                 android:button="@android:color/transparent"
+                android:clickable="@{!viewModel.updating}"
                 android:gravity="center"
                 android:text="Q"
                 android:textColor="@color/white"
@@ -106,6 +113,7 @@
                 android:layout_margin="5dp"
                 android:background="@drawable/day_of_week_background_selector"
                 android:button="@android:color/transparent"
+                android:clickable="@{!viewModel.updating}"
                 android:gravity="center"
                 android:text="S"
                 android:textColor="@color/white"
@@ -119,6 +127,7 @@
                 android:layout_margin="5dp"
                 android:background="@drawable/day_of_week_background_selector"
                 android:button="@android:color/transparent"
+                android:clickable="@{!viewModel.updating}"
                 android:gravity="center"
                 android:text="S"
                 android:textColor="@color/white"
@@ -152,13 +161,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="@{viewModel.openHour.toString()}"
+            android:text="@{viewModel.scheduleConfig.openTime.toString()}"
             android:textColor="@color/teal_200"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/textView5"
             app:layout_constraintStart_toEndOf="@+id/textView5"
-            app:layout_constraintTop_toTopOf="@+id/textView5" />
+            app:layout_constraintTop_toTopOf="@+id/textView5"
+            tools:text="08:00" />
 
         <TextView
             android:id="@+id/textView7"
@@ -176,26 +186,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="@{viewModel.intervalStartHour.toString()}"
+            android:text="@{viewModel.scheduleConfig.intervalStart.toString()}"
             android:textColor="@color/teal_200"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/textView7"
             app:layout_constraintStart_toEndOf="@+id/textView7"
-            app:layout_constraintTop_toTopOf="@+id/textView7" />
+            app:layout_constraintTop_toTopOf="@+id/textView7"
+            tools:text="12:00" />
 
         <TextView
             android:id="@+id/txtIntervalEnd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="@{viewModel.intervalEndHour.toString()}"
+            android:text="@{viewModel.scheduleConfig.intervalEnd.toString()}"
             android:textColor="@color/teal_200"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/textView11"
             app:layout_constraintStart_toEndOf="@+id/textView11"
-            app:layout_constraintTop_toTopOf="@+id/textView11" />
+            app:layout_constraintTop_toTopOf="@+id/textView11"
+            tools:text="13:00" />
 
         <TextView
             android:id="@+id/textView10"
@@ -223,13 +235,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="@{viewModel.closeHour.toString()}"
+            android:text="@{viewModel.scheduleConfig.closeTime.toString()}"
             android:textColor="@color/teal_200"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/textView10"
             app:layout_constraintStart_toEndOf="@+id/textView10"
-            app:layout_constraintTop_toTopOf="@+id/textView10" />
+            app:layout_constraintTop_toTopOf="@+id/textView10"
+            tools:text="18:00" />
 
         <Button
             android:id="@+id/btnSave"
