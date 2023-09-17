@@ -6,5 +6,5 @@ import com.ramonguimaraes.horacerta.domain.scheduleConfig.model.ScheduleConfig
 interface ScheduleConfigRepository {
     suspend fun save(scheduleConfig: ScheduleConfig): Resource<ScheduleConfig>
     suspend fun delete(id: String): Resource<Boolean>
-    suspend fun list(): Resource<List<ScheduleConfig>>
+    suspend fun list(uid: String?): Resource<List<ScheduleConfig>>
 }

@@ -15,7 +15,7 @@ import com.ramonguimaraes.horacerta.utils.DayOfWeek
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.time.LocalTime
 
-class ScheduleConfigBottomSheetDialog : BottomSheetDialogFragment() {
+class ScheduleConfigBottomSheetDialog(private val function: () -> Unit) : BottomSheetDialogFragment() {
 
     private val viewModel: ScheduleConfigViewModel by viewModel()
     private val binding: BottomSheetRegisterSheduleConfigLayoutBinding by lazy {
@@ -93,6 +93,7 @@ class ScheduleConfigBottomSheetDialog : BottomSheetDialogFragment() {
     }
 
     private fun showSuccess() {
+        function.invoke()
         Toast.makeText(context, "Salvo com sucesso", Toast.LENGTH_SHORT).show()
         dismiss()
     }

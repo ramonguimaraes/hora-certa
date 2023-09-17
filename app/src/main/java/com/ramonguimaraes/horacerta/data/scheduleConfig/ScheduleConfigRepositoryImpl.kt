@@ -8,8 +8,8 @@ import com.ramonguimaraes.horacerta.domain.scheduleConfig.model.toHashMap
 import com.ramonguimaraes.horacerta.domain.scheduleConfig.repository.ScheduleConfigRepository
 import com.ramonguimaraes.horacerta.utils.DayOfWeek
 import kotlinx.coroutines.tasks.await
-import java.lang.Exception
 import java.time.LocalTime
+import kotlin.Exception
 
 class ScheduleConfigRepositoryImpl(private val db: FirebaseFirestore) : ScheduleConfigRepository {
 
@@ -27,7 +27,27 @@ class ScheduleConfigRepositoryImpl(private val db: FirebaseFirestore) : Schedule
         TODO("Not yet implemented")
     }
 
-    override suspend fun list(): Resource<List<ScheduleConfig>> {
-        TODO("Not yet implemented")
+    override suspend fun list(uid: String?): Resource<List<ScheduleConfig>> {
+        return try {
+            val list: MutableList<ScheduleConfig> = mutableListOf()
+            val result =
+                db.collection("ScheduleConfig").whereEqualTo("companyUid", uid).get().await()
+            result.forEach { docSnapshot ->
+                list.add(
+                    ScheduleConfig(
+                        companyUid = docSnapshot.get("companyUid", String::class.java)!!,
+                        dayOfWeek = docSnapshot.get("dayOfWeek", DayOfWeek::class.java)!!,
+                        openTime = LocalTime.parse(docSnapshot.get("openTime", String::class.java)!!),
+                        intervalStart = LocalTime.parse(docSnapshot.get("intervalStart", String::class.java)!!),
+                        intervalEnd = LocalTime.parse(docSnapshot.get("intervalEnd", String::class.java)!!),
+                        closeTime = LocalTime.parse(docSnapshot.get("closeTime", String::class.java)!!)
+                    )
+                )
+            }
+            Resource.Success(list)
+        } catch (e: Exception) {
+            Log.e("ScheduleConfigRepositoryImpl", e.message.toString())
+            Resource.Failure(e)
+        }
     }
 }
