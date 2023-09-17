@@ -24,4 +24,11 @@ class ScheduleConfigListViewModel(
         mScheduleConfigList.postValue(Resource.Loading)
         viewModelScope.launch { mScheduleConfigList.postValue(scheduleConfigListUseCase.invoke()) }
     }
+
+    fun verifyListSize(): Boolean {
+        val list = scheduleConfigList.value?.getResultData()
+        return list?.let {
+            it.size >= 7
+        } == true
+    }
 }

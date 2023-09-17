@@ -34,6 +34,10 @@ class ScheduleConfigListFragment : Fragment() {
         }
         
         binding.fabAddConfig.setOnClickListener {
+            if (viewModel.verifyListSize())  {
+                showToast("Você já configurou todos os dias")
+                return@setOnClickListener
+            }
             showBottomSheet {
                 viewModel.loadScheduleConfigList()
             }
@@ -42,16 +46,20 @@ class ScheduleConfigListFragment : Fragment() {
         return binding.root
     }
 
+    private fun showToast(msg: String) {
+        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+    }
+
     private fun updateList(result: List<ScheduleConfig>) {
         scheduleConfigAdapter.submitList(result)
     }
 
     private fun showFailure() {
-        Toast.makeText(context, "Falha", Toast.LENGTH_SHORT).show()
+        showToast("Falha")
     }
 
     private fun showLoading() {
-        Toast.makeText(context, "Carregando", Toast.LENGTH_SHORT).show()
+        showToast("Carregando")
     }
 
     private fun configureRecyclerView() {
