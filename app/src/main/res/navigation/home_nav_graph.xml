@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home_nav_graph"
-    app:startDestination="@id/scheduleConfig">
+    app:startDestination="@id/schedule">
     <fragment
         android:id="@+id/profile"
         android:name="com.ramonguimaraes.horacerta.ui.companyProfile.CompanyProfileFragment"
@@ -20,7 +20,7 @@
         android:label="fragment_schedule_registration"
         tools:layout="@layout/fragment_schedule_registration" />
     <fragment
-        android:id="@+id/scheduleConfig"
+        android:id="@+id/schedule_config"
         android:name="com.ramonguimaraes.horacerta.ui.scheduleConfig.ScheduleConfigListFragment"
         android:label="ScheduleConfigFragment"
         tools:layout="@layout/fragment_list_schedule_config" />

@@ -7,6 +7,11 @@
         android:title="Agenda" />
 
     <item
+        android:id="@+id/schedule_config"
+        android:icon="@drawable/ic_alarm"
+        android:title="Horarios" />
+
+    <item
         android:id="@+id/profile"
         android:icon="@drawable/ic_profile"
         android:title="Perfil" />
