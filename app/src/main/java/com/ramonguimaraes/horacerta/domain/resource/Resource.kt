@@ -18,4 +18,12 @@ sealed class Resource<out R> {
             }
         }
     }
+
+    fun getResultData(): R? {
+        var r: R? = null
+        mapResourceSuccess {
+            r = it
+        }
+        return r
+    }
 }
