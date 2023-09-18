@@ -120,6 +120,16 @@ class ScheduleConfigBottomSheetDialog(
                 else -> showFailure()
             }
         }
+
+        viewModel.deleteResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Resource.Success -> {
+                    function.invoke()
+                    dismiss()
+                }
+                else -> showFailure()
+            }
+        }
     }
 
     private fun showFailure() {

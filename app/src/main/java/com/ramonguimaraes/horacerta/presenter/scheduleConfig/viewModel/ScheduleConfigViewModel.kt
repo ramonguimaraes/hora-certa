@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.ramonguimaraes.horacerta.domain.authentication.useCase.GetCurrentUserUseCase
 import com.ramonguimaraes.horacerta.domain.resource.Resource
 import com.ramonguimaraes.horacerta.domain.scheduleConfig.model.ScheduleConfig
+import com.ramonguimaraes.horacerta.domain.scheduleConfig.useCase.DeleteScheduleConfigUseCase
 import com.ramonguimaraes.horacerta.domain.scheduleConfig.useCase.SaveScheduleConfigUseCase
 import com.ramonguimaraes.horacerta.utils.DayOfWeek
 import kotlinx.coroutines.launch
@@ -13,6 +14,7 @@ import java.time.LocalTime
 
 class ScheduleConfigViewModel(
     private val saveScheduleConfigUseCase: SaveScheduleConfigUseCase,
+    private val deleteScheduleConfigUseCase: DeleteScheduleConfigUseCase,
     userUseCase: GetCurrentUserUseCase
 ) : ViewModel() {
 
@@ -20,6 +22,9 @@ class ScheduleConfigViewModel(
 
     private val mSaveResponse = MutableLiveData<Resource<ScheduleConfig>?>()
     val saveResponse get() = mSaveResponse
+
+    private val mDeleteResponse = MutableLiveData<Resource<Boolean>?>()
+    val deleteResponse get() = mDeleteResponse
 
     private val mValidate = MutableLiveData<Boolean>()
     val validate get() = mValidate
@@ -48,6 +53,14 @@ class ScheduleConfigViewModel(
                 }
                 mSaveResponse.postValue(result)
             }
+        }
+    }
+
+    fun delete() {
+        viewModelScope.launch {
+            mDeleteResponse.postValue(
+                scheduleConfig.value?.let { deleteScheduleConfigUseCase(it) }
+            )
         }
     }
 
