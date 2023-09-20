@@ -22,7 +22,7 @@ class ServiceListViewModel(
         loadAllServices()
     }
 
-    private fun loadAllServices() {
+    fun loadAllServices() {
         mServiceList.value = Resource.Loading
         viewModelScope.launch {
             val result = loadServicesUseCase(companyUid)

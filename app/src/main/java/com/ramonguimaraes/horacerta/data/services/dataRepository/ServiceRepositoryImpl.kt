@@ -3,8 +3,9 @@ package com.ramonguimaraes.horacerta.data.services.dataRepository
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.ramonguimaraes.horacerta.domain.resource.Resource
-import com.ramonguimaraes.horacerta.domain.services.repository.ServiceRepository
 import com.ramonguimaraes.horacerta.domain.services.model.Service
+import com.ramonguimaraes.horacerta.domain.services.model.toHashMap
+import com.ramonguimaraes.horacerta.domain.services.repository.ServiceRepository
 import kotlinx.coroutines.tasks.await
 
 class ServiceRepositoryImpl(private val db: FirebaseFirestore) : ServiceRepository {
@@ -33,11 +34,19 @@ class ServiceRepositoryImpl(private val db: FirebaseFirestore) : ServiceReposito
     }
 
     override suspend fun save(service: Service) {
-        TODO("Not yet implemented")
+        try {
+            db.collection(COLLECTION).add(service.toHashMap()).await()
+        } catch (e: Exception) {
+            Log.e(TAG, e.toString())
+        }
     }
 
     override suspend fun update(service: Service) {
-        TODO("Not yet implemented")
+        try {
+            db.collection(COLLECTION).document(service.id).update(service.toHashMap()).await()
+        } catch (e: Exception) {
+            Log.e(TAG, e.toString())
+        }
     }
 
     override suspend fun delete(service: Service) {

@@ -26,7 +26,14 @@ class ServicesListFragment : Fragment() {
     ): View {
         configureRecycler()
         observers()
+        binding.fabAddService.setOnClickListener { showBottomSheet() }
         return binding.root
+    }
+
+    private fun showBottomSheet() {
+        ServiceBottomSheet()
+            .setOnDismissListener { viewModel.loadAllServices() }
+            .show(parentFragmentManager, "")
     }
 
     private fun observers() {
