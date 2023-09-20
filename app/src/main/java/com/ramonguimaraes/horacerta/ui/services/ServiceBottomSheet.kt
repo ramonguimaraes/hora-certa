@@ -7,10 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ramonguimaraes.horacerta.databinding.BottomSheetServiceLayoutBinding
+import com.ramonguimaraes.horacerta.domain.scheduleConfig.model.ScheduleConfig
+import com.ramonguimaraes.horacerta.domain.services.model.Service
 import com.ramonguimaraes.horacerta.presenter.service.ServiceViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ServiceBottomSheet : BottomSheetDialogFragment() {
+class ServiceBottomSheet(private val service: Service? = null): BottomSheetDialogFragment() {
 
     private val viewModel: ServiceViewModel by viewModel()
     private val binding: BottomSheetServiceLayoutBinding by lazy {
@@ -23,6 +25,10 @@ class ServiceBottomSheet : BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        service?.let {
+            viewModel.service.value = it
+            viewModel.isUpdating = true
+        }
         configureDataBinding()
         dismissObverse()
         return binding.root

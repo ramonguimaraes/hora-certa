@@ -17,6 +17,7 @@ fun serviceModule() = module {
     factory<ServiceRepository> { ServiceRepositoryImpl(get()) }
     factory { LoadServicesUseCase(get()) }
     factory { SaveServiceUseCase(get(), get()) }
+    factory { DeleteServiceUseCase(get()) }
     viewModel { ServiceListViewModel(get(), get()) }
-    viewModel { ServiceViewModel(get()) }
+    viewModel { ServiceViewModel(get(), get()) }
 }

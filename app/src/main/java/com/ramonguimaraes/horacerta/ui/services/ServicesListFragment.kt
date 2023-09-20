@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ramonguimaraes.horacerta.databinding.FragmentServicesListBinding
 import com.ramonguimaraes.horacerta.domain.resource.Resource
+import com.ramonguimaraes.horacerta.domain.services.model.Service
 import com.ramonguimaraes.horacerta.presenter.service.ServiceListViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -26,12 +27,13 @@ class ServicesListFragment : Fragment() {
     ): View {
         configureRecycler()
         observers()
+        configureItemClick()
         binding.fabAddService.setOnClickListener { showBottomSheet() }
         return binding.root
     }
 
-    private fun showBottomSheet() {
-        ServiceBottomSheet()
+    private fun showBottomSheet(service: Service? = null) {
+        ServiceBottomSheet(service)
             .setOnDismissListener { viewModel.loadAllServices() }
             .show(parentFragmentManager, "")
     }
@@ -56,6 +58,12 @@ class ServicesListFragment : Fragment() {
         binding.rvServices.apply {
             adapter = servicesAdapter
             layoutManager = LinearLayoutManager(context)
+        }
+    }
+
+    private fun configureItemClick() {
+        servicesAdapter.setOnClick {
+            showBottomSheet(it)
         }
     }
 }

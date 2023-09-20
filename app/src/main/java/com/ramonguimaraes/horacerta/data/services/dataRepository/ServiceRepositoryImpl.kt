@@ -50,7 +50,11 @@ class ServiceRepositoryImpl(private val db: FirebaseFirestore) : ServiceReposito
     }
 
     override suspend fun delete(service: Service) {
-        TODO("Not yet implemented")
+        try {
+            db.collection(COLLECTION).document(service.id).delete().await()
+        } catch (e: Exception) {
+            Log.e(TAG, e.toString())
+        }
     }
 
     companion object {
