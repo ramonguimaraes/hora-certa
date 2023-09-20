@@ -12,6 +12,11 @@
         android:title="Horarios" />
 
     <item
+        android:id="@+id/services"
+        android:icon="@drawable/ic_tag"
+        android:title="Seviços" />
+
+    <item
         android:id="@+id/profile"
         android:icon="@drawable/ic_profile"
         android:title="Perfil" />
