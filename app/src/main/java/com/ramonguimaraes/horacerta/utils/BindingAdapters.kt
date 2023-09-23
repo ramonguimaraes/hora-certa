@@ -2,6 +2,7 @@ package com.ramonguimaraes.horacerta.utils
 
 import android.view.View
 import android.widget.EditText
+import android.widget.ViewSwitcher
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 
