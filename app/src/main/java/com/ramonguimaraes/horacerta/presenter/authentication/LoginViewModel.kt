@@ -33,6 +33,13 @@ class LoginViewModel(
     private val mAccountTypeCompany = MutableLiveData<AccountType?>()
     val accountTypeCompany: LiveData<AccountType?> get() = mAccountTypeCompany
 
+    private val mLoggedUser = MutableLiveData(false)
+    val loggedUser get() = mLoggedUser
+
+    init {
+        loggedUser.value = getCurrentUserUseCase.loggedUser()
+    }
+
     fun login() {
         if (isFormValid()) {
             mUser.value = Resource.Loading

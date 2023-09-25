@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.FirebaseAuth
 import com.ramonguimaraes.horacerta.R
 import com.ramonguimaraes.horacerta.databinding.FragmentLoginBinding
 import com.ramonguimaraes.horacerta.domain.resource.Resource
@@ -16,6 +17,7 @@ import com.ramonguimaraes.horacerta.utils.AccountType
 import com.ramonguimaraes.horacerta.utils.gone
 import com.ramonguimaraes.horacerta.utils.hideKeyboard
 import com.ramonguimaraes.horacerta.utils.visible
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginFragment : Fragment() {
@@ -50,10 +52,12 @@ class LoginFragment : Fragment() {
                     showSuccess()
                     viewModel.checkUserType()
                 }
+
                 is Resource.Failure -> {
                     hideLoading()
                     showError()
                 }
+
                 is Resource.Loading -> showLoading()
             }
         }
@@ -64,6 +68,10 @@ class LoginFragment : Fragment() {
 
         viewModel.accountTypeCompany.observe(viewLifecycleOwner) {
             goToCompanyHome()
+        }
+
+        viewModel.loggedUser.observe(viewLifecycleOwner) {
+            if (it) goToCompanyHome()
         }
     }
 
