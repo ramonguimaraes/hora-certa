@@ -9,7 +9,7 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 fun companyProfileModule() = module {
-    factory<CompanyProfileRepository> { CompanyProfileRepositoryImpl(get()) }
+    factory<CompanyProfileRepository> { CompanyProfileRepositoryImpl(get(), get()) }
     factory { SaveCompanyProfileUseCase(get(), get()) }
     factory { LoadCompanyProfileUseCase(get(), get()) }
     viewModel { CompanyProfileViewModel(get(),get()) }

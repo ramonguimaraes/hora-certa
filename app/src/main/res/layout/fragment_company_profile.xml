@@ -33,8 +33,10 @@
                 app:layout_constraintVertical_chainStyle="packed">
 
                 <ImageView
-                    android:id="@+id/imageView3"
+                    android:id="@+id/imgProfilePic"
+                    android:uri="@{viewModel.profile.photoUri}"
                     android:layout_width="match_parent"
+                    android:scaleType="centerCrop"
                     android:layout_height="match_parent"
                     android:src="@drawable/user_default" />
             </androidx.cardview.widget.CardView>
