@@ -53,7 +53,7 @@ class HomeFragment : Fragment() {
             navView.setupWithNavController(navController)
         }
 
-        navView.setOnItemSelectedListener {
+        /*navView.setOnItemSelectedListener {
             if (it.itemId == R.id.logout) {
                 AlertDialog.Builder(context).setTitle("Caution")
                     .setMessage("Realmente deseja fazer logout")
@@ -66,7 +66,7 @@ class HomeFragment : Fragment() {
                     }.show()
             }
             true
-        }
+        }*/
     }
 
     private fun goToLogin() {
