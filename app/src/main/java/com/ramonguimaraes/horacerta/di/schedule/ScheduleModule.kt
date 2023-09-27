@@ -10,7 +10,7 @@ import org.koin.dsl.module
 
 fun scheduleModule() = module {
     factory<ScheduleRepository> { ScheduleRepositoryImpl(get()) }
-    factory { GetAvailableHorsUseCase(get()) }
+    factory { GetAvailableHorsUseCase(get(), get()) }
     factory { SaveScheduledTimeUseCase(get()) }
     viewModel { ScheduleRegistrationViewModel(get(), get(), get()) }
 }
