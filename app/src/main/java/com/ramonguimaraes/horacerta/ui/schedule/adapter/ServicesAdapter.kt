@@ -5,14 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ramonguimaraes.horacerta.databinding.ServicesItemLayoutBinding
-import com.ramonguimaraes.horacerta.domain.schedule.model.ServiceItem
+import com.ramonguimaraes.horacerta.domain.services.model.Service
 import com.ramonguimaraes.horacerta.utils.DefaultDiffCallback
 
 class ServicesAdapter :
-    ListAdapter<ServiceItem, ServicesViewHolder>(DefaultDiffCallback<ServiceItem>()) {
+    ListAdapter<Service, ServicesViewHolder>(DefaultDiffCallback<Service>()) {
 
-    private var checkListener: (item: ServiceItem, isChecked: Boolean) -> Unit = { _: ServiceItem, _: Boolean -> }
-    fun setCheckListener(listener: (item: ServiceItem, isChecked: Boolean) -> Unit) {
+    private var checkListener: (item: Service, isChecked: Boolean) -> Unit = { _: Service, _: Boolean -> }
+    fun setCheckListener(listener: (item: Service, isChecked: Boolean) -> Unit) {
         checkListener = listener
     }
 
@@ -29,9 +29,9 @@ class ServicesAdapter :
 
 class ServicesViewHolder(
     private val binding: ServicesItemLayoutBinding,
-    private val checkListener: (item: ServiceItem, isChecked: Boolean) -> Unit
+    private val checkListener: (item: Service, isChecked: Boolean) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
-    fun bind(service: ServiceItem) {
+    fun bind(service: Service) {
         binding.cbService.apply {
             text = service.title
             isChecked = service.checked

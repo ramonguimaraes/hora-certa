@@ -4,27 +4,29 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ramonguimaraes.horacerta.domain.authentication.useCase.GetCurrentUserUseCase
 import com.ramonguimaraes.horacerta.domain.resource.Resource
-import com.ramonguimaraes.horacerta.domain.schedule.model.ServiceItem
 import com.ramonguimaraes.horacerta.domain.schedule.model.TimeInterval
 import com.ramonguimaraes.horacerta.domain.schedule.useCase.GetAvailableHorsUseCase
 import com.ramonguimaraes.horacerta.domain.schedule.useCase.SaveScheduledTimeUseCase
-import com.ramonguimaraes.horacerta.domain.services.ServicesRepository
+import com.ramonguimaraes.horacerta.domain.services.model.Service
+import com.ramonguimaraes.horacerta.domain.services.userCase.LoadServicesUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Calendar
 
 class ScheduleRegistrationViewModel(
-    private val useCase: GetAvailableHorsUseCase,
+    private val getAvailableHorsUseCase: GetAvailableHorsUseCase,
     private val saveScheduledTimeUseCase: SaveScheduledTimeUseCase,
-    private val servicesRepository: ServicesRepository
+    private val loadServiceUseCase: LoadServicesUseCase,
+    userUseCase: GetCurrentUserUseCase
 ) : ViewModel() {
 
     private val mLivedata = MutableLiveData<List<TimeInterval>>()
     val liveData get() = mLivedata
 
-    private val mServices = MutableLiveData<List<ServiceItem>>()
+    private val mServices = MutableLiveData<List<Service>>()
     val services get() = mServices
 
     private val mDate = MutableLiveData<Calendar>()
@@ -36,14 +38,17 @@ class ScheduleRegistrationViewModel(
     private val mSaveResult = MutableLiveData<Resource<Boolean?>>()
     val saveResult get() = mSaveResult
 
+    private var companyUid: String = ""
+
     init {
+        companyUid = userUseCase.currentUid().toString()
         loadServices()
     }
 
     private fun loadServices() {
         viewModelScope.launch {
-            val res = servicesRepository.load("")
-            res.mapResourceSuccess {
+            val services = loadServiceUseCase(companyUid)
+            services.mapResourceSuccess {
                 mServices.postValue(it)
             }
         }
@@ -52,7 +57,7 @@ class ScheduleRegistrationViewModel(
     fun load(calendar: Calendar = Calendar.getInstance()) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val res = useCase.getAvailableHors(calendar)
+                val res = getAvailableHorsUseCase.getAvailableHors(calendar)
                 mLivedata.postValue(res)
                 // Dando update no totalTime com o valor dele mesmo
                 // garanto que o usuario não tenha que clicar de novo
@@ -65,8 +70,10 @@ class ScheduleRegistrationViewModel(
 
     fun configuraListaDeHoras(totalTime: Int) {
         val hours = liveData.value ?: emptyList()
-        val qtdIntervalos = totalTime / 30
-
+        var qtdIntervalos = totalTime / 30
+        if (totalTime > 0 && totalTime % 30 > 0) {
+            qtdIntervalos += 1
+        }
         if (qtdIntervalos > 0) {
             for (i in hours.indices) {
                 val subList = hours.subListOrNull(i, i + qtdIntervalos)
@@ -118,11 +125,17 @@ class ScheduleRegistrationViewModel(
         }
     }
 
-    fun updateTotalTime(item: ServiceItem, isChecked: Boolean) {
+    fun updateTotalTime(item: Service, isChecked: Boolean) {
         if (isChecked) {
-            mTotalTime.value = mTotalTime.value?.plus(item.duration)
+            mTotalTime.value = mTotalTime.value?.plus(item.estimatedDuration.toInt())
         } else {
-            mTotalTime.value = mTotalTime.value?.minus(item.duration)
+            mTotalTime.value = mTotalTime.value?.minus(item.estimatedDuration.toInt())
+        }
+    }
+
+    fun setCompanyUid(companyUid: String?) {
+        if (companyUid != null) {
+            this.companyUid = companyUid
         }
     }
 }

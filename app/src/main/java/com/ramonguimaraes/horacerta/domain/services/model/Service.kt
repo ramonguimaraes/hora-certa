@@ -5,7 +5,8 @@ class Service(
     var companyUid: String = "",
     var title: String = "",
     var price: Double = 0.0,
-    var estimatedDuration: Long = 0
+    var estimatedDuration: Long = 0,
+    var checked: Boolean = false
 )
 
 fun Service.toHashMap(): HashMap<String, Any> {
