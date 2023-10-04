@@ -119,7 +119,7 @@ class ScheduleRegistrationViewModel(
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 if (calendar != null && totalTime.value != null) {
-                    saveResult.postValue(saveScheduledTimeUseCase.save(calendar, totalTime.value!!))
+                    saveResult.postValue(saveScheduledTimeUseCase.save(calendar, totalTime.value!!, companyUid))
                 }
             }
         }

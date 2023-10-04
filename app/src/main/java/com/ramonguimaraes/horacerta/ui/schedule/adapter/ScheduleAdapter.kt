@@ -2,13 +2,20 @@ package com.ramonguimaraes.horacerta.ui.schedule.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ramonguimaraes.horacerta.databinding.ScheduleItemLayoutBinding
+import com.ramonguimaraes.horacerta.domain.schedule.model.toTimeStamp
+import com.ramonguimaraes.horacerta.utils.DefaultDiffCallback
+import java.time.DayOfWeek
+import java.util.Calendar
+import java.util.Date
 
-class ScheduleAdapter(private val list: List<Appointment>) :
-    RecyclerView.Adapter<ScheduleAdapter.ScheduleViewHolder>() {
 
-    data class ScheduleViewHolder(val binding: ScheduleItemLayoutBinding) :
+class ScheduleAdapter: ListAdapter<Appointment, ScheduleAdapter.ScheduleViewHolder>(DefaultDiffCallback<Appointment>()) {
+
+    class ScheduleViewHolder(val binding: ScheduleItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(appointment: Appointment) {
             binding.txtTime.text = appointment.time
@@ -24,17 +31,34 @@ class ScheduleAdapter(private val list: List<Appointment>) :
         return ScheduleViewHolder(binding)
     }
 
-    override fun getItemCount(): Int {
-        return list.size
-    }
-
     override fun onBindViewHolder(holder: ScheduleViewHolder, position: Int) {
-        holder.bind(list[position])
+        holder.bind(getItem(position))
     }
 }
 
 data class Appointment(
-    val time: String,
-    val client: String,
-    val service: String
+    val time: String = "",
+    val client: String = "",
+    val service: String = "",
+    val companyUid: String = "",
+    val date: Calendar
 )
+
+fun Appointment.toHashMap(): HashMap<String, Any> {
+    return hashMapOf(
+        "time" to time,
+        "client" to client,
+        "service" to service,
+        "companyUid" to companyUid,
+        "date" to date.onlyDate().toTimeStamp()
+    )
+}
+
+fun Calendar.onlyDate(): Calendar {
+    val calendar = this
+    calendar.set(Calendar.HOUR_OF_DAY, 0)
+    calendar.set(Calendar.MINUTE, 0)
+    calendar.set(Calendar.SECOND, 0)
+    calendar.set(Calendar.MILLISECOND, 0)
+    return calendar
+}
