@@ -5,14 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ramonguimaraes.horacerta.databinding.ServiceRegistrationItemLayoutBinding
-import com.ramonguimaraes.horacerta.domain.services.model.Service
+import com.ramonguimaraes.horacerta.presenter.service.model.ServiceView
 import com.ramonguimaraes.horacerta.utils.DefaultDiffCallback
 
 class ServicesAdapter :
-    ListAdapter<Service, ServicesAdapter.ServiceViewHolder>(DefaultDiffCallback()) {
+    ListAdapter<ServiceView, ServicesAdapter.ServiceViewHolder>(DefaultDiffCallback()) {
 
-    private var onClick: (service: Service) -> Unit = {}
-    fun setOnClick(onClick: (Service) -> Unit) {
+    private var onClick: (service: ServiceView) -> Unit = {}
+    fun setOnClick(onClick: (ServiceView) -> Unit) {
         this.onClick = onClick
     }
 
@@ -28,10 +28,10 @@ class ServicesAdapter :
 
     inner class ServiceViewHolder(private val binding: ServiceRegistrationItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(service: Service) {
+        fun bind(service: ServiceView) {
             binding.txtPrice.text = service.price.toString()
             binding.txtTitle.text = service.title
-            binding.txtEstimatedDuration.text = service.estimatedDuration.toString()
+            binding.txtEstimatedDuration.text = service.duration.toString()
             binding.root.setOnClickListener { onClick.invoke(service) }
         }
     }

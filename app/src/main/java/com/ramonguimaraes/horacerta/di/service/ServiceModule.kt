@@ -7,8 +7,10 @@ import com.ramonguimaraes.horacerta.domain.services.ServicesRepository
 import com.ramonguimaraes.horacerta.domain.services.userCase.DeleteServiceUseCase
 import com.ramonguimaraes.horacerta.domain.services.userCase.LoadServicesUseCase
 import com.ramonguimaraes.horacerta.domain.services.userCase.SaveServiceUseCase
-import com.ramonguimaraes.horacerta.presenter.service.ServiceListViewModel
-import com.ramonguimaraes.horacerta.presenter.service.ServiceViewModel
+import com.ramonguimaraes.horacerta.domain.services.userCase.ServiceFormValidationUseCase
+import com.ramonguimaraes.horacerta.presenter.service.viewMapper.ServiceViewMapper
+import com.ramonguimaraes.horacerta.presenter.service.viewModel.ServiceListViewModel
+import com.ramonguimaraes.horacerta.presenter.service.viewModel.ServiceViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -18,6 +20,8 @@ fun serviceModule() = module {
     factory { LoadServicesUseCase(get()) }
     factory { SaveServiceUseCase(get(), get()) }
     factory { DeleteServiceUseCase(get()) }
-    viewModel { ServiceListViewModel(get(), get()) }
-    viewModel { ServiceViewModel(get(), get()) }
+    factory { ServiceFormValidationUseCase() }
+    factory { ServiceViewMapper() }
+    viewModel { ServiceListViewModel(get(), get(), get()) }
+    viewModel { ServiceViewModel(get(), get(), get(), get()) }
 }

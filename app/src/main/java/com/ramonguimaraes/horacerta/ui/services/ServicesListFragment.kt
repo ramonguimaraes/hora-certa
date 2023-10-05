@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ramonguimaraes.horacerta.databinding.FragmentServicesListBinding
 import com.ramonguimaraes.horacerta.domain.resource.Resource
-import com.ramonguimaraes.horacerta.domain.services.model.Service
-import com.ramonguimaraes.horacerta.presenter.service.ServiceListViewModel
+import com.ramonguimaraes.horacerta.presenter.service.viewModel.ServiceListViewModel
+import com.ramonguimaraes.horacerta.presenter.service.model.ServiceView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ServicesListFragment : Fragment() {
@@ -32,7 +32,7 @@ class ServicesListFragment : Fragment() {
         return binding.root
     }
 
-    private fun showBottomSheet(service: Service? = null) {
+    private fun showBottomSheet(service: ServiceView? = null) {
         ServiceBottomSheet(service)
             .setOnDismissListener { viewModel.loadAllServices() }
             .show(parentFragmentManager, "")
