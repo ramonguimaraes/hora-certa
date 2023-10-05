@@ -112,9 +112,9 @@ class CompanyProfileFragment : Fragment() {
             }
         }
 
-        viewModel.profile.observe(viewLifecycleOwner) {
+        viewModel.profileView.observe(viewLifecycleOwner) {
             for (i in 0 until adapter.count) {
-                if (adapter.getItem(i) == viewModel.profile.value?.companySegment) {
+                if (adapter.getItem(i) == viewModel.profileView.value?.companySegment) {
                     binding.spnSegments.setSelection(i)
                     break
                 }

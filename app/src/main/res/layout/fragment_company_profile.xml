@@ -34,7 +34,7 @@
 
                 <ImageView
                     android:id="@+id/imgProfilePic"
-                    android:uri="@{viewModel.profile.photoUri}"
+                    android:uri="@{viewModel.profileView.photoUri}"
                     android:layout_width="match_parent"
                     android:scaleType="centerCrop"
                     android:layout_height="match_parent"
@@ -47,6 +47,7 @@
                 android:layout_width="329dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
+                app:error="@{viewModel.profileView.companyNameError}"
                 app:errorEnabled="true"
                 app:layout_constraintBottom_toTopOf="@+id/txtInpCnpj"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -62,7 +63,7 @@
                     android:inputType="textPersonName"
                     android:maxLength="80"
                     android:maxLines="1"
-                    android:text="@={viewModel.profile.companyName}" />
+                    android:text="@={viewModel.profileView.companyName}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -71,6 +72,7 @@
                 android:layout_width="329dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
+                app:error="@{viewModel.profileView.cnpjError}"
                 app:errorEnabled="true"
                 app:layout_constraintBottom_toTopOf="@+id/txtInpPhone"
                 app:layout_constraintEnd_toEndOf="@+id/txtInpName"
@@ -86,7 +88,7 @@
                     android:inputType="textPersonName"
                     android:maxLength="80"
                     android:maxLines="1"
-                    android:text="@={viewModel.profile.cnpj}" />
+                    android:text="@={viewModel.profileView.cnpj}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -95,6 +97,7 @@
                 android:layout_width="329dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
+                app:error="@{viewModel.profileView.phoneNumberError}"
                 app:errorEnabled="true"
                 app:layout_constraintBottom_toTopOf="@id/spnSegments"
                 app:layout_constraintEnd_toEndOf="@+id/txtInpCnpj"
@@ -110,7 +113,7 @@
                     android:inputType="phone"
                     android:maxLength="11"
                     android:maxLines="1"
-                    android:text="@={viewModel.profile.phoneNumber}" />
+                    android:text="@={viewModel.profileView.phoneNumber}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -126,6 +129,7 @@
                 android:id="@+id/spnSegments"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:minHeight="48dp"
                 app:layout_constraintBottom_toTopOf="@id/button"
                 app:layout_constraintEnd_toEndOf="@+id/txtSegmentLabel"
                 app:layout_constraintStart_toStartOf="@+id/txtSegmentLabel"
@@ -136,7 +140,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:onClick="@{() -> viewModel.save()}"
+                android:onClick="@{() -> viewModel.saveAction()}"
                 android:text="proximo"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/spnSegments"

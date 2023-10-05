@@ -15,6 +15,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.ramonguimaraes.horacerta.R
 import com.ramonguimaraes.horacerta.domain.companyProfile.model.CompanyProfile
 import com.ramonguimaraes.horacerta.domain.resource.Resource
+import com.ramonguimaraes.horacerta.presenter.companyProfile.model.CompanyProfileView
 import com.ramonguimaraes.horacerta.presenter.home.HomeViewModel
 import com.ramonguimaraes.horacerta.ui.companyProfile.CompanyProfileFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -73,7 +74,7 @@ class HomeFragment : Fragment() {
         findNavController().navigate(R.id.action_homeFragment_to_loginFragment)
     }
 
-    private fun showSuccess(result: CompanyProfile?) {
+    private fun showSuccess(result: CompanyProfileView?) {
         if (result != null) {
             viewSwitcher?.displayedChild = 1
             return

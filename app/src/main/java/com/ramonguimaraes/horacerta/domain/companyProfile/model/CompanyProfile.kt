@@ -9,7 +9,8 @@ class CompanyProfile(
     var cnpj: String = "",
     var phoneNumber: String = "",
     var companySegment: String = "Saúde",
-    var photoUri: Uri = Uri.EMPTY
+    var photoUri: Uri = Uri.EMPTY,
+    var photoDownload: Uri = Uri.EMPTY,
 )
 
 fun CompanyProfile.toHashMap(): HashMap<String, Any> {
@@ -19,6 +20,7 @@ fun CompanyProfile.toHashMap(): HashMap<String, Any> {
         "cnpj" to cnpj,
         "phoneNumber" to phoneNumber,
         "companySegment" to companySegment,
-        "photoUri" to photoUri
+        "photoUri" to photoUri,
+        "photoDownload" to photoDownload
     )
 }
