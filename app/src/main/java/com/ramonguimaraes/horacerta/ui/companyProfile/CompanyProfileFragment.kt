@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
@@ -20,6 +21,7 @@ import com.ramonguimaraes.horacerta.databinding.FragmentCompanyProfileBinding
 import com.ramonguimaraes.horacerta.domain.resource.Resource
 import com.ramonguimaraes.horacerta.presenter.companyProfile.CompanyProfileViewModel
 import com.ramonguimaraes.horacerta.ui.home.HomeFragment
+import com.ramonguimaraes.horacerta.utils.Mask
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CompanyProfileFragment : Fragment() {
@@ -50,6 +52,9 @@ class CompanyProfileFragment : Fragment() {
             )
         }
         saveObserver()
+
+        binding.edtCnpj.addTextChangedListener(Mask.mask(Mask.CNPJ_PATERN, binding.edtCnpj))
+        binding.edtPhone.addTextChangedListener(Mask.mask(Mask.PHONE_PATERN, binding.edtPhone))
         return binding.root
     }
 
@@ -59,11 +64,13 @@ class CompanyProfileFragment : Fragment() {
                 is Resource.Loading -> {
                     Toast.makeText(context, "Salvando...", Toast.LENGTH_SHORT).show()
                 }
+
                 is Resource.Success -> {
                     if (it.result) {
                         goToHome()
                     }
                 }
+
                 is Resource.Failure -> {
                     Toast.makeText(context, "Falha ao salvar perfil", Toast.LENGTH_SHORT).show()
                 }

@@ -85,7 +85,7 @@
                     android:layout_height="match_parent"
                     android:autofillHints="name"
                     android:hint="CNPJ"
-                    android:inputType="textPersonName"
+                    android:inputType="number"
                     android:maxLength="80"
                     android:maxLines="1"
                     android:text="@={viewModel.profileView.cnpj}" />
@@ -111,7 +111,7 @@
                     android:autofillHints="name"
                     android:hint="@string/telefone_de_contato"
                     android:inputType="phone"
-                    android:maxLength="11"
+                    android:maxLength="14"
                     android:maxLines="1"
                     android:text="@={viewModel.profileView.phoneNumber}" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -141,7 +141,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:onClick="@{() -> viewModel.saveAction()}"
-                android:text="proximo"
+                android:text="salvar"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/spnSegments"
                 app:layout_constraintStart_toStartOf="@+id/spnSegments"
