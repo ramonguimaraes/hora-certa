@@ -13,7 +13,10 @@ import com.ramonguimaraes.horacerta.domain.companyProfile.model.CompanyProfile
 import com.ramonguimaraes.horacerta.domain.companyProfile.model.toHashMap
 import com.ramonguimaraes.horacerta.domain.companyProfile.repository.CompanyProfileRepository
 import com.ramonguimaraes.horacerta.domain.resource.Resource
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
+import java.io.File
 
 class CompanyProfileRepositoryImpl(
     private val db: FirebaseFirestore,
@@ -22,7 +25,7 @@ class CompanyProfileRepositoryImpl(
 
     override suspend fun save(companyProfile: CompanyProfile): Resource<Boolean> {
         return try {
-            val downloadUir = uploadPhoto(companyProfile.photoUri, "profilepic")
+            val downloadUir = uploadPhoto(companyProfile.photoUri, companyProfile.id)
             companyProfile.photoUri = downloadUir
             db.collection(COLLECTION).add(companyProfile.toHashMap()).await()
             Resource.Success(true)
@@ -34,7 +37,7 @@ class CompanyProfileRepositoryImpl(
 
     override suspend fun update(companyProfile: CompanyProfile): Resource<Boolean> {
         return try {
-            val downloadUir = uploadPhoto(companyProfile.photoUri, "profilepic")
+            val downloadUir = uploadPhoto(companyProfile.photoUri, companyProfile.id)
             companyProfile.photoUri = downloadUir
             db.collection(COLLECTION).document(companyProfile.id).update(companyProfile.toHashMap())
             Resource.Success(true)
@@ -46,15 +49,17 @@ class CompanyProfileRepositoryImpl(
 
     override suspend fun load(uid: String?): Resource<CompanyProfile?> {
         return try {
-            val querySnapshot = db.collection(COLLECTION).whereEqualTo("companyUid", uid).get().await().singleOrNull()
-            val companyProfile: CompanyProfile? = querySnapshot?.let {
+            val querySnapshot = db.collection(COLLECTION)
+                .whereEqualTo("companyUid", uid).get().await().singleOrNull()
+            val companyProfile: CompanyProfile? = querySnapshot?.let { snapShot ->
                 CompanyProfile(
-                    companyUid = it.get("companyUid", String::class.java)!!,
-                    companyName = it.get("companyName", String::class.java) ?: "",
-                    cnpj = it.get("cnpj", String::class.java) ?: "",
-                    phoneNumber = it.get("phoneNumber", String::class.java) ?: "",
-                    companySegment = it.get("companySegment", String::class.java) ?: "",
-                    photoUri = it.get("photoUri", String::class.java)?.toUri() ?: Uri.EMPTY,
+                    id = snapShot.id,
+                    companyUid = snapShot.get("companyUid", String::class.java)!!,
+                    companyName = snapShot.get("companyName", String::class.java) ?: "",
+                    cnpj = snapShot.get("cnpj", String::class.java) ?: "",
+                    phoneNumber = snapShot.get("phoneNumber", String::class.java) ?: "",
+                    companySegment = snapShot.get("companySegment", String::class.java) ?: "",
+                    photoUri = downloadImage(snapShot.id)
                 )
             }
             Resource.Success(companyProfile)
@@ -68,7 +73,7 @@ class CompanyProfileRepositoryImpl(
         uriFile: Uri,
         fileName: String
     ): Uri {
-        val ref = storage.getReference(fileName)
+        val ref = storage.getReference("$PROFILE_PICS/$fileName")
         val task = ref.putFile(uriFile)
         return generateUrlDownload(ref, task).await()
     }
@@ -88,8 +93,30 @@ class CompanyProfileRepositoryImpl(
         }
     }
 
+    private suspend fun downloadImage(
+        fileName: String
+    ): Uri {
+        val reference = storage.reference.child("$PROFILE_PICS/$fileName")
+        val file = withContext(Dispatchers.IO) {
+            File.createTempFile(fileName, SUFFIX)
+        }
+
+        return reference.getFile(file).continueWith {
+            if (it.isSuccessful) {
+                file.toUri()
+            } else {
+                it.exception?.let {
+                    Log.e(TAG,"foto de perfil não encontrada - $PROFILE_PICS/$fileName")
+                }
+                Uri.EMPTY
+            }
+        }.await()
+    }
+
     companion object {
         const val TAG = "CompanyProfileRepositoryImpl"
         const val COLLECTION = "companyProfile"
+        const val PROFILE_PICS = "profile_pics"
+        const val SUFFIX = ".jpeg"
     }
 }
