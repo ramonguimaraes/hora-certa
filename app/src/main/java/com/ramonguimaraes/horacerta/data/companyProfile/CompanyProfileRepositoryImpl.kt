@@ -73,7 +73,7 @@ class CompanyProfileRepositoryImpl(
         uriFile: Uri,
         fileName: String
     ): Uri {
-        val ref = storage.getReference("$PROFILE_PICS/$fileName")
+        val ref = storage.getReference(fileName)
         val task = ref.putFile(uriFile)
         return generateUrlDownload(ref, task).await()
     }
@@ -96,7 +96,7 @@ class CompanyProfileRepositoryImpl(
     private suspend fun downloadImage(
         fileName: String
     ): Uri {
-        val reference = storage.reference.child("$PROFILE_PICS/$fileName")
+        val reference = storage.reference.child(fileName)
         val file = withContext(Dispatchers.IO) {
             File.createTempFile(fileName, SUFFIX)
         }
@@ -106,7 +106,7 @@ class CompanyProfileRepositoryImpl(
                 file.toUri()
             } else {
                 it.exception?.let {
-                    Log.e(TAG,"foto de perfil não encontrada - $PROFILE_PICS/$fileName")
+                    Log.e(TAG, "foto de perfil não encontrada - $fileName")
                 }
                 Uri.EMPTY
             }
@@ -116,7 +116,6 @@ class CompanyProfileRepositoryImpl(
     companion object {
         const val TAG = "CompanyProfileRepositoryImpl"
         const val COLLECTION = "companyProfile"
-        const val PROFILE_PICS = "profile_pics"
         const val SUFFIX = ".jpeg"
     }
 }

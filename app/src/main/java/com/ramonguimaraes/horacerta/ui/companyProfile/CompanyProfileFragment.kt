@@ -8,10 +8,11 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
-import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageContractOptions
 import com.canhub.cropper.CropImageOptions
@@ -30,6 +31,7 @@ class CompanyProfileFragment : Fragment() {
     private val binding: FragmentCompanyProfileBinding by lazy {
         FragmentCompanyProfileBinding.inflate(layoutInflater)
     }
+    private val args: CompanyProfileFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +39,27 @@ class CompanyProfileFragment : Fragment() {
     ): View {
         configureBinding()
         configureSegmentsSpinner()
+
+        viewModel.profileViewState.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Success -> {
+                    if (args.callFromLogin && it.result != null && it.result.id.isNotBlank()) {
+                        goToHome()
+                        return@observe
+                    }
+                    binding.viewSwitcher.displayedChild = 1
+                }
+
+                is Resource.Failure -> {
+                    showError()
+                }
+
+                is Resource.Loading -> {
+                    showLoading()
+                }
+            }
+        }
+
 
         val registry = takePictureForResult()
         binding.imgProfilePic.setOnClickListener {
@@ -56,6 +79,14 @@ class CompanyProfileFragment : Fragment() {
         binding.edtCnpj.addTextChangedListener(Mask.mask(Mask.CNPJ_PATERN, binding.edtCnpj))
         binding.edtPhone.addTextChangedListener(Mask.mask(Mask.PHONE_PATERN, binding.edtPhone))
         return binding.root
+    }
+
+    private fun showLoading() {
+        binding.viewSwitcher.displayedChild = 0
+    }
+
+    private fun showError() {
+        binding.viewSwitcher.displayedChild = 1
     }
 
     private fun saveObserver() {
@@ -79,12 +110,7 @@ class CompanyProfileFragment : Fragment() {
     }
 
     private fun goToHome() {
-        val supportFragmentManager = activity?.supportFragmentManager
-        supportFragmentManager?.beginTransaction()?.replace(
-            R.id.fragmentContainerView,
-            HomeFragment(),
-            "homeFragment"
-        )?.addToBackStack(null)?.commit()
+        findNavController().navigate(R.id.action_companyProfileFragment_to_homeFragment)
     }
 
     private fun takePictureForResult(): ActivityResultLauncher<CropImageContractOptions> {
