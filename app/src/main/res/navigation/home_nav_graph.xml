@@ -8,7 +8,12 @@
         android:id="@+id/profile"
         android:name="com.ramonguimaraes.horacerta.ui.companyProfile.CompanyProfileFragment"
         android:label="CompanyProfileFragment"
-        tools:layout="@layout/fragment_company_profile" />
+        tools:layout="@layout/fragment_company_profile" >
+        <argument
+            android:name="callFromLogin"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </fragment>
     <fragment
         android:id="@+id/schedule"
         android:name="com.ramonguimaraes.horacerta.ui.schedule.ScheduleFragment"

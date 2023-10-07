@@ -26,7 +26,14 @@
             app:destination="@id/createAccountFragment" />
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_loginFragment_to_companyProfileFragment"
+            app:destination="@id/companyProfileFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -35,6 +42,23 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_homeFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/companyProfileFragment"
+        tools:layout="@layout/fragment_company_profile"
+        android:name="com.ramonguimaraes.horacerta.ui.companyProfile.CompanyProfileFragment"
+        android:label="CompanyProfileFragment" >
+        <argument
+            android:name="callFromLogin"
+            app:argType="boolean"
+            android:defaultValue="false" />
+        <action
+            android:id="@+id/action_companyProfileFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/companyProfileFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

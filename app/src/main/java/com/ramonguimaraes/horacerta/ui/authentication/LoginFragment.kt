@@ -67,16 +67,17 @@ class LoginFragment : Fragment() {
         }
 
         viewModel.accountTypeCompany.observe(viewLifecycleOwner) {
-            goToCompanyHome()
+            goToCompanyProfile()
         }
 
         viewModel.loggedUser.observe(viewLifecycleOwner) {
-            if (it) goToCompanyHome()
+            if (it) goToCompanyProfile()
         }
     }
 
-    private fun goToCompanyHome() {
-        findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+    private fun goToCompanyProfile() {
+        val action = LoginFragmentDirections.actionLoginFragmentToCompanyProfileFragment(callFromLogin = true)
+        findNavController().navigate(action)
     }
 
     private fun goToClientHome() {

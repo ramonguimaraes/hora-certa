@@ -1,9 +1,11 @@
 package com.ramonguimaraes.horacerta.presenter.companyProfile
 
 import android.net.Uri
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ramonguimaraes.horacerta.domain.companyProfile.model.CompanyProfile
 import com.ramonguimaraes.horacerta.domain.companyProfile.useCase.CompanyProfileValidationUseCase
 import com.ramonguimaraes.horacerta.domain.companyProfile.useCase.LoadCompanyProfileUseCase
 import com.ramonguimaraes.horacerta.domain.companyProfile.useCase.SaveCompanyProfileUseCase
@@ -23,19 +25,27 @@ class CompanyProfileViewModel(
     private val mSaveResult = MutableLiveData<Resource<Boolean>>()
     val saveResult get() = mSaveResult
 
+    private val mProfileViewState = MutableLiveData<Resource<CompanyProfile?>>()
+    val profileViewState: LiveData<Resource<CompanyProfile?>> get() = mProfileViewState
+
+
     val profileView = MutableLiveData(CompanyProfileView())
+
 
     init {
         loadProfileData()
     }
 
     private fun loadProfileData() {
+        mProfileViewState.value = Resource.Loading
         viewModelScope.launch {
-            loadCompanyProfileUseCase().mapResourceSuccess {compProfile ->
-                val profileViewResult = compProfile?.let {
-                    companyProfileViewMapper.mapToView(it)
-                } ?: CompanyProfileView()
-                profileView.postValue(profileViewResult)
+            val result = loadCompanyProfileUseCase()
+            mProfileViewState.postValue(result)
+            result.mapResourceSuccess { model ->
+                model?.let {
+                    val view = companyProfileViewMapper.mapToView(it)
+                    profileView.postValue(view)
+                }
             }
         }
     }
