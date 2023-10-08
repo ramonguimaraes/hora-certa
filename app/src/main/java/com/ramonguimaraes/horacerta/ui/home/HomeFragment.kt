@@ -1,43 +1,100 @@
 package com.ramonguimaraes.horacerta.ui.home
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.NavigationUiSaveStateControl
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.navigation.ui.setupWithNavController
 import com.ramonguimaraes.horacerta.R
+import com.ramonguimaraes.horacerta.databinding.FragmentHomeBinding
+import com.ramonguimaraes.horacerta.presenter.home.HomeViewModel
+import com.ramonguimaraes.horacerta.ui.MainActivity
+import com.ramonguimaraes.horacerta.ui.authentication.LoginFragment
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import kotlin.math.log
 
 class HomeFragment : Fragment() {
-
+    private val binding: FragmentHomeBinding by lazy {
+        FragmentHomeBinding.inflate(layoutInflater)
+    }
+    private val homeViewModel: HomeViewModel by viewModel()
+    private lateinit var navController: NavController
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_home, container, false)
+    ): View {
+        return binding.root
     }
 
-    @OptIn(NavigationUiSaveStateControl::class)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        configureNavigation()
+    }
 
-        val navHostFragment = childFragmentManager
-            .findFragmentById(R.id.homeMainContainer) as NavHostFragment?
-        val navController = navHostFragment?.navController
-        val navView = view.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+    private fun configureNavigation() {
+        val host = childFragmentManager.findFragmentById(R.id.homeMainContainer) as NavHostFragment
+        navController = host.navController
+        val bottomNavigation = binding.bottomNavigationView
 
-        if (navController != null) {
-            NavigationUI.setupWithNavController(navView, navController, false)
-        }
+        bottomNavigation.setupWithNavController(navController)
+        bottomNavigation.setOnItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.schedule -> {
+                    navigate(R.id.schedule)
+                }
 
-        navView.setOnItemSelectedListener {
-            if (childFragmentManager.backStackEntryCount > 0) {
-                childFragmentManager.popBackStack()
+                R.id.schedule_config -> {
+                    navigate(R.id.schedule_config)
+                }
+
+                R.id.services -> {
+                    navigate(R.id.services)
+                }
+
+                R.id.profile -> {
+                    navigate(R.id.profile)
+                }
+
+                R.id.logout -> {
+                    logout()
+                    false
+                }
+
+                else -> false
             }
-            true
         }
+    }
+
+    private fun logout() {
+        AlertDialog.Builder(context).setTitle("Alerta").setMessage("Realmente deseja sair?")
+            .setPositiveButton("Sim") { dialog, _ ->
+                homeViewModel.logout()
+                dialog.dismiss()
+                (activity as MainActivity).logout()
+            }
+            .setNegativeButton("Não") { dialog, _ ->
+                dialog.dismiss()
+            }.show()
+    }
+
+    private fun navigate(destination: Int): Boolean {
+        return if (!isCurrentFragment(destination)) {
+            navController.popBackStack()
+            navController.navigate(destination)
+            true
+        } else {
+            false
+        }
+    }
+
+    private fun isCurrentFragment(menuItemId: Int): Boolean {
+        val currentDestination = navController.currentDestination
+        return currentDestination?.id == menuItemId
     }
 }

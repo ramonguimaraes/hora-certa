@@ -1,9 +1,11 @@
 package com.ramonguimaraes.horacerta.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.Navigation.findNavController
 import com.ramonguimaraes.horacerta.R
 import com.ramonguimaraes.horacerta.databinding.ActivityMainBinding
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -12,5 +14,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+    }
+
+    fun logout() {
+        val navController = findNavController(this, R.id.fragmentContainerView)
+        navController.navigate(R.id.action_homeFragment_to_loginFragment)
     }
 }
