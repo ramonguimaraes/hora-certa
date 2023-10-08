@@ -44,29 +44,11 @@ class HomeFragment : Fragment() {
 
         bottomNavigation.setupWithNavController(navController)
         bottomNavigation.setOnItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.schedule -> {
-                    navigate(R.id.schedule)
-                }
-
-                R.id.schedule_config -> {
-                    navigate(R.id.schedule_config)
-                }
-
-                R.id.services -> {
-                    navigate(R.id.services)
-                }
-
-                R.id.profile -> {
-                    navigate(R.id.profile)
-                }
-
-                R.id.logout -> {
-                    logout()
-                    false
-                }
-
-                else -> false
+            if (menuItem.itemId == R.id.logout) {
+                logout()
+                false
+            } else {
+                navigate(menuItem.itemId)
             }
         }
     }
