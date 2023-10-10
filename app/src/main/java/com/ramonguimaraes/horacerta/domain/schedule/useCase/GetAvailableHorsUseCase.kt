@@ -28,18 +28,23 @@ class GetAvailableHorsUseCase(
         repository.load(calendar.time).mapResourceSuccess {
             result.addAll(it)
         }
-        val lista = geraLista(
+
+        val allHors = geraLista(
             scheduleConfig.openTime,
             scheduleConfig.closeTime,
-            scheduleConfig.intervalStart,
-            scheduleConfig.intervalEnd,
             calendar
         )
+
+        val availableHours = configInterval(
+            scheduleConfig.intervalStart,
+            scheduleConfig.intervalEnd, allHors
+        )
+
         result.forEach { scheduled ->
             val h = scheduled.time.get(Calendar.HOUR_OF_DAY)
             val m = scheduled.time.get(Calendar.MINUTE)
             val a = LocalTime.of(h, m)
-            lista.forEach { interval ->
+            availableHours.forEach { interval ->
                 if (interval.time == a) {
                     interval.disponivel = false
                     interval.show = false
@@ -47,7 +52,7 @@ class GetAvailableHorsUseCase(
             }
         }
 
-        return lista
+        return availableHours
     }
 
     private suspend fun getScheduleConfig(calendar: Calendar, companyUid: String): ScheduleConfig? {
@@ -77,13 +82,10 @@ class GetAvailableHorsUseCase(
     private fun geraLista(
         inicio: LocalTime,
         fim: LocalTime,
-        intervalStart: LocalTime,
-        intervalEnd: LocalTime,
         calendar: Calendar
     ): MutableList<TimeInterval> {
         val now = Calendar.getInstance()
         var horario = inicio
-        var interval = intervalStart
         val list = mutableListOf<TimeInterval>()
 
         if (now.time.before(calendar.time)) {
@@ -99,14 +101,26 @@ class GetAvailableHorsUseCase(
             horario = horario.plusMinutes(INTERVAL)
         }
 
+        return list
+    }
+
+    private fun configInterval(
+        intervalStart: LocalTime,
+        intervalEnd: LocalTime,
+        schedules: MutableList<TimeInterval>
+    ): MutableList<TimeInterval> {
+        var interval = intervalStart
         while (interval.isBefore(intervalEnd)) {
-            list.removeIf {
-                it.time == TimeInterval(interval).time
+            schedules.forEach {
+                if (it.time == TimeInterval(interval).time) {
+                    it.show = false
+                    it.disponivel = false
+                }
             }
             interval = interval.plusMinutes(INTERVAL)
         }
 
-        return list
+        return schedules
     }
 
     private companion object {
