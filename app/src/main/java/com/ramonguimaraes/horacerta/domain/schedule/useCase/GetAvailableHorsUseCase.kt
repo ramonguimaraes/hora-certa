@@ -24,28 +24,31 @@ class GetAvailableHorsUseCase(
         calendar.set(Calendar.MINUTE, 0)
         calendar.set(Calendar.SECOND, 0)
 
-        val result = mutableListOf<ScheduledTime>()
+        val unavailableTimes = mutableListOf<ScheduledTime>()
         repository.load(calendar.time).mapResourceSuccess {
-            result.addAll(it)
+            unavailableTimes.addAll(it)
         }
 
-        val allHors = geraLista(
+        val allHors = generateAllHors(
             scheduleConfig.openTime,
             scheduleConfig.closeTime,
             calendar
         )
 
-        val availableHours = configInterval(
+        val availableHours = setIntervals(
             scheduleConfig.intervalStart,
-            scheduleConfig.intervalEnd, allHors
+            scheduleConfig.intervalEnd,
+            allHors
         )
 
-        result.forEach { scheduled ->
-            val h = scheduled.time.get(Calendar.HOUR_OF_DAY)
-            val m = scheduled.time.get(Calendar.MINUTE)
-            val a = LocalTime.of(h, m)
+        unavailableTimes.forEach { scheduled ->
+            val localTime = LocalTime.of(
+                scheduled.time.get(Calendar.HOUR_OF_DAY),
+                scheduled.time.get(Calendar.MINUTE)
+            )
+
             availableHours.forEach { interval ->
-                if (interval.time == a) {
+                if (interval.time == localTime) {
                     interval.disponivel = false
                     interval.show = false
                 }
@@ -79,39 +82,39 @@ class GetAvailableHorsUseCase(
         }
     }
 
-    private fun geraLista(
-        inicio: LocalTime,
-        fim: LocalTime,
+    private fun generateAllHors(
+        openHour: LocalTime,
+        closeHour: LocalTime,
         calendar: Calendar
     ): MutableList<TimeInterval> {
         val now = Calendar.getInstance()
-        var horario = inicio
-        val list = mutableListOf<TimeInterval>()
+        var openHourAux = openHour
+        val hours = mutableListOf<TimeInterval>()
 
         if (now.time.before(calendar.time)) {
-            horario = LocalTime.of(8, 0, 0)
+            openHourAux = LocalTime.of(8, 0, 0)
         } else {
-            while (horario.isBefore(now.toLocalTime())) {
-                horario = horario.plusMinutes(INTERVAL)
+            while (openHourAux.isBefore(now.toLocalTime())) {
+                openHourAux = openHourAux.plusMinutes(INTERVAL)
             }
         }
 
-        while (horario.isBefore(fim)) {
-            list.add(TimeInterval(horario))
-            horario = horario.plusMinutes(INTERVAL)
+        while (openHourAux.isBefore(closeHour)) {
+            hours.add(TimeInterval(openHourAux))
+            openHourAux = openHourAux.plusMinutes(INTERVAL)
         }
 
-        return list
+        return hours
     }
 
-    private fun configInterval(
+    private fun setIntervals(
         intervalStart: LocalTime,
         intervalEnd: LocalTime,
-        schedules: MutableList<TimeInterval>
+        allHors: MutableList<TimeInterval>
     ): MutableList<TimeInterval> {
         var interval = intervalStart
         while (interval.isBefore(intervalEnd)) {
-            schedules.forEach {
+            allHors.forEach {
                 if (it.time == TimeInterval(interval).time) {
                     it.show = false
                     it.disponivel = false
@@ -120,7 +123,7 @@ class GetAvailableHorsUseCase(
             interval = interval.plusMinutes(INTERVAL)
         }
 
-        return schedules
+        return allHors
     }
 
     private companion object {
