@@ -31,8 +31,15 @@ class ScheduleRegistrationFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val companyUID = arguments?.getString("companyUID")
+
+        companyUID?.let {
+            viewModel.setCompanyUid(it)
+        }
+
         viewModel.setDate()
         viewModel.load()
+        viewModel.loadServices()
     }
 
     override fun onCreateView(

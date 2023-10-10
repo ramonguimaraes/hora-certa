@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.ramonguimaraes.horacerta.R
 import com.ramonguimaraes.horacerta.databinding.FragmentScheduleBinding
 import com.ramonguimaraes.horacerta.domain.resource.Resource
@@ -87,10 +88,16 @@ class ScheduleFragment : Fragment() {
     }
 
     private fun openScheduleRegistration() {
+        val args = Bundle()
+        args.putString("companyUID", scheduleViewModel.companyUid)
+
+        val fragment = ScheduleRegistrationFragment()
+        fragment.arguments = args
+
         val supportFragmentManager = activity?.supportFragmentManager
         supportFragmentManager?.beginTransaction()?.replace(
             R.id.fragmentContainerView,
-            ScheduleRegistrationFragment(),
+            fragment,
             "scheduleRegistrationFragment"
         )?.addToBackStack(null)?.commit()
     }

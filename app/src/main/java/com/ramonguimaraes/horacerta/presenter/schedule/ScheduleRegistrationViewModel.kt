@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ramonguimaraes.horacerta.domain.authentication.useCase.GetCurrentUserUseCase
 import com.ramonguimaraes.horacerta.domain.resource.Resource
 import com.ramonguimaraes.horacerta.domain.schedule.model.TimeInterval
 import com.ramonguimaraes.horacerta.domain.schedule.useCase.GetAvailableHorsUseCase
@@ -19,8 +18,7 @@ import java.util.Calendar
 class ScheduleRegistrationViewModel(
     private val getAvailableHorsUseCase: GetAvailableHorsUseCase,
     private val saveScheduledTimeUseCase: SaveScheduledTimeUseCase,
-    private val loadServiceUseCase: LoadServicesUseCase,
-    userUseCase: GetCurrentUserUseCase
+    private val loadServiceUseCase: LoadServicesUseCase
 ) : ViewModel() {
 
     private val mLivedata = MutableLiveData<List<TimeInterval>>()
@@ -40,12 +38,7 @@ class ScheduleRegistrationViewModel(
 
     private var companyUid: String = ""
 
-    init {
-        companyUid = userUseCase.currentUid().toString()
-        loadServices()
-    }
-
-    private fun loadServices() {
+    fun loadServices() {
         viewModelScope.launch {
             val services = loadServiceUseCase(companyUid)
             services.mapResourceSuccess {
@@ -57,7 +50,7 @@ class ScheduleRegistrationViewModel(
     fun load(calendar: Calendar = Calendar.getInstance()) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val res = getAvailableHorsUseCase.getAvailableHors(calendar)
+                val res = getAvailableHorsUseCase.getAvailableHors(calendar, companyUid)
                 mLivedata.postValue(res)
                 // Dando update no totalTime com o valor dele mesmo
                 // garanto que o usuario não tenha que clicar de novo
@@ -119,7 +112,13 @@ class ScheduleRegistrationViewModel(
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 if (calendar != null && totalTime.value != null) {
-                    saveResult.postValue(saveScheduledTimeUseCase.save(calendar, totalTime.value!!, companyUid))
+                    saveResult.postValue(
+                        saveScheduledTimeUseCase.save(
+                            calendar,
+                            totalTime.value!!,
+                            companyUid
+                        )
+                    )
                 }
             }
         }
@@ -133,10 +132,8 @@ class ScheduleRegistrationViewModel(
         }
     }
 
-    fun setCompanyUid(companyUid: String?) {
-        if (companyUid != null) {
-            this.companyUid = companyUid
-        }
+    fun setCompanyUid(companyUid: String) {
+        this.companyUid = companyUid
     }
 }
 

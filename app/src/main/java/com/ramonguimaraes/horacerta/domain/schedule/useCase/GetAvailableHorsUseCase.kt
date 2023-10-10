@@ -1,13 +1,10 @@
 package com.ramonguimaraes.horacerta.domain.schedule.useCase
 
-import com.ramonguimaraes.horacerta.domain.resource.Resource
 import com.ramonguimaraes.horacerta.domain.schedule.model.ScheduledTime
 import com.ramonguimaraes.horacerta.domain.schedule.model.TimeInterval
 import com.ramonguimaraes.horacerta.domain.schedule.repository.ScheduleRepository
 import com.ramonguimaraes.horacerta.domain.scheduleConfig.model.ScheduleConfig
 import com.ramonguimaraes.horacerta.domain.scheduleConfig.repository.ScheduleConfigRepository
-import com.ramonguimaraes.horacerta.domain.scheduleConfig.useCase.ScheduleConfigListUseCase
-import com.ramonguimaraes.horacerta.domain.services.userCase.LoadServicesUseCase
 import com.ramonguimaraes.horacerta.utils.DayOfWeek
 import com.ramonguimaraes.horacerta.utils.toLocalTime
 import java.time.LocalTime
@@ -18,7 +15,10 @@ class GetAvailableHorsUseCase(
     private val scheduleConfigRepository: ScheduleConfigRepository
 ) {
 
-    suspend fun getAvailableHors(calendar: Calendar, companyUid: String = "cY2YnxL8bBPLGj0GAjU8MTqFx213"): List<TimeInterval> {
+    suspend fun getAvailableHors(
+        calendar: Calendar,
+        companyUid: String,
+    ): List<TimeInterval> {
         val scheduleConfig = getScheduleConfig(calendar, companyUid) ?: return listOf()
 
         calendar.set(Calendar.MINUTE, 0)

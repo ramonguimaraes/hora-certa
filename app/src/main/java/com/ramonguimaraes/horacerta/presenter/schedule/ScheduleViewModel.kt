@@ -17,7 +17,7 @@ class ScheduleViewModel(
     getCurrentUserUseCase: GetCurrentUserUseCase
 ) : ViewModel() {
 
-    private val companyUid = getCurrentUserUseCase.currentUid()
+    val companyUid = getCurrentUserUseCase.currentUid()
 
     private val mSelectedDate = MutableLiveData(Calendar.getInstance().onlyDate())
     val selectedDate: LiveData<Calendar> get() = mSelectedDate

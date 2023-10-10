@@ -13,6 +13,6 @@ fun scheduleModule() = module {
     factory<ScheduleRepository> { ScheduleRepositoryImpl(get()) }
     factory { GetAvailableHorsUseCase(get(), get()) }
     factory { SaveScheduledTimeUseCase(get()) }
-    viewModel { ScheduleRegistrationViewModel(get(), get(), get(), get()) }
+    viewModel { ScheduleRegistrationViewModel(get(), get(), get()) }
     viewModel { ScheduleViewModel(get(), get()) }
 }
