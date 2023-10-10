@@ -25,11 +25,15 @@ class CompanyProfileRepositoryImpl(
 
     override suspend fun save(companyProfile: CompanyProfile): Resource<Boolean> {
         return try {
-            val downloadUir = uploadPhoto(companyProfile.photoUri, companyProfile.id)
-            companyProfile.photoUri = downloadUir
+            if (companyProfile.photoUri != Uri.EMPTY) {
+                val downloadUir = uploadPhoto(companyProfile.photoUri, companyProfile.companyUid)
+                companyProfile.photoUri = downloadUir
+            }
+
             db.collection(COLLECTION).add(companyProfile.toHashMap()).await()
             Resource.Success(true)
         } catch (e: Exception) {
+            e.printStackTrace()
             Log.e(TAG, e.toString())
             Resource.Failure(e)
         }
@@ -42,6 +46,7 @@ class CompanyProfileRepositoryImpl(
             db.collection(COLLECTION).document(companyProfile.id).update(companyProfile.toHashMap())
             Resource.Success(true)
         } catch (e: Exception) {
+            e.printStackTrace()
             Log.e(TAG, e.toString())
             Resource.Failure(e)
         }
@@ -64,6 +69,7 @@ class CompanyProfileRepositoryImpl(
             }
             Resource.Success(companyProfile)
         } catch (e: Exception) {
+            e.printStackTrace()
             Log.e(TAG, e.toString())
             Resource.Failure(e)
         }
