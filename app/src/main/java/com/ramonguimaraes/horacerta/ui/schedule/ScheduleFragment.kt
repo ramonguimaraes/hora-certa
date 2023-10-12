@@ -12,7 +12,7 @@ import com.ramonguimaraes.horacerta.databinding.FragmentScheduleBinding
 import com.ramonguimaraes.horacerta.domain.resource.Resource
 import com.ramonguimaraes.horacerta.presenter.schedule.ScheduleViewModel
 import com.ramonguimaraes.horacerta.ui.schedule.adapter.ScheduleAdapter
-import com.ramonguimaraes.horacerta.ui.schedule.adapter.onlyDate
+import com.ramonguimaraes.horacerta.utils.onlyDate
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.Calendar
 

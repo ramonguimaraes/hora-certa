@@ -7,8 +7,7 @@ import com.ramonguimaraes.horacerta.domain.resource.Resource
 import com.ramonguimaraes.horacerta.domain.schedule.model.ScheduledTime
 import com.ramonguimaraes.horacerta.domain.schedule.model.toHashMap
 import com.ramonguimaraes.horacerta.domain.schedule.repository.ScheduleRepository
-import com.ramonguimaraes.horacerta.ui.schedule.adapter.Appointment
-import com.ramonguimaraes.horacerta.ui.schedule.adapter.toHashMap
+import com.ramonguimaraes.horacerta.domain.schedule.model.Appointment
 import kotlinx.coroutines.tasks.await
 import java.util.Calendar
 import java.util.Date

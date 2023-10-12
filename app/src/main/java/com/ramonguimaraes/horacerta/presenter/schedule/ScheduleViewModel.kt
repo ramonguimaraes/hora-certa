@@ -7,8 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.ramonguimaraes.horacerta.domain.authentication.useCase.GetCurrentUserUseCase
 import com.ramonguimaraes.horacerta.domain.resource.Resource
 import com.ramonguimaraes.horacerta.domain.schedule.repository.ScheduleRepository
-import com.ramonguimaraes.horacerta.ui.schedule.adapter.Appointment
-import com.ramonguimaraes.horacerta.ui.schedule.adapter.onlyDate
+import com.ramonguimaraes.horacerta.domain.schedule.model.Appointment
+import com.ramonguimaraes.horacerta.utils.onlyDate
 import kotlinx.coroutines.launch
 import java.util.Calendar
 

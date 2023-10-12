@@ -2,7 +2,7 @@ package com.ramonguimaraes.horacerta.domain.schedule.repository
 
 import com.ramonguimaraes.horacerta.domain.resource.Resource
 import com.ramonguimaraes.horacerta.domain.schedule.model.ScheduledTime
-import com.ramonguimaraes.horacerta.ui.schedule.adapter.Appointment
+import com.ramonguimaraes.horacerta.domain.schedule.model.Appointment
 import java.util.Date
 
 interface ScheduleRepository {
