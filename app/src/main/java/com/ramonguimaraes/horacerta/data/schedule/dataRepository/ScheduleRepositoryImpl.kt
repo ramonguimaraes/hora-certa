@@ -49,14 +49,15 @@ class ScheduleRepositoryImpl(private val db: FirebaseFirestore) : ScheduleReposi
         }
     }
 
-    override suspend fun load(date: Date): Resource<List<ScheduledTime>> {
+    override suspend fun loadSchedule(date: Date, companyUid: String): Resource<List<ScheduledTime>> {
         return try {
             val startTime = Timestamp(date)
             val endTime = Timestamp(Date(date.time + ONE_DAY_MINUS_ONE_MS))
             val scheduledTimesResult = mutableListOf<ScheduledTime>()
             val result = db.collection(COLLECTION)
                 .whereGreaterThan("time", startTime)
-                .whereLessThan("time", endTime).get().await()
+                .whereLessThan("time", endTime)
+                .whereEqualTo("companyUid", companyUid).get().await()
             result.forEach { snapShot ->
 
                 val companyUid = snapShot.get("companyUid", String::class.java)

@@ -25,7 +25,7 @@ class GetAvailableHorsUseCase(
         calendar.set(Calendar.SECOND, 0)
 
         val unavailableTimes = mutableListOf<ScheduledTime>()
-        repository.load(calendar.time).mapResourceSuccess {
+        repository.loadSchedule(calendar.time, companyUid).mapResourceSuccess {
             unavailableTimes.addAll(it)
         }
 
