@@ -35,7 +35,8 @@ class ServiceRepositoryImpl(private val db: FirebaseFirestore) : ServiceReposito
 
     override suspend fun save(service: Service) {
         try {
-            db.collection(COLLECTION).add(service.toHashMap()).await()
+            val docRef = db.collection(COLLECTION).add(service.toHashMap()).await()
+            db.collection(COLLECTION).document(docRef.id).update("id", docRef.id).await()
         } catch (e: Exception) {
             Log.e(TAG, e.toString())
         }
