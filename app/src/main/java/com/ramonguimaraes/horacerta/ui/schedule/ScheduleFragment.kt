@@ -12,7 +12,9 @@ import com.ramonguimaraes.horacerta.databinding.FragmentScheduleBinding
 import com.ramonguimaraes.horacerta.domain.resource.Resource
 import com.ramonguimaraes.horacerta.presenter.schedule.ScheduleViewModel
 import com.ramonguimaraes.horacerta.ui.schedule.adapter.ScheduleAdapter
+import com.ramonguimaraes.horacerta.utils.gone
 import com.ramonguimaraes.horacerta.utils.onlyDate
+import com.ramonguimaraes.horacerta.utils.visible
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.Calendar
 
@@ -49,10 +51,14 @@ class ScheduleFragment : Fragment() {
         scheduleViewModel.appointment.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Success -> {
+                    hideLoading()
                     scheduleAdapter.submitList(it.result)
                 }
 
-                else -> {}
+                is Resource.Loading -> showLoading()
+                else -> {
+                    hideLoading()
+                }
             }
         }
 
@@ -60,8 +66,17 @@ class ScheduleFragment : Fragment() {
         return mBinding.root
     }
 
+    private fun showLoading() {
+        mBinding.progressBar.visible()
+    }
+
+    private fun hideLoading() {
+        mBinding.progressBar.gone()
+    }
+
     override fun onResume() {
         super.onResume()
+        scheduleViewModel.setSelectedDate(Calendar.getInstance().onlyDate())
         scheduleViewModel.load(Calendar.getInstance().onlyDate())
     }
 

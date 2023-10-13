@@ -14,9 +14,9 @@ class ScheduleAdapter :
     class ScheduleViewHolder(val binding: ScheduleItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(appointment: Appointment) {
-            binding.txtTime.text = appointment.time
-            binding.txtClient.text = appointment.client
-            binding.txtService.text = appointment.service
+            binding.txtTime.text = appointment.getHourString()
+            binding.txtClient.text = appointment.clientName
+            binding.txtService.text = appointment.getServices()
         }
     }
 

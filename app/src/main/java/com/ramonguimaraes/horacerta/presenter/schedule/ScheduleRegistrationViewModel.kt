@@ -4,12 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ramonguimaraes.horacerta.domain.authentication.useCase.GetCurrentUserUseCase
 import com.ramonguimaraes.horacerta.domain.resource.Resource
 import com.ramonguimaraes.horacerta.domain.schedule.model.TimeInterval
 import com.ramonguimaraes.horacerta.domain.schedule.useCase.GetAvailableHorsUseCase
 import com.ramonguimaraes.horacerta.domain.schedule.useCase.SaveScheduledTimeUseCase
 import com.ramonguimaraes.horacerta.domain.services.model.Service
 import com.ramonguimaraes.horacerta.domain.services.userCase.LoadServicesUseCase
+import com.ramonguimaraes.horacerta.domain.user.model.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -18,7 +20,8 @@ import java.util.Calendar
 class ScheduleRegistrationViewModel(
     private val getAvailableHorsUseCase: GetAvailableHorsUseCase,
     private val saveScheduledTimeUseCase: SaveScheduledTimeUseCase,
-    private val loadServiceUseCase: LoadServicesUseCase
+    private val loadServiceUseCase: LoadServicesUseCase,
+    private val userUseCase: GetCurrentUserUseCase
 ) : ViewModel() {
 
     private val mLivedata = MutableLiveData<List<TimeInterval>>()
@@ -36,7 +39,15 @@ class ScheduleRegistrationViewModel(
     private val mSaveResult = MutableLiveData<Resource<Boolean?>>()
     val saveResult get() = mSaveResult
 
+    private val currentUser = MutableLiveData<User?>()
+
     private var companyUid: String = ""
+
+    init {
+        viewModelScope.launch {
+            userUseCase().mapResourceSuccess { currentUser.postValue(it) }
+        }
+    }
 
     fun loadServices() {
         viewModelScope.launch {
@@ -104,26 +115,29 @@ class ScheduleRegistrationViewModel(
 
     fun save(it: TimeInterval) {
         saveResult.value = Resource.Loading
+        val totalTime = totalTime.value
+        val services = services.value
+        val user = currentUser.value
         val calendar = date.value
-        calendar?.set(Calendar.HOUR_OF_DAY, it.time.hour)
-        calendar?.set(Calendar.MINUTE, it.time.minute)
-        calendar?.set(Calendar.SECOND, 0)
 
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                if (calendar != null && totalTime.value != null) {
-                    saveResult.postValue(
-                        saveScheduledTimeUseCase.save(
-                            calendar,
-                            totalTime.value!!,
-                            companyUid
-                        )
-                    )
-                }
+        if (totalTime != null && services != null && user != null && calendar != null) {
+            calendar.set(Calendar.HOUR_OF_DAY, it.time.hour)
+            calendar.set(Calendar.MINUTE, it.time.minute)
+            calendar.set(Calendar.SECOND, 0)
+
+            viewModelScope.launch {
+                val result = saveScheduledTimeUseCase.save(
+                    timeNeeded = totalTime,
+                    services = services.filter { it.checked },
+                    user = user,
+                    calendar = calendar,
+                    companyUid = companyUid
+                )
+                saveResult.postValue(result)
             }
         }
     }
-
+    
     fun updateTotalTime(item: Service, isChecked: Boolean) {
         if (isChecked) {
             mTotalTime.value = mTotalTime.value?.plus(item.estimatedDuration.toInt())

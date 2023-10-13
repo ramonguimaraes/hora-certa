@@ -36,6 +36,7 @@ class ScheduleViewModel(
     }
 
     fun load(onlyDate: Calendar) {
+        mAppointments.value = Resource.Loading
         viewModelScope.launch {
             if (companyUid != null) {
                 mAppointments.postValue(
