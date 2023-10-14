@@ -1,4 +1,4 @@
-package com.ramonguimaraes.horacerta.utils
+package com.ramonguimaraes.horacerta.utils.extensions
 
 import android.util.Patterns
 

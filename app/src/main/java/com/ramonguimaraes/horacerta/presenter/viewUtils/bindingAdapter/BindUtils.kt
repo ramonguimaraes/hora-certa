@@ -1,4 +1,4 @@
-package com.ramonguimaraes.horacerta.utils
+package com.ramonguimaraes.horacerta.presenter.bindingAdapter
 
 import android.widget.EditText
 import androidx.databinding.BindingAdapter

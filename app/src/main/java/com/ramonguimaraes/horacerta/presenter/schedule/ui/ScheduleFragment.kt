@@ -1,4 +1,4 @@
-package com.ramonguimaraes.horacerta.ui.schedule
+package com.ramonguimaraes.horacerta.presenter.schedule.ui
 
 import android.app.DatePickerDialog
 import android.os.Bundle
@@ -6,11 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.navArgs
 import com.ramonguimaraes.horacerta.R
 import com.ramonguimaraes.horacerta.databinding.FragmentScheduleBinding
 import com.ramonguimaraes.horacerta.domain.resource.Resource
-import com.ramonguimaraes.horacerta.presenter.schedule.ScheduleViewModel
+import com.ramonguimaraes.horacerta.presenter.schedule.viewModel.ScheduleViewModel
 import com.ramonguimaraes.horacerta.ui.schedule.adapter.ScheduleAdapter
 import com.ramonguimaraes.horacerta.utils.gone
 import com.ramonguimaraes.horacerta.utils.onlyDate

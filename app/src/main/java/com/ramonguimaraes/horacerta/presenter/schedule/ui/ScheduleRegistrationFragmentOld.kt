@@ -1,30 +1,5 @@
-package com.ramonguimaraes.horacerta.ui.schedule
+package com.ramonguimaraes.horacerta.presenter.schedule.ui
 
-import android.app.DatePickerDialog
-import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.Timestamp
-import com.google.firebase.firestore.FirebaseFirestore
-import com.ramonguimaraes.horacerta.R
-import com.ramonguimaraes.horacerta.databinding.AvailableHoursItemLayoutBinding
-import com.ramonguimaraes.horacerta.databinding.FragmentScheduleRegistrationBinding
-import com.ramonguimaraes.horacerta.databinding.ServicesItemLayoutBinding
-import com.ramonguimaraes.horacerta.presenter.schedule.ScheduleRegistrationViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.text.SimpleDateFormat
-import java.time.LocalTime
-import java.util.Calendar
-import java.util.Locale
 /**
 class ScheduleRegistrationFragmentOld : Fragment() {
 

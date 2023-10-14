@@ -1,4 +1,4 @@
-package com.ramonguimaraes.horacerta.utils
+package com.ramonguimaraes.horacerta.presenter.viewUtils.extensions
 
 import android.content.Context
 import android.view.View

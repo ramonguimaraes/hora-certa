@@ -1,4 +1,4 @@
-package com.ramonguimaraes.horacerta.presenter.schedule
+package com.ramonguimaraes.horacerta.presenter.schedule.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

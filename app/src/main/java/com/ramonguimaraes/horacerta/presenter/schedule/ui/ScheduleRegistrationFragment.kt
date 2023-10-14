@@ -1,4 +1,4 @@
-package com.ramonguimaraes.horacerta.ui.schedule
+package com.ramonguimaraes.horacerta.presenter.schedule.ui
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
@@ -13,7 +13,7 @@ import com.ramonguimaraes.horacerta.R
 import com.ramonguimaraes.horacerta.databinding.FragmentScheduleRegistrationBinding
 import com.ramonguimaraes.horacerta.domain.resource.Resource
 import com.ramonguimaraes.horacerta.domain.schedule.model.TimeInterval
-import com.ramonguimaraes.horacerta.presenter.schedule.ScheduleRegistrationViewModel
+import com.ramonguimaraes.horacerta.presenter.schedule.viewModel.ScheduleRegistrationViewModel
 import com.ramonguimaraes.horacerta.ui.schedule.adapter.AvailableHorsAdapter
 import com.ramonguimaraes.horacerta.ui.schedule.adapter.ServicesAdapter
 import com.ramonguimaraes.horacerta.utils.formattedDate
