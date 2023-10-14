@@ -2,7 +2,6 @@
 <layout>
 
     <data>
-
         <variable
             name="viewModel"
             type="com.ramonguimaraes.horacerta.presenter.home.HomeViewModel" />
@@ -14,7 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.home.HomeFragment">
-
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/homeMainContainer"
@@ -32,9 +30,9 @@
             android:id="@+id/bottomNavigationView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:labelVisibilityMode="unlabeled"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:menu="@menu/home_bottom_menu" />
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
