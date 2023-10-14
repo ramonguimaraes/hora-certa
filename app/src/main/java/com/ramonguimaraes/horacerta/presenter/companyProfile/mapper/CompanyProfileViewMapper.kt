@@ -2,7 +2,7 @@ package com.ramonguimaraes.horacerta.presenter.companyProfile.mapper
 
 import com.ramonguimaraes.horacerta.domain.companyProfile.model.CompanyProfile
 import com.ramonguimaraes.horacerta.presenter.companyProfile.model.CompanyProfileView
-import com.ramonguimaraes.horacerta.presenter.viewMapper.ViewMapper
+import com.ramonguimaraes.horacerta.presenter.viewUtils.viewMapper.ViewMapper
 
 
 class CompanyProfileViewMapper : ViewMapper<CompanyProfileView, CompanyProfile>() {

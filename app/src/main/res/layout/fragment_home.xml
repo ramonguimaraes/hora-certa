@@ -4,7 +4,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.ramonguimaraes.horacerta.presenter.home.HomeViewModel" />
+            type="com.ramonguimaraes.horacerta.presenter.home.viewModel.HomeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -12,7 +12,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.home.HomeFragment">
+        tools:context=".presenter.home.ui.HomeFragment">
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/homeMainContainer"

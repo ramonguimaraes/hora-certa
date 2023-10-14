@@ -1,17 +1,16 @@
-package com.ramonguimaraes.horacerta.presenter.authentication
+package com.ramonguimaraes.horacerta.presenter.authentication.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.ktx.Firebase
 import com.ramonguimaraes.horacerta.domain.authentication.useCase.GetCurrentUserUseCase
 import com.ramonguimaraes.horacerta.domain.authentication.useCase.LoginUseCase
 import com.ramonguimaraes.horacerta.domain.resource.Resource
-import com.ramonguimaraes.horacerta.utils.AccountType
-import com.ramonguimaraes.horacerta.utils.isEmail
-import com.ramonguimaraes.horacerta.utils.isValid
+import com.ramonguimaraes.horacerta.domain.user.model.AccountType
+import com.ramonguimaraes.horacerta.utils.extensions.isEmail
+import com.ramonguimaraes.horacerta.utils.extensions.isValid
 import kotlinx.coroutines.launch
 
 class LoginViewModel(

@@ -6,19 +6,19 @@
     app:startDestination="@id/splashScreenFragment">
     <fragment
         android:id="@+id/createAccountFragment"
-        android:name="com.ramonguimaraes.horacerta.ui.authentication.CreateAccountFragment"
+        android:name="com.ramonguimaraes.horacerta.presenter.authentication.ui.CreateAccountFragment"
         android:label="CreateAccountFragment"
         tools:layout="@layout/fragment_create_account">
         <argument
             android:name="accountType"
-            app:argType="com.ramonguimaraes.horacerta.utils.AccountType" />
+            app:argType="com.ramonguimaraes.horacerta.domain.user.model.AccountType" />
         <action
             android:id="@+id/action_createAccountFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.ramonguimaraes.horacerta.ui.authentication.LoginFragment"
+        android:name="com.ramonguimaraes.horacerta.presenter.authentication.ui.LoginFragment"
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login">
         <action
@@ -37,7 +37,7 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.ramonguimaraes.horacerta.ui.home.HomeFragment"
+        android:name="com.ramonguimaraes.horacerta.presenter.home.ui.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -47,13 +47,13 @@
             app:popUpToInclusive="true" />
         <argument
             android:name="accountType"
-            app:argType="com.ramonguimaraes.horacerta.utils.AccountType"
+            app:argType="com.ramonguimaraes.horacerta.domain.user.model.AccountType"
             android:defaultValue="NONE" />
     </fragment>
     <fragment
         android:id="@+id/companyProfileFragment"
         tools:layout="@layout/fragment_company_profile"
-        android:name="com.ramonguimaraes.horacerta.ui.companyProfile.CompanyProfileFragment"
+        android:name="com.ramonguimaraes.horacerta.presenter.companyProfile.ui.CompanyProfileFragment"
         android:label="CompanyProfileFragment" >
         <argument
             android:name="callFromLogin"
@@ -67,7 +67,7 @@
     </fragment>
     <fragment
         android:id="@+id/splashScreenFragment"
-        android:name="com.ramonguimaraes.horacerta.ui.SplashScreenFragment"
+        android:name="com.ramonguimaraes.horacerta.presenter.splashScreen.ui.SplashScreenFragment"
         android:label="fragment_splash_screen"
         tools:layout="@layout/fragment_splash_screen" >
         <action

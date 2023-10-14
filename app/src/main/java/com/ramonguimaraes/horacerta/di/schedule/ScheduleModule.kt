@@ -4,8 +4,8 @@ import com.ramonguimaraes.horacerta.data.schedule.dataRepository.ScheduleReposit
 import com.ramonguimaraes.horacerta.domain.schedule.repository.ScheduleRepository
 import com.ramonguimaraes.horacerta.domain.schedule.useCase.GetAvailableHorsUseCase
 import com.ramonguimaraes.horacerta.domain.schedule.useCase.SaveScheduledTimeUseCase
-import com.ramonguimaraes.horacerta.presenter.schedule.ScheduleRegistrationViewModel
-import com.ramonguimaraes.horacerta.presenter.schedule.ScheduleViewModel
+import com.ramonguimaraes.horacerta.presenter.schedule.viewModel.ScheduleRegistrationViewModel
+import com.ramonguimaraes.horacerta.presenter.schedule.viewModel.ScheduleViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 

@@ -1,4 +1,4 @@
-package com.ramonguimaraes.horacerta.presenter.authentication
+package com.ramonguimaraes.horacerta.presenter.authentication.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,10 +10,9 @@ import com.ramonguimaraes.horacerta.domain.authentication.useCase.SingUpUseCase
 import com.ramonguimaraes.horacerta.domain.resource.Resource
 import com.ramonguimaraes.horacerta.domain.user.model.User
 import com.ramonguimaraes.horacerta.domain.user.useCase.SaveUserUseCase
-import com.ramonguimaraes.horacerta.utils.AccountType
-import com.ramonguimaraes.horacerta.utils.isEmail
-import com.ramonguimaraes.horacerta.utils.isValid
-import kotlinx.coroutines.Dispatchers
+import com.ramonguimaraes.horacerta.domain.user.model.AccountType
+import com.ramonguimaraes.horacerta.utils.extensions.isEmail
+import com.ramonguimaraes.horacerta.utils.extensions.isValid
 import kotlinx.coroutines.launch
 
 class CreateAccountViewModel(

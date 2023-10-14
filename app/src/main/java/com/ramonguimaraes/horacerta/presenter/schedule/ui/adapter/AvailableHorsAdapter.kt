@@ -1,4 +1,4 @@
-package com.ramonguimaraes.horacerta.ui.schedule.adapter
+package com.ramonguimaraes.horacerta.presenter.schedule.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ramonguimaraes.horacerta.databinding.AvailableHoursItemLayoutBinding
 import com.ramonguimaraes.horacerta.domain.schedule.model.TimeInterval
-import com.ramonguimaraes.horacerta.utils.DefaultDiffCallback
+import com.ramonguimaraes.horacerta.presenter.viewUtils.DefaultDiffCallback
 
 class AvailableHorsAdapter :
     ListAdapter<TimeInterval, AvailableHorsViewHolder>(DefaultDiffCallback<TimeInterval>()) {

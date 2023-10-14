@@ -1,4 +1,4 @@
-package com.ramonguimaraes.horacerta.ui
+package com.ramonguimaraes.horacerta.presenter.splashScreen.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,7 +8,7 @@ import com.ramonguimaraes.horacerta.domain.authentication.repository.AuthReposit
 import com.ramonguimaraes.horacerta.domain.authentication.useCase.GetCurrentUserUseCase
 import com.ramonguimaraes.horacerta.domain.companyProfile.useCase.LoadCompanyProfileUseCase
 import com.ramonguimaraes.horacerta.domain.resource.Resource
-import com.ramonguimaraes.horacerta.utils.AccountType
+import com.ramonguimaraes.horacerta.domain.user.model.AccountType
 import kotlinx.coroutines.launch
 
 class SplashScreenViewModel(

@@ -7,7 +7,7 @@ import com.ramonguimaraes.horacerta.domain.resource.Resource
 import com.ramonguimaraes.horacerta.domain.user.model.User
 import com.ramonguimaraes.horacerta.domain.user.model.toHashMap
 import com.ramonguimaraes.horacerta.domain.user.repository.UserRepository
-import com.ramonguimaraes.horacerta.utils.AccountType
+import com.ramonguimaraes.horacerta.domain.user.model.AccountType
 import kotlinx.coroutines.tasks.await
 
 class UserRepositoryImpl(private val db: FirebaseFirestore) : UserRepository {

@@ -1,4 +1,4 @@
-package com.ramonguimaraes.horacerta.ui.scheduleConfig
+package com.ramonguimaraes.horacerta.presenter.scheduleConfig.ui
 
 import android.app.TimePickerDialog
 import android.os.Bundle
@@ -12,7 +12,7 @@ import com.ramonguimaraes.horacerta.databinding.BottomSheetRegisterSheduleConfig
 import com.ramonguimaraes.horacerta.domain.resource.Resource
 import com.ramonguimaraes.horacerta.domain.scheduleConfig.model.ScheduleConfig
 import com.ramonguimaraes.horacerta.presenter.scheduleConfig.viewModel.ScheduleConfigViewModel
-import com.ramonguimaraes.horacerta.utils.DayOfWeek
+import com.ramonguimaraes.horacerta.domain.schedule.model.DayOfWeek
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.time.LocalTime
 

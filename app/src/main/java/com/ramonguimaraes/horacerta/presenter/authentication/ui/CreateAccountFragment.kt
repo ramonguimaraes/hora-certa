@@ -1,4 +1,4 @@
-package com.ramonguimaraes.horacerta.ui.authentication
+package com.ramonguimaraes.horacerta.presenter.authentication.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,7 +11,7 @@ import androidx.navigation.fragment.navArgs
 import com.ramonguimaraes.horacerta.R
 import com.ramonguimaraes.horacerta.databinding.FragmentCreateAccountBinding
 import com.ramonguimaraes.horacerta.domain.resource.Resource
-import com.ramonguimaraes.horacerta.presenter.authentication.CreateAccountViewModel
+import com.ramonguimaraes.horacerta.presenter.authentication.viewModel.CreateAccountViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CreateAccountFragment : Fragment() {

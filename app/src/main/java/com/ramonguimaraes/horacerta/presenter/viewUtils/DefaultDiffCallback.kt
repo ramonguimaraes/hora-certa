@@ -1,4 +1,4 @@
-package com.ramonguimaraes.horacerta.utils
+package com.ramonguimaraes.horacerta.presenter.viewUtils
 
 import androidx.recyclerview.widget.DiffUtil
 

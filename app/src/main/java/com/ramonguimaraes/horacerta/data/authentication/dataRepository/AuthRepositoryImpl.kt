@@ -5,9 +5,9 @@ import com.google.firebase.FirebaseError.ERROR_OPERATION_NOT_ALLOWED
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseUser
-import com.ramonguimaraes.horacerta.utils.myAwait
 import com.ramonguimaraes.horacerta.domain.authentication.repository.AuthRepository
 import com.ramonguimaraes.horacerta.domain.resource.Resource
+import kotlinx.coroutines.tasks.await
 
 class AuthRepositoryImpl(
     private val firebaseAuth: FirebaseAuth
@@ -18,7 +18,7 @@ class AuthRepositoryImpl(
 
     override suspend fun login(email: String, password: String): Resource<FirebaseUser?> {
         return try {
-            val result = firebaseAuth.signInWithEmailAndPassword(email, password).myAwait()
+            val result = firebaseAuth.signInWithEmailAndPassword(email, password).await()
             if (result?.user?.isEmailVerified == true) {
                 Resource.Success(result.user)
             } else {
@@ -38,7 +38,7 @@ class AuthRepositoryImpl(
         password: String
     ): Resource<FirebaseUser?> {
         return try {
-            val result = firebaseAuth.createUserWithEmailAndPassword(email, password).myAwait()
+            val result = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
             result.user?.sendEmailVerification()
             firebaseAuth.signOut()
             Resource.Success(result.user)

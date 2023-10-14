@@ -1,4 +1,4 @@
-package com.ramonguimaraes.horacerta.ui
+package com.ramonguimaraes.horacerta.presenter.splashScreen.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -8,7 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.ramonguimaraes.horacerta.R
-import com.ramonguimaraes.horacerta.utils.AccountType
+import com.ramonguimaraes.horacerta.presenter.splashScreen.viewModel.SplashScreenViewModel
+import com.ramonguimaraes.horacerta.domain.user.model.AccountType
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @SuppressLint("CustomSplashScreen")

@@ -1,4 +1,4 @@
-package com.ramonguimaraes.horacerta.presenter.schedule
+package com.ramonguimaraes.horacerta.presenter.schedule.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,7 +8,7 @@ import com.ramonguimaraes.horacerta.domain.authentication.useCase.GetCurrentUser
 import com.ramonguimaraes.horacerta.domain.resource.Resource
 import com.ramonguimaraes.horacerta.domain.schedule.repository.ScheduleRepository
 import com.ramonguimaraes.horacerta.domain.schedule.model.Appointment
-import com.ramonguimaraes.horacerta.utils.onlyDate
+import com.ramonguimaraes.horacerta.utils.extensions.onlyDate
 import kotlinx.coroutines.launch
 import java.util.Calendar
 

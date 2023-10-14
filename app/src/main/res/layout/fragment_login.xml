@@ -7,13 +7,13 @@
 
         <variable
             name="viewModel"
-            type="com.ramonguimaraes.horacerta.presenter.authentication.LoginViewModel" />
+            type="com.ramonguimaraes.horacerta.presenter.authentication.viewModel.LoginViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.authentication.LoginFragment">
+        tools:context=".presenter.authentication.ui.LoginFragment">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/txtInpEmail"

@@ -7,7 +7,7 @@ import com.ramonguimaraes.horacerta.domain.resource.Resource
 import com.ramonguimaraes.horacerta.domain.scheduleConfig.model.ScheduleConfig
 import com.ramonguimaraes.horacerta.domain.scheduleConfig.model.toHashMap
 import com.ramonguimaraes.horacerta.domain.scheduleConfig.repository.ScheduleConfigRepository
-import com.ramonguimaraes.horacerta.utils.DayOfWeek
+import com.ramonguimaraes.horacerta.domain.schedule.model.DayOfWeek
 import kotlinx.coroutines.tasks.await
 import java.time.LocalTime
 import kotlin.Exception

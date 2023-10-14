@@ -1,4 +1,4 @@
-package com.ramonguimaraes.horacerta.ui
+package com.ramonguimaraes.horacerta.presenter
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

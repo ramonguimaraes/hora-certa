@@ -1,4 +1,4 @@
-package com.ramonguimaraes.horacerta.ui.companyProfile
+package com.ramonguimaraes.horacerta.presenter.companyProfile.ui
 
 import android.net.Uri
 import android.os.Bundle
@@ -19,9 +19,9 @@ import com.canhub.cropper.CropImageOptions
 import com.canhub.cropper.CropImageView
 import com.ramonguimaraes.horacerta.databinding.FragmentCompanyProfileBinding
 import com.ramonguimaraes.horacerta.domain.resource.Resource
-import com.ramonguimaraes.horacerta.presenter.companyProfile.CompanyProfileViewModel
-import com.ramonguimaraes.horacerta.utils.AccountType
-import com.ramonguimaraes.horacerta.utils.Mask
+import com.ramonguimaraes.horacerta.presenter.companyProfile.viewModel.CompanyProfileViewModel
+import com.ramonguimaraes.horacerta.domain.user.model.AccountType
+import com.ramonguimaraes.horacerta.presenter.viewUtils.Mask
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CompanyProfileFragment : Fragment() {

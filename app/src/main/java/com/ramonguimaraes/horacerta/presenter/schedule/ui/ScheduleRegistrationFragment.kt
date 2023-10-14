@@ -14,9 +14,9 @@ import com.ramonguimaraes.horacerta.databinding.FragmentScheduleRegistrationBind
 import com.ramonguimaraes.horacerta.domain.resource.Resource
 import com.ramonguimaraes.horacerta.domain.schedule.model.TimeInterval
 import com.ramonguimaraes.horacerta.presenter.schedule.viewModel.ScheduleRegistrationViewModel
-import com.ramonguimaraes.horacerta.ui.schedule.adapter.AvailableHorsAdapter
-import com.ramonguimaraes.horacerta.ui.schedule.adapter.ServicesAdapter
-import com.ramonguimaraes.horacerta.utils.formattedDate
+import com.ramonguimaraes.horacerta.presenter.schedule.ui.adapter.AvailableHorsAdapter
+import com.ramonguimaraes.horacerta.presenter.schedule.ui.adapter.ServicesAdapter
+import com.ramonguimaraes.horacerta.utils.extensions.formattedDate
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.Calendar
 

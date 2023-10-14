@@ -5,7 +5,7 @@ import com.ramonguimaraes.horacerta.domain.companyProfile.repository.CompanyProf
 import com.ramonguimaraes.horacerta.domain.companyProfile.useCase.CompanyProfileValidationUseCase
 import com.ramonguimaraes.horacerta.domain.companyProfile.useCase.LoadCompanyProfileUseCase
 import com.ramonguimaraes.horacerta.domain.companyProfile.useCase.SaveCompanyProfileUseCase
-import com.ramonguimaraes.horacerta.presenter.companyProfile.CompanyProfileViewModel
+import com.ramonguimaraes.horacerta.presenter.companyProfile.viewModel.CompanyProfileViewModel
 import com.ramonguimaraes.horacerta.presenter.companyProfile.mapper.CompanyProfileViewMapper
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module

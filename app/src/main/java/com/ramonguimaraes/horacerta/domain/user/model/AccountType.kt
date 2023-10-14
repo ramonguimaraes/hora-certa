@@ -1,4 +1,4 @@
-package com.ramonguimaraes.horacerta.utils
+package com.ramonguimaraes.horacerta.domain.user.model
 
 enum class AccountType(val type: Int) {
     NONE(type = 0),

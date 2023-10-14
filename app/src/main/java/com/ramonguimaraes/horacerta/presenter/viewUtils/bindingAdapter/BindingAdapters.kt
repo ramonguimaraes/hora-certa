@@ -1,4 +1,4 @@
-package com.ramonguimaraes.horacerta.presenter.bindingAdapter
+package com.ramonguimaraes.horacerta.presenter.viewUtils.bindingAdapter
 
 import android.net.Uri
 import android.view.View

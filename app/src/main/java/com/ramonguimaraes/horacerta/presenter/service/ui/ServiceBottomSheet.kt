@@ -1,4 +1,4 @@
-package com.ramonguimaraes.horacerta.ui.services
+package com.ramonguimaraes.horacerta.presenter.service.ui
 
 import android.content.DialogInterface
 import android.os.Bundle

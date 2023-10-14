@@ -1,4 +1,4 @@
-package com.ramonguimaraes.horacerta.ui.services
+package com.ramonguimaraes.horacerta.presenter.service.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ramonguimaraes.horacerta.databinding.ServiceRegistrationItemLayoutBinding
 import com.ramonguimaraes.horacerta.presenter.service.model.ServiceView
-import com.ramonguimaraes.horacerta.utils.DefaultDiffCallback
+import com.ramonguimaraes.horacerta.presenter.viewUtils.DefaultDiffCallback
 
 class ServicesAdapter :
     ListAdapter<ServiceView, ServicesAdapter.ServiceViewHolder>(DefaultDiffCallback()) {

@@ -1,7 +1,5 @@
 package com.ramonguimaraes.horacerta.domain.user.model
 
-import com.ramonguimaraes.horacerta.utils.AccountType
-
 data class User(
     val uid: String = "",
     val name:  String = "",

@@ -1,4 +1,4 @@
-package com.ramonguimaraes.horacerta.utils
+package com.ramonguimaraes.horacerta.domain.schedule.model
 
 enum class DayOfWeek(val day: Int) {
     SUNDAY(1),

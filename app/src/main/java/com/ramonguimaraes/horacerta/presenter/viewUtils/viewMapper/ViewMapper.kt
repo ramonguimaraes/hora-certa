@@ -1,4 +1,4 @@
-package com.ramonguimaraes.horacerta.presenter.viewMapper
+package com.ramonguimaraes.horacerta.presenter.viewUtils.viewMapper
 
 abstract class ViewMapper<V, D> {
     abstract fun mapToView(model: D): V

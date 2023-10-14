@@ -1,6 +1,5 @@
-package com.ramonguimaraes.horacerta.presenter.home
+package com.ramonguimaraes.horacerta.presenter.home.viewModel
 
-import android.view.MenuItem
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,7 +10,7 @@ import com.ramonguimaraes.horacerta.domain.companyProfile.useCase.LoadCompanyPro
 import com.ramonguimaraes.horacerta.domain.resource.Resource
 import com.ramonguimaraes.horacerta.presenter.companyProfile.mapper.CompanyProfileViewMapper
 import com.ramonguimaraes.horacerta.presenter.companyProfile.model.CompanyProfileView
-import com.ramonguimaraes.horacerta.utils.AccountType
+import com.ramonguimaraes.horacerta.domain.user.model.AccountType
 import kotlinx.coroutines.launch
 
 class HomeViewModel(

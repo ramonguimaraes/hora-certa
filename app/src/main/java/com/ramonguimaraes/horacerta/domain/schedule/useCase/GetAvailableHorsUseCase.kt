@@ -5,8 +5,8 @@ import com.ramonguimaraes.horacerta.domain.schedule.model.TimeInterval
 import com.ramonguimaraes.horacerta.domain.schedule.repository.ScheduleRepository
 import com.ramonguimaraes.horacerta.domain.scheduleConfig.model.ScheduleConfig
 import com.ramonguimaraes.horacerta.domain.scheduleConfig.repository.ScheduleConfigRepository
-import com.ramonguimaraes.horacerta.utils.DayOfWeek
-import com.ramonguimaraes.horacerta.utils.toLocalTime
+import com.ramonguimaraes.horacerta.domain.schedule.model.DayOfWeek
+import com.ramonguimaraes.horacerta.utils.extensions.toLocalTime
 import java.time.LocalTime
 import java.util.Calendar
 

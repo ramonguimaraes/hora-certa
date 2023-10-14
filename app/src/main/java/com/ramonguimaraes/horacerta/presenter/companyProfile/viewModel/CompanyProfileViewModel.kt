@@ -1,4 +1,4 @@
-package com.ramonguimaraes.horacerta.presenter.companyProfile
+package com.ramonguimaraes.horacerta.presenter.companyProfile.viewModel
 
 import android.net.Uri
 import androidx.lifecycle.LiveData

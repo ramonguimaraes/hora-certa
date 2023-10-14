@@ -1,27 +1,22 @@
-package com.ramonguimaraes.horacerta.ui.home
+package com.ramonguimaraes.horacerta.presenter.home.ui
 
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.setupWithNavController
 import com.ramonguimaraes.horacerta.R
 import com.ramonguimaraes.horacerta.databinding.FragmentHomeBinding
-import com.ramonguimaraes.horacerta.presenter.home.HomeViewModel
-import com.ramonguimaraes.horacerta.ui.MainActivity
-import com.ramonguimaraes.horacerta.ui.authentication.LoginFragment
-import com.ramonguimaraes.horacerta.utils.AccountType
+import com.ramonguimaraes.horacerta.presenter.home.viewModel.HomeViewModel
+import com.ramonguimaraes.horacerta.presenter.MainActivity
+import com.ramonguimaraes.horacerta.domain.user.model.AccountType
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.lang.Exception
-import kotlin.math.log
 
 class HomeFragment : Fragment() {
     private val binding: FragmentHomeBinding by lazy {
@@ -41,27 +36,32 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         configureNavigation()
+        setupNavBottom()
     }
 
     private fun configureNavigation() {
-        val bottomNavigation = binding.bottomNavigationView
         val host = childFragmentManager.findFragmentById(R.id.homeMainContainer) as NavHostFragment
         navController = host.navController
+    }
 
-        bottomNavigation.inflateMenu(getMenu())
-        bottomNavigation.setupWithNavController(navController)
-
-        bottomNavigation.setOnItemSelectedListener { menuItem ->
-            if (menuItem.itemId == R.id.logout) {
-                logout()
-                false
-            } else {
-                navigate(menuItem.itemId)
+    private fun setupNavBottom() {
+        val bottomNavigation = binding.bottomNavigationView
+        with(bottomNavigation) {
+            this.menu.clear()
+            this.inflateMenu(resolveMenu())
+            this.setupWithNavController(navController)
+            this.setOnItemSelectedListener { menuItem ->
+                if (menuItem.itemId == R.id.logout) {
+                    logout()
+                    false
+                } else {
+                    navigate(menuItem.itemId)
+                }
             }
         }
     }
 
-    private fun getMenu(): Int {
+    private fun resolveMenu(): Int {
         return when (args.accountType) {
             AccountType.COMPANY -> {
                 R.menu.company_menu

@@ -7,13 +7,13 @@
 
         <variable
             name="viewModel"
-            type="com.ramonguimaraes.horacerta.presenter.authentication.CreateAccountViewModel" />
+            type="com.ramonguimaraes.horacerta.presenter.authentication.viewModel.CreateAccountViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.authentication.CreateAccountFragment">
+        tools:context=".presenter.authentication.ui.CreateAccountFragment">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/txtInpName"

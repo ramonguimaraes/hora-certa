@@ -1,7 +1,7 @@
 package com.ramonguimaraes.horacerta.domain.services.userCase
 
 import com.ramonguimaraes.horacerta.domain.ValidationResult
-import com.ramonguimaraes.horacerta.utils.isValid
+import com.ramonguimaraes.horacerta.utils.extensions.isValid
 
 class ServiceFormValidationUseCase {
 

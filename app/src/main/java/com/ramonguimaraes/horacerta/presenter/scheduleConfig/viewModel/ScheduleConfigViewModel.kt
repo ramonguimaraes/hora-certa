@@ -8,7 +8,7 @@ import com.ramonguimaraes.horacerta.domain.resource.Resource
 import com.ramonguimaraes.horacerta.domain.scheduleConfig.model.ScheduleConfig
 import com.ramonguimaraes.horacerta.domain.scheduleConfig.useCase.DeleteScheduleConfigUseCase
 import com.ramonguimaraes.horacerta.domain.scheduleConfig.useCase.SaveScheduleConfigUseCase
-import com.ramonguimaraes.horacerta.utils.DayOfWeek
+import com.ramonguimaraes.horacerta.domain.schedule.model.DayOfWeek
 import kotlinx.coroutines.launch
 import java.time.LocalTime
 

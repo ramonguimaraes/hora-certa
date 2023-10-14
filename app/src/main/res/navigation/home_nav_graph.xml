@@ -6,7 +6,7 @@
     app:startDestination="@id/schedule">
     <fragment
         android:id="@+id/profile"
-        android:name="com.ramonguimaraes.horacerta.ui.companyProfile.CompanyProfileFragment"
+        android:name="com.ramonguimaraes.horacerta.presenter.companyProfile.ui.CompanyProfileFragment"
         android:label="CompanyProfileFragment"
         tools:layout="@layout/fragment_company_profile" >
         <argument
@@ -16,22 +16,22 @@
     </fragment>
     <fragment
         android:id="@+id/schedule"
-        android:name="com.ramonguimaraes.horacerta.ui.schedule.ScheduleFragment"
+        android:name="com.ramonguimaraes.horacerta.presenter.schedule.ui.ScheduleFragment"
         android:label="fragment_schedule"
         tools:layout="@layout/fragment_schedule" />
     <fragment
         android:id="@+id/scheduleRegistrationFragment"
-        android:name="com.ramonguimaraes.horacerta.ui.schedule.ScheduleRegistrationFragment"
+        android:name="com.ramonguimaraes.horacerta.presenter.schedule.ui.ScheduleRegistrationFragment"
         android:label="fragment_schedule_registration"
         tools:layout="@layout/fragment_schedule_registration" />
     <fragment
         android:id="@+id/schedule_config"
-        android:name="com.ramonguimaraes.horacerta.ui.scheduleConfig.ScheduleConfigListFragment"
+        android:name="com.ramonguimaraes.horacerta.presenter.scheduleConfig.ui.ScheduleConfigListFragment"
         android:label="ScheduleConfigFragment"
         tools:layout="@layout/fragment_list_schedule_config" />
     <fragment
         android:id="@+id/services"
-        android:name="com.ramonguimaraes.horacerta.ui.services.ServicesListFragment"
+        android:name="com.ramonguimaraes.horacerta.presenter.service.ui.ServicesListFragment"
         android:label="ServicesListFragment"
         tools:layout="@layout/fragment_services_list" />
 </navigation>

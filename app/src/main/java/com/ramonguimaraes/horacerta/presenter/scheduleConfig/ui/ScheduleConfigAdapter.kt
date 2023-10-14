@@ -1,4 +1,4 @@
-package com.ramonguimaraes.horacerta.ui.scheduleConfig
+package com.ramonguimaraes.horacerta.presenter.scheduleConfig.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,14 +6,14 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ramonguimaraes.horacerta.databinding.ScheduleConfigItemLayoutBinding
 import com.ramonguimaraes.horacerta.domain.scheduleConfig.model.ScheduleConfig
-import com.ramonguimaraes.horacerta.utils.DayOfWeek.FRIDAY
-import com.ramonguimaraes.horacerta.utils.DayOfWeek.MONDAY
-import com.ramonguimaraes.horacerta.utils.DayOfWeek.SATURDAY
-import com.ramonguimaraes.horacerta.utils.DayOfWeek.SUNDAY
-import com.ramonguimaraes.horacerta.utils.DayOfWeek.THURSDAY
-import com.ramonguimaraes.horacerta.utils.DayOfWeek.TUESDAY
-import com.ramonguimaraes.horacerta.utils.DayOfWeek.WEDNESDAY
-import com.ramonguimaraes.horacerta.utils.DefaultDiffCallback
+import com.ramonguimaraes.horacerta.domain.schedule.model.DayOfWeek.FRIDAY
+import com.ramonguimaraes.horacerta.domain.schedule.model.DayOfWeek.MONDAY
+import com.ramonguimaraes.horacerta.domain.schedule.model.DayOfWeek.SATURDAY
+import com.ramonguimaraes.horacerta.domain.schedule.model.DayOfWeek.SUNDAY
+import com.ramonguimaraes.horacerta.domain.schedule.model.DayOfWeek.THURSDAY
+import com.ramonguimaraes.horacerta.domain.schedule.model.DayOfWeek.TUESDAY
+import com.ramonguimaraes.horacerta.domain.schedule.model.DayOfWeek.WEDNESDAY
+import com.ramonguimaraes.horacerta.presenter.viewUtils.DefaultDiffCallback
 
 class ScheduleConfigAdapter :
     ListAdapter<ScheduleConfig, ScheduleConfigAdapter.ViewHolder>(DefaultDiffCallback<ScheduleConfig>()) {

@@ -1,6 +1,6 @@
 package com.ramonguimaraes.horacerta.domain.scheduleConfig.model
 
-import com.ramonguimaraes.horacerta.utils.DayOfWeek
+import com.ramonguimaraes.horacerta.domain.schedule.model.DayOfWeek
 import java.time.LocalTime
 
 data class ScheduleConfig(

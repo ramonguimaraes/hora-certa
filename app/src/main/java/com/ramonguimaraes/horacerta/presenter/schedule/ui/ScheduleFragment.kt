@@ -10,10 +10,10 @@ import com.ramonguimaraes.horacerta.R
 import com.ramonguimaraes.horacerta.databinding.FragmentScheduleBinding
 import com.ramonguimaraes.horacerta.domain.resource.Resource
 import com.ramonguimaraes.horacerta.presenter.schedule.viewModel.ScheduleViewModel
-import com.ramonguimaraes.horacerta.ui.schedule.adapter.ScheduleAdapter
-import com.ramonguimaraes.horacerta.utils.gone
-import com.ramonguimaraes.horacerta.utils.onlyDate
-import com.ramonguimaraes.horacerta.utils.visible
+import com.ramonguimaraes.horacerta.presenter.schedule.ui.adapter.ScheduleAdapter
+import com.ramonguimaraes.horacerta.presenter.viewUtils.extensions.gone
+import com.ramonguimaraes.horacerta.utils.extensions.onlyDate
+import com.ramonguimaraes.horacerta.presenter.viewUtils.extensions.visible
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.Calendar
 

@@ -1,4 +1,4 @@
-package com.ramonguimaraes.horacerta.ui.authentication
+package com.ramonguimaraes.horacerta.presenter.authentication.ui
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -8,16 +8,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.google.firebase.auth.FirebaseAuth
-import com.ramonguimaraes.horacerta.R
 import com.ramonguimaraes.horacerta.databinding.FragmentLoginBinding
 import com.ramonguimaraes.horacerta.domain.resource.Resource
-import com.ramonguimaraes.horacerta.presenter.authentication.LoginViewModel
-import com.ramonguimaraes.horacerta.utils.AccountType
-import com.ramonguimaraes.horacerta.utils.gone
-import com.ramonguimaraes.horacerta.utils.hideKeyboard
-import com.ramonguimaraes.horacerta.utils.visible
-import org.koin.android.ext.android.inject
+import com.ramonguimaraes.horacerta.presenter.authentication.viewModel.LoginViewModel
+import com.ramonguimaraes.horacerta.domain.user.model.AccountType
+import com.ramonguimaraes.horacerta.presenter.viewUtils.extensions.gone
+import com.ramonguimaraes.horacerta.presenter.viewUtils.extensions.hideKeyboard
+import com.ramonguimaraes.horacerta.presenter.viewUtils.extensions.visible
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginFragment : Fragment() {
@@ -76,12 +73,14 @@ class LoginFragment : Fragment() {
     }
 
     private fun goToCompanyProfile() {
-        val action = LoginFragmentDirections.actionLoginFragmentToCompanyProfileFragment(callFromLogin = true)
+        val action =
+            LoginFragmentDirections.actionLoginFragmentToCompanyProfileFragment(callFromLogin = true)
         findNavController().navigate(action)
     }
 
     private fun goToClientHome() {
-        val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment(accountType = AccountType.CLIENT)
+        val action =
+            LoginFragmentDirections.actionLoginFragmentToHomeFragment(accountType = AccountType.CLIENT)
         findNavController().navigate(action)
     }
 
