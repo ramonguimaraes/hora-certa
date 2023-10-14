@@ -9,6 +9,7 @@ import com.ramonguimaraes.horacerta.di.home.homeModule
 import com.ramonguimaraes.horacerta.di.schedule.scheduleModule
 import com.ramonguimaraes.horacerta.di.scheduleConfig.scheduleConfigModule
 import com.ramonguimaraes.horacerta.di.service.serviceModule
+import com.ramonguimaraes.horacerta.di.splashScreen.getSplashScreenModule
 
 object KoinModule {
     fun modules() = listOf(
@@ -20,6 +21,7 @@ object KoinModule {
         serviceModule(),
         scheduleConfigModule(),
         companyProfileModule(),
-        homeModule()
+        homeModule(),
+        getSplashScreenModule()
     )
 }
