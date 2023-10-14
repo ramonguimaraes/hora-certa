@@ -17,11 +17,10 @@ import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageContractOptions
 import com.canhub.cropper.CropImageOptions
 import com.canhub.cropper.CropImageView
-import com.ramonguimaraes.horacerta.R
 import com.ramonguimaraes.horacerta.databinding.FragmentCompanyProfileBinding
 import com.ramonguimaraes.horacerta.domain.resource.Resource
 import com.ramonguimaraes.horacerta.presenter.companyProfile.CompanyProfileViewModel
-import com.ramonguimaraes.horacerta.ui.home.HomeFragment
+import com.ramonguimaraes.horacerta.utils.AccountType
 import com.ramonguimaraes.horacerta.utils.Mask
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -110,7 +109,9 @@ class CompanyProfileFragment : Fragment() {
     }
 
     private fun goToHome() {
-        findNavController().navigate(R.id.action_companyProfileFragment_to_homeFragment)
+        val action =
+            CompanyProfileFragmentDirections.actionCompanyProfileFragmentToHomeFragment(accountType = AccountType.COMPANY)
+        findNavController().navigate(action)
     }
 
     private fun takePictureForResult(): ActivityResultLauncher<CropImageContractOptions> {

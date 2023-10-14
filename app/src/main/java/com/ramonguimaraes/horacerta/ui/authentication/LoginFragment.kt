@@ -81,7 +81,8 @@ class LoginFragment : Fragment() {
     }
 
     private fun goToClientHome() {
-        findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+        val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment(accountType = AccountType.CLIENT)
+        findNavController().navigate(action)
     }
 
     private fun showLoading() {
