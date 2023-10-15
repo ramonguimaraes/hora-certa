@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/imgCard"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:backgroundTint="@color/black"
+            app:cardCornerRadius="75dp"
+            app:cardElevation="0sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/imgProfile"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:src="@tools:sample/backgrounds/scenic" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/txtCompanyName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:text="TESTO"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/txtCompanySegment"
+            app:layout_constraintStart_toEndOf="@+id/imgCard"
+            app:layout_constraintTop_toTopOf="@+id/imgCard"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="Ramon barbeiro foda" />
+
+        <TextView
+            android:id="@+id/txtCompanySegment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TEXTO"
+            android:textSize="16sp"
+            android:textStyle="normal"
+            app:layout_constraintBottom_toBottomOf="@+id/imgCard"
+            app:layout_constraintStart_toStartOf="@+id/txtCompanyName"
+            app:layout_constraintTop_toBottomOf="@+id/txtCompanyName"
+            tools:text="Beleza" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

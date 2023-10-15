@@ -34,4 +34,8 @@
         android:name="com.ramonguimaraes.horacerta.presenter.service.ui.ServicesListFragment"
         android:label="ServicesListFragment"
         tools:layout="@layout/fragment_services_list" />
+    <fragment
+        android:id="@+id/companies"
+        android:name="com.ramonguimaraes.horacerta.presenter.companiesList.ui.CompaniesFragment"
+        android:label="CompaniesFragment" />
 </navigation>

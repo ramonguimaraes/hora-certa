@@ -7,4 +7,5 @@ interface CompanyProfileRepository {
     suspend fun save(companyProfile: CompanyProfile): Resource<Boolean>
     suspend fun update(companyProfile: CompanyProfile): Resource<Boolean>
     suspend fun load(uid: String?): Resource<CompanyProfile?>
+    suspend fun load(): Resource<List<CompanyProfile>>
 }

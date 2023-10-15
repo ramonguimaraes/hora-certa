@@ -37,6 +37,9 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         configureNavigation()
         setupNavBottom()
+        if (args.accountType == AccountType.CLIENT) {
+            navigate(R.id.companies)
+        }
     }
 
     private fun configureNavigation() {

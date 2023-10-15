@@ -4,6 +4,6 @@ import com.ramonguimaraes.horacerta.presenter.splashScreen.viewModel.SplashScree
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
-fun getSplashScreenModule() = module {
+fun splashScreenModule() = module {
     viewModel { SplashScreenViewModel(get(), get(), get()) }
 }
