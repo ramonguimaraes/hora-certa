@@ -75,6 +75,32 @@ class CompanyProfileRepositoryImpl(
         }
     }
 
+    override suspend fun load(): Resource<List<CompanyProfile>> {
+        return try {
+            val querySnapshot = db.collection(COLLECTION).get().await()
+            val companies: MutableList<CompanyProfile> = mutableListOf()
+
+            querySnapshot.forEach { snapShot ->
+                val companyProfile = CompanyProfile(
+                    id = snapShot.id,
+                    companyUid = snapShot.get("companyUid", String::class.java)!!,
+                    companyName = snapShot.get("companyName", String::class.java) ?: "",
+                    cnpj = snapShot.get("cnpj", String::class.java) ?: "",
+                    phoneNumber = snapShot.get("phoneNumber", String::class.java) ?: "",
+                    companySegment = snapShot.get("companySegment", String::class.java) ?: "",
+                    photoUri = downloadImage(snapShot.id)
+                )
+                companies.add(companyProfile)
+            }
+
+            Resource.Success(companies)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.e(TAG, e.toString())
+            Resource.Failure(e)
+        }
+    }
+
     private suspend fun uploadPhoto(
         uriFile: Uri,
         fileName: String
