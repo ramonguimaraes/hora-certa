@@ -8,4 +8,5 @@ interface CompanyProfileRepository {
     suspend fun update(companyProfile: CompanyProfile): Resource<Boolean>
     suspend fun load(uid: String?): Resource<CompanyProfile?>
     suspend fun load(): Resource<List<CompanyProfile>>
+    suspend fun loadBySegment(segment: String): Resource<List<CompanyProfile>>
 }

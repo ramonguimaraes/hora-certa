@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.core.net.toUri
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.StorageTask
@@ -78,27 +79,43 @@ class CompanyProfileRepositoryImpl(
     override suspend fun load(): Resource<List<CompanyProfile>> {
         return try {
             val querySnapshot = db.collection(COLLECTION).get().await()
-            val companies: MutableList<CompanyProfile> = mutableListOf()
-
-            querySnapshot.forEach { snapShot ->
-                val companyProfile = CompanyProfile(
-                    id = snapShot.id,
-                    companyUid = snapShot.get("companyUid", String::class.java)!!,
-                    companyName = snapShot.get("companyName", String::class.java) ?: "",
-                    cnpj = snapShot.get("cnpj", String::class.java) ?: "",
-                    phoneNumber = snapShot.get("phoneNumber", String::class.java) ?: "",
-                    companySegment = snapShot.get("companySegment", String::class.java) ?: "",
-                    photoUri = downloadImage(snapShot.id)
-                )
-                companies.add(companyProfile)
-            }
-
-            Resource.Success(companies)
+            Resource.Success(convertToCompaniesList(querySnapshot))
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, e.toString())
             Resource.Failure(e)
         }
+    }
+
+    override suspend fun loadBySegment(segment: String): Resource<List<CompanyProfile>> {
+        return try {
+            val querySnapshot = db.collection(COLLECTION).whereEqualTo("companySegment", segment).get().await()
+            Resource.Success(convertToCompaniesList(querySnapshot))
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.e(TAG, e.toString())
+            Resource.Failure(e)
+        }
+    }
+
+    private suspend fun convertToCompaniesList(querySnapshot: QuerySnapshot): MutableList<CompanyProfile> {
+        val companies: MutableList<CompanyProfile> = mutableListOf()
+
+        querySnapshot.forEach { snapShot ->
+            val companyProfile = CompanyProfile(
+                id = snapShot.id,
+                companyUid = snapShot.get("companyUid", String::class.java)!!,
+                companyName = snapShot.get("companyName", String::class.java) ?: "",
+                cnpj = snapShot.get("cnpj", String::class.java) ?: "",
+                phoneNumber = snapShot.get("phoneNumber", String::class.java) ?: "",
+                companySegment = snapShot.get("companySegment", String::class.java) ?: "",
+                photoUri = downloadImage(snapShot.id)
+            )
+
+            companies.add(companyProfile)
+        }
+
+        return companies
     }
 
     private suspend fun uploadPhoto(
