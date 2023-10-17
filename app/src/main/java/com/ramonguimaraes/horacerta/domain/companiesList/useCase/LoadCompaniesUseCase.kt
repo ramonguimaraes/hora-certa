@@ -11,4 +11,8 @@ class LoadCompaniesUseCase(
     suspend fun execute(): Resource<List<CompanyProfile>> {
         return companyProfileRepository.load()
     }
+
+    suspend fun execute(segment: String): Resource<List<CompanyProfile>> {
+        return companyProfileRepository.loadBySegment(segment)
+    }
 }
