@@ -8,10 +8,12 @@ import com.ramonguimaraes.horacerta.domain.authentication.useCase.GetCurrentUser
 import com.ramonguimaraes.horacerta.domain.resource.Resource
 import com.ramonguimaraes.horacerta.domain.schedule.model.TimeInterval
 import com.ramonguimaraes.horacerta.domain.schedule.useCase.GetAvailableHorsUseCase
+import com.ramonguimaraes.horacerta.domain.schedule.useCase.DeleteScheduledTimeUseCase
 import com.ramonguimaraes.horacerta.domain.schedule.useCase.SaveScheduledTimeUseCase
 import com.ramonguimaraes.horacerta.domain.services.model.Service
 import com.ramonguimaraes.horacerta.domain.services.userCase.LoadServicesUseCase
 import com.ramonguimaraes.horacerta.domain.user.model.User
+import com.ramonguimaraes.horacerta.presenter.scheduleClient.ClientAppointment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -20,6 +22,7 @@ import java.util.Calendar
 class ScheduleRegistrationViewModel(
     private val getAvailableHorsUseCase: GetAvailableHorsUseCase,
     private val saveScheduledTimeUseCase: SaveScheduledTimeUseCase,
+    private val deleteScheduledTimeUseCase: DeleteScheduledTimeUseCase,
     private val loadServiceUseCase: LoadServicesUseCase,
     private val userUseCase: GetCurrentUserUseCase
 ) : ViewModel() {
@@ -37,7 +40,7 @@ class ScheduleRegistrationViewModel(
     val totalTime get() = mTotalTime
 
     private val mSaveResult = MutableLiveData<Resource<Boolean?>>()
-    val saveResult get() = mSaveResult
+    val saveResult: LiveData<Resource<Boolean?>> get() = mSaveResult
 
     private val currentUser = MutableLiveData<User?>()
 
@@ -113,16 +116,16 @@ class ScheduleRegistrationViewModel(
         mDate.value = getToday()
     }
 
-    fun save(it: TimeInterval) {
-        saveResult.value = Resource.Loading
+    fun save(timeInterval: TimeInterval) {
+        mSaveResult.value = Resource.Loading
         val totalTime = totalTime.value
         val services = services.value
         val user = currentUser.value
         val calendar = date.value
 
         if (totalTime != null && services != null && user != null && calendar != null) {
-            calendar.set(Calendar.HOUR_OF_DAY, it.time.hour)
-            calendar.set(Calendar.MINUTE, it.time.minute)
+            calendar.set(Calendar.HOUR_OF_DAY, timeInterval.time.hour)
+            calendar.set(Calendar.MINUTE, timeInterval.time.minute)
             calendar.set(Calendar.SECOND, 0)
 
             viewModelScope.launch {
@@ -133,11 +136,21 @@ class ScheduleRegistrationViewModel(
                     calendar = calendar,
                     companyUid = companyUid
                 )
-                saveResult.postValue(result)
+                mSaveResult.postValue(result)
             }
         }
     }
-    
+
+    fun reschedule(timeInterval: TimeInterval, appointment: ClientAppointment) {
+        viewModelScope.launch {
+            deleteScheduledTimeUseCase.delete(appointment).mapResourceSuccess {
+                if (it) {
+                    save(timeInterval)
+                }
+            }
+        }
+    }
+
     fun updateTotalTime(item: Service, isChecked: Boolean) {
         if (isChecked) {
             mTotalTime.value = mTotalTime.value?.plus(item.estimatedDuration.toInt())
@@ -148,6 +161,19 @@ class ScheduleRegistrationViewModel(
 
     fun setCompanyUid(companyUid: String) {
         this.companyUid = companyUid
+    }
+
+    fun setCheckedServices(
+        services: List<Service>,
+        stringArrayList: List<String>?
+    ): List<Service> {
+        services.forEach {
+            if (stringArrayList?.contains(it.id) == true) {
+                it.checked = true
+                updateTotalTime(it, true)
+            }
+        }
+        return services
     }
 }
 

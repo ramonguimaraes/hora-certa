@@ -1,18 +1,26 @@
-package com.ramonguimaraes.horacerta.domain.schedule.model
+package com.ramonguimaraes.horacerta.presenter.scheduleClient
 
+import android.net.Uri
+import com.ramonguimaraes.horacerta.domain.schedule.model.Appointment
+import com.ramonguimaraes.horacerta.domain.schedule.model.ScheduledTime
 import com.ramonguimaraes.horacerta.domain.services.model.Service
+import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 
-data class Appointment(
-    val id: String,
+data class ClientAppointment(
+    val appointmentId: String,
     val scheduledTimes: List<ScheduledTime>,
     val services: List<Service>,
     val companyUid: String,
-    val clientUid: String,
-    val clientName: String,
-    val date: Calendar
-) {
+    val companyName: String,
+    var photoUri: Uri,
+    var phone: String,
+    var date: Calendar,
+    var showDateLabel: Boolean = false
+): Serializable {
+
     fun getHourString(): String {
         val sortedList = scheduledTimes.sortedBy { it.time }
         if (sortedList.isNotEmpty()) {
@@ -22,18 +30,6 @@ data class Appointment(
             last.add(Calendar.MINUTE, 30)
             val b = dateFormat(last)
             return "$a - $b"
-        }
-        return ""
-    }
-
-    fun getServices(): String {
-        if (services.isNotEmpty()) {
-            val servicesTitle = services.map { it.title }
-            var list = ""
-            servicesTitle.forEach {
-                list += "$it\n"
-            }
-            return list
         }
         return ""
     }

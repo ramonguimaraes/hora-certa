@@ -8,7 +8,7 @@
 
     <item
         android:id="@+id/companies"
-        android:icon="@drawable/ic_launcher_foreground"
+        android:icon="@drawable/ic_home"
         android:title="empresas" />
 
     <item
