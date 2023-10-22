@@ -18,12 +18,27 @@
         android:id="@+id/schedule"
         android:name="com.ramonguimaraes.horacerta.presenter.schedule.ui.ScheduleFragment"
         android:label="fragment_schedule"
-        tools:layout="@layout/fragment_schedule" />
+        tools:layout="@layout/fragment_schedule" >
+        <action
+            android:id="@+id/action_schedule_to_scheduleRegistrationFragment"
+            app:destination="@id/scheduleRegistrationFragment" />
+    </fragment>
     <fragment
         android:id="@+id/scheduleRegistrationFragment"
         android:name="com.ramonguimaraes.horacerta.presenter.schedule.ui.ScheduleRegistrationFragment"
         android:label="fragment_schedule_registration"
-        tools:layout="@layout/fragment_schedule_registration" />
+        tools:layout="@layout/fragment_schedule_registration" >
+        <argument
+            android:name="clientAppointment"
+            app:argType="com.ramonguimaraes.horacerta.presenter.scheduleClient.ClientAppointment"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="companyUID"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
     <fragment
         android:id="@+id/schedule_config"
         android:name="com.ramonguimaraes.horacerta.presenter.scheduleConfig.ui.ScheduleConfigListFragment"
@@ -37,5 +52,17 @@
     <fragment
         android:id="@+id/companies"
         android:name="com.ramonguimaraes.horacerta.presenter.companiesList.ui.CompaniesFragment"
-        android:label="CompaniesFragment" />
+        android:label="CompaniesFragment" >
+        <action
+            android:id="@+id/action_companies_to_scheduleRegistrationFragment"
+            app:destination="@id/scheduleRegistrationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/client_schedule"
+        android:name="com.ramonguimaraes.horacerta.presenter.scheduleClient.ClientScheduleFragment"
+        android:label="ClientScheduleFragment" >
+        <action
+            android:id="@+id/action_client_schedule_to_scheduleRegistrationFragment"
+            app:destination="@id/scheduleRegistrationFragment" />
+    </fragment>
 </navigation>

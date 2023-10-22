@@ -17,7 +17,7 @@ class SaveScheduledTimeUseCase(private val repository: ScheduleRepository) {
         companyUid: String,
         services: List<Service>,
         user: User
-    ): Resource<Boolean>? {
+    ): Resource<Boolean> {
         val intervals = timeNeeded / 30
         val scheduledTimes = mutableListOf<ScheduledTime>()
 
@@ -33,6 +33,7 @@ class SaveScheduledTimeUseCase(private val repository: ScheduleRepository) {
         }
 
         val appointment = Appointment(
+            id = "",
             scheduledTimes = scheduledTimes,
             services = services,
             companyUid = companyUid,

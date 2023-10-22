@@ -24,6 +24,7 @@ object KoinModule {
         companyProfileModule(),
         homeModule(),
         splashScreenModule(),
-        companiesModule()
+        companiesModule(),
+        clientScheduleModule()
     )
 }

@@ -1,10 +1,14 @@
 package com.ramonguimaraes.horacerta.data.schedule.dataRepository
 
+import android.net.Uri
 import android.util.Log
+import androidx.core.net.toUri
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QueryDocumentSnapshot
+import com.ramonguimaraes.horacerta.data.companyProfile.CompanyProfileRepositoryImpl
+import com.ramonguimaraes.horacerta.domain.companyProfile.model.CompanyProfile
 import com.ramonguimaraes.horacerta.domain.resource.Resource
 import com.ramonguimaraes.horacerta.domain.schedule.model.Appointment
 import com.ramonguimaraes.horacerta.domain.schedule.model.ScheduledTime
@@ -12,6 +16,7 @@ import com.ramonguimaraes.horacerta.domain.schedule.model.toHashMap
 import com.ramonguimaraes.horacerta.domain.schedule.model.toTimeStamp
 import com.ramonguimaraes.horacerta.domain.schedule.repository.ScheduleRepository
 import com.ramonguimaraes.horacerta.domain.services.model.Service
+import com.ramonguimaraes.horacerta.presenter.scheduleClient.ClientAppointment
 import kotlinx.coroutines.tasks.await
 import java.util.Calendar
 import java.util.Date
@@ -21,7 +26,7 @@ class ScheduleRepositoryImpl(private val db: FirebaseFirestore) : ScheduleReposi
     override suspend fun save(
         appointment: Appointment,
         scheduledTimes: List<ScheduledTime>
-    ): Resource<Boolean>? {
+    ): Resource<Boolean> {
         return try {
             db.runTransaction { transaction ->
                 val scheduledTimesReferences = mutableListOf<DocumentReference>()
@@ -112,10 +117,11 @@ class ScheduleRepositoryImpl(private val db: FirebaseFirestore) : ScheduleReposi
                 calendar.time = time?.toDate()!!
 
                 Appointment(
+                    id = it.id,
                     scheduledTimes = loadSchedules(it),
                     services = loadServices(it),
                     companyUid = it.get("companyUid", String::class.java) ?: "",
-                    clientUid = it.get("companyUid", String::class.java) ?: "",
+                    clientUid = it.get("clientUid", String::class.java) ?: "",
                     clientName = it.get("clientName", String::class.java) ?: "",
                     date = calendar
                 )
@@ -126,6 +132,80 @@ class ScheduleRepositoryImpl(private val db: FirebaseFirestore) : ScheduleReposi
             Log.e(TAG, e.message.toString())
             Resource.Failure(e)
         }
+    }
+
+    override suspend fun load(clientUid: String): Resource<List<ClientAppointment>> {
+        return try {
+            val res = db.collection(SCHEDULE_APPOINTMENT)
+                .whereEqualTo("clientUid", clientUid)
+                .get().await()
+
+            val map = res.map {
+                val time = it.get("date", Timestamp::class.java)
+                val calendar = Calendar.getInstance()
+                calendar.time = time?.toDate()!!
+
+                Appointment(
+                    id = it.id,
+                    scheduledTimes = loadSchedules(it),
+                    services = loadServices(it),
+                    companyUid = it.get("companyUid", String::class.java) ?: "",
+                    clientUid = it.get("clientUid", String::class.java) ?: "",
+                    clientName = it.get("clientName", String::class.java) ?: "",
+                    date = calendar
+                )
+            }
+
+            val clientAppointments = map.map {
+                val company = loadCompanyProfile(it.companyUid)
+                ClientAppointment(
+                    appointmentId = it.id,
+                    scheduledTimes = it.scheduledTimes,
+                    services = it.services,
+                    companyUid = it.companyUid,
+                    companyName = company?.companyName ?: "",
+                    photoUri = company?.photoUri ?: Uri.EMPTY,
+                    phone = company?.phoneNumber ?: "",
+                    date = it.date
+                )
+            }
+
+            return Resource.Success(clientAppointments)
+        } catch (e: Exception) {
+            Log.e(TAG, e.message.toString())
+            Resource.Failure(e)
+        }
+    }
+
+    override suspend fun delete(appointment: ClientAppointment): Resource<Boolean> {
+        return try {
+            db.collection(SCHEDULE_APPOINTMENT).document(appointment.appointmentId).delete().await()
+            appointment.scheduledTimes.forEach {
+                db.collection(COLLECTION).document(it.id).delete().await()
+            }
+            Resource.Success(true)
+        } catch (e: Exception) {
+            Log.e(TAG, e.message.toString())
+            Resource.Failure(e)
+        }
+    }
+
+    private suspend fun loadCompanyProfile(uid: String): CompanyProfile? {
+        val querySnapshot = db.collection(CompanyProfileRepositoryImpl.COLLECTION)
+            .whereEqualTo("companyUid", uid).get().await().singleOrNull()
+        val companyProfile: CompanyProfile? = querySnapshot?.let { snapShot ->
+            CompanyProfile(
+                id = snapShot.id,
+                companyUid = snapShot.get("companyUid", String::class.java)!!,
+                companyName = snapShot.get("companyName", String::class.java) ?: "",
+                cnpj = snapShot.get("cnpj", String::class.java) ?: "",
+                phoneNumber = snapShot.get("phoneNumber", String::class.java) ?: "",
+                companySegment = snapShot.get("companySegment", String::class.java) ?: "",
+                photoUri = snapShot.get("photoUri", String::class.java)?.toUri() ?: Uri.EMPTY
+            )
+        }
+
+        return companyProfile
     }
 
     private suspend fun loadServices(queryDocumentSnapshot: QueryDocumentSnapshot): List<Service> {

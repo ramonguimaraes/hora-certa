@@ -10,12 +10,12 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ramonguimaraes.horacerta.databinding.FragmentCompaniesBinding
 import com.ramonguimaraes.horacerta.domain.resource.Resource
 import com.ramonguimaraes.horacerta.presenter.companiesList.ui.adapter.CompaniesAdapter
 import com.ramonguimaraes.horacerta.presenter.companiesList.viewModel.CompaniesViewModel
-import com.ramonguimaraes.horacerta.presenter.schedule.ui.ScheduleRegistrationFragment
 import com.ramonguimaraes.horacerta.presenter.viewUtils.extensions.gone
 import com.ramonguimaraes.horacerta.presenter.viewUtils.extensions.visible
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -78,18 +78,9 @@ class CompaniesFragment : Fragment() {
     }
 
     private fun openScheduleRegistration(companyUID: String) {
-        val fragment = ScheduleRegistrationFragment()
-        val supportFragmentManager = activity?.supportFragmentManager
-        val args = Bundle()
-        args.putString("companyUID", companyUID)
+        val action = CompaniesFragmentDirections.actionCompaniesToScheduleRegistrationFragment(companyUID = companyUID)
+        findNavController().navigate(action)
 
-        fragment.arguments = args
-
-        supportFragmentManager?.beginTransaction()?.replace(
-            com.ramonguimaraes.horacerta.R.id.fragmentContainerView,
-            fragment,
-            "scheduleRegistrationFragment"
-        )?.addToBackStack(null)?.commit()
     }
 
     private fun showLoading() {

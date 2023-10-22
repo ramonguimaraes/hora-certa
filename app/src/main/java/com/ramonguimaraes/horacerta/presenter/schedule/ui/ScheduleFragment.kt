@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.ramonguimaraes.horacerta.R
 import com.ramonguimaraes.horacerta.databinding.FragmentScheduleBinding
 import com.ramonguimaraes.horacerta.domain.resource.Resource
@@ -102,6 +103,10 @@ class ScheduleFragment : Fragment() {
     }
 
     private fun openScheduleRegistration() {
+        val action = ScheduleFragmentDirections
+            .actionScheduleToScheduleRegistrationFragment(companyUID = scheduleViewModel.companyUid)
+        findNavController().navigate(action)
+        /*
         val args = Bundle()
         args.putString("companyUID", scheduleViewModel.companyUid)
 
@@ -114,5 +119,6 @@ class ScheduleFragment : Fragment() {
             fragment,
             "scheduleRegistrationFragment"
         )?.addToBackStack(null)?.commit()
+         */
     }
 }

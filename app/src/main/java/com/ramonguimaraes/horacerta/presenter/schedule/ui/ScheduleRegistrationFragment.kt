@@ -7,15 +7,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ramonguimaraes.horacerta.R
 import com.ramonguimaraes.horacerta.databinding.FragmentScheduleRegistrationBinding
 import com.ramonguimaraes.horacerta.domain.resource.Resource
 import com.ramonguimaraes.horacerta.domain.schedule.model.TimeInterval
-import com.ramonguimaraes.horacerta.presenter.schedule.viewModel.ScheduleRegistrationViewModel
 import com.ramonguimaraes.horacerta.presenter.schedule.ui.adapter.AvailableHorsAdapter
 import com.ramonguimaraes.horacerta.presenter.schedule.ui.adapter.ServicesAdapter
+import com.ramonguimaraes.horacerta.presenter.schedule.viewModel.ScheduleRegistrationViewModel
 import com.ramonguimaraes.horacerta.utils.extensions.formattedDate
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.Calendar
@@ -23,15 +24,16 @@ import java.util.Calendar
 class ScheduleRegistrationFragment : Fragment() {
 
     private val viewModel: ScheduleRegistrationViewModel by viewModel()
+    private var availableHorsAdapter: AvailableHorsAdapter = AvailableHorsAdapter()
+    private var servicesAdapter: ServicesAdapter = ServicesAdapter()
     private val binding: FragmentScheduleRegistrationBinding by lazy {
         FragmentScheduleRegistrationBinding.inflate(layoutInflater)
     }
-    private var availableHorsAdapter: AvailableHorsAdapter = AvailableHorsAdapter()
-    private var servicesAdapter: ServicesAdapter = ServicesAdapter()
+    private val args: ScheduleRegistrationFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val companyUID = arguments?.getString("companyUID")
+        val companyUID = args.companyUID
 
         companyUID?.let {
             viewModel.setCompanyUid(it)
@@ -53,8 +55,15 @@ class ScheduleRegistrationFragment : Fragment() {
             availableHorsAdapter.submitList(it.toMutableList())
         }
 
-        viewModel.services.observe(viewLifecycleOwner) {
-            servicesAdapter.submitList(it)
+        viewModel.services.observe(viewLifecycleOwner) { services ->
+            if (args.clientAppointment != null) {
+                val checkedIds = args.clientAppointment?.services?.map { it.id } ?: listOf()
+                val checkedServices = viewModel.setCheckedServices(services, checkedIds)
+                servicesAdapter.submitList(checkedServices)
+                return@observe
+            }
+
+            servicesAdapter.submitList(services)
         }
 
         servicesAdapter.setCheckListener { item, isChecked ->
@@ -78,7 +87,16 @@ class ScheduleRegistrationFragment : Fragment() {
         }
 
         availableHorsAdapter.setOnClick {
-            showConfirmeDialog(it)
+            if (args.clientAppointment != null) {
+                showRescheduleDialogDialog(it)
+                return@setOnClick
+            }
+
+            showConfirmDialog(it)
+        }
+
+        binding.backButton.setOnClickListener {
+            activity?.supportFragmentManager?.popBackStackImmediate()
         }
 
         viewModel.saveResult.observe(viewLifecycleOwner) {
@@ -94,16 +112,42 @@ class ScheduleRegistrationFragment : Fragment() {
             }
         }
 
+        if (args.clientAppointment != null) {
+            val year = args.clientAppointment?.date?.get(Calendar.YEAR)
+            val mouth = args.clientAppointment?.date?.get(Calendar.MONTH)
+            val dayOfMonth = args.clientAppointment?.date?.get(Calendar.DAY_OF_MONTH)
+
+            if (year != null && mouth != null && dayOfMonth != null) {
+                viewModel.setDate(year, mouth, dayOfMonth)
+            }
+        }
         return binding.root
     }
 
-    private fun showConfirmeDialog(timeInterval: TimeInterval) {
+    private fun showConfirmDialog(timeInterval: TimeInterval) {
         val message = resources.getString(R.string.alert_message, timeInterval.time)
         AlertDialog.Builder(context)
             .setTitle("Agendamento")
             .setMessage(message)
             .setPositiveButton("Agendar") { dialog, _ ->
                 viewModel.save(timeInterval)
+                dialog.dismiss()
+            }
+            .setNegativeButton("Cancelar") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun showRescheduleDialogDialog(timeInterval: TimeInterval) {
+        val message = resources.getString(R.string.reschedule_message, timeInterval.time)
+        AlertDialog.Builder(context)
+            .setTitle("Reagendamento")
+            .setMessage(message)
+            .setPositiveButton("Reagendar") { dialog, _ ->
+                args.clientAppointment?.let { clientAppointment ->
+                    viewModel.reschedule(timeInterval, clientAppointment)
+                }
                 dialog.dismiss()
             }
             .setNegativeButton("Cancelar") { dialog, _ ->
