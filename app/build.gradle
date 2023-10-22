@@ -5,6 +5,7 @@ plugins {
     id 'com.google.gms.google-services'
     id 'androidx.navigation.safeargs.kotlin'
     id 'com.google.firebase.crashlytics'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 android {
@@ -58,6 +59,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics-ktx:18.4.3'
     implementation 'com.google.firebase:firebase-analytics-ktx:21.3.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01'
+    implementation 'com.google.android.gms:play-services-maps:18.2.0'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
