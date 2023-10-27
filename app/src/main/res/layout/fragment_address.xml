@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.ramonguimaraes.horacerta.presenter.companyProfile.viewModel.CompanyProfileViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="30dp"
+        tools:context=".presenter.companyProfile.ui.AddressFragment">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtInpStreet"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            app:errorEnabled="true"
+            android:layout_height="wrap_content"
+            app:error="@{viewModel.profileView.ruaErro}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtStreet"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:autofillHints="name"
+                android:hint="Rua"
+                android:inputType="text"
+                android:maxLength="80"
+                android:maxLines="1"
+                android:text="@={viewModel.profileView.rua}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtInpNumber"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:errorEnabled="true"
+            app:error="@{viewModel.profileView.numeroErro}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtInpStreet">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtNumber"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:autofillHints="name"
+                android:hint="Número"
+                android:inputType="text"
+                android:maxLength="80"
+                android:maxLines="1"
+                android:text="@={viewModel.profileView.numero}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <CheckBox
+            android:id="@+id/checkBoxNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="@={viewModel.profileView.semNumero}"
+            android:text="Endereço sem número"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtInpNumber" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtInpNeighborhood"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:errorEnabled="true"
+            app:error="@{viewModel.profileView.bairroErro}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/checkBoxNumber">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtNeighborhood"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:autofillHints="name"
+                android:hint="Bairro"
+                android:inputType="text"
+                android:maxLength="80"
+                android:maxLines="1"
+                android:text="@={viewModel.profileView.bairro}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtInpComplement"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:errorEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtInpNeighborhood">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtComplement"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:autofillHints="name"
+                android:hint="Complemento"
+                android:inputType="text"
+                android:maxLength="80"
+                android:maxLines="1"
+                android:text="@={viewModel.profileView.complemento}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtInpCity"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:errorEnabled="true"
+            app:error="@{viewModel.profileView.cidadeErro}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtInpComplement">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtCity"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:autofillHints="name"
+                android:hint="Cidade"
+                android:inputType="text"
+                android:maxLength="80"
+                android:maxLines="1"
+                android:text="@={viewModel.profileView.cidade}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/purple_200"
+            android:text="Salvar"
+            android:onClick="@{() -> viewModel.saveAddress()}"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtInpCity" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

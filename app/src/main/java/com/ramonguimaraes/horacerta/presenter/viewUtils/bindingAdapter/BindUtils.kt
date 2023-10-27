@@ -11,7 +11,5 @@ fun setText(editText: EditText, value: String?) {
 
 @BindingAdapter("app:error")
 fun setError(view: TextInputLayout, error: String?) {
-    error?.let {
-        view.error = it
-    }
+    view.error = error
 }
