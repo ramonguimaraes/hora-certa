@@ -1,5 +1,7 @@
 package com.ramonguimaraes.horacerta
 
+import com.ramonguimaraes.horacerta.domain.ValidationResult
+import com.ramonguimaraes.horacerta.domain.companyProfile.useCase.AddressValidationUseCase
 import org.junit.Test
 
 import org.junit.Assert.*

@@ -2,6 +2,7 @@ package com.ramonguimaraes.horacerta.di.companyProfile
 
 import com.ramonguimaraes.horacerta.data.companyProfile.CompanyProfileRepositoryImpl
 import com.ramonguimaraes.horacerta.domain.companyProfile.repository.CompanyProfileRepository
+import com.ramonguimaraes.horacerta.domain.companyProfile.useCase.AddressValidationUseCase
 import com.ramonguimaraes.horacerta.domain.companyProfile.useCase.CompanyProfileValidationUseCase
 import com.ramonguimaraes.horacerta.domain.companyProfile.useCase.LoadCompanyProfileUseCase
 import com.ramonguimaraes.horacerta.domain.companyProfile.useCase.SaveCompanyProfileUseCase
@@ -16,5 +17,6 @@ fun companyProfileModule() = module {
     factory { LoadCompanyProfileUseCase(get(), get()) }
     factory { CompanyProfileViewMapper() }
     factory { CompanyProfileValidationUseCase() }
-    viewModel { CompanyProfileViewModel(get(),get(), get(), get()) }
+    factory { AddressValidationUseCase() }
+    viewModel { CompanyProfileViewModel(get(),get(), get(), get(), get()) }
 }

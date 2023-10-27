@@ -11,6 +11,12 @@ class CompanyProfile(
     var companySegment: String = "Saúde",
     var photoUri: Uri = Uri.EMPTY,
     var photoDownload: Uri = Uri.EMPTY,
+    var rua: String = "",
+    var bairro: String = "",
+    var numero: String = "",
+    var cidade: String = "",
+    var complemento: String = "",
+    var semNumero: Boolean = false
 )
 
 fun CompanyProfile.toHashMap(): HashMap<String, Any> {
@@ -21,6 +27,12 @@ fun CompanyProfile.toHashMap(): HashMap<String, Any> {
         "phoneNumber" to phoneNumber,
         "companySegment" to companySegment,
         "photoUri" to photoUri,
-        "photoDownload" to photoDownload
+        "photoDownload" to photoDownload,
+        "rua" to rua,
+        "bairro" to bairro,
+        "numero" to numero,
+        "cidade" to cidade,
+        "complemento" to complemento,
+        "semNumero" to semNumero
     )
 }

@@ -15,7 +15,13 @@ class CompanyProfileViewMapper : ViewMapper<CompanyProfileView, CompanyProfile>(
             cnpj = model.cnpj,
             phoneNumber = model.phoneNumber,
             companySegment = model.companySegment,
-            photoUri = model.photoUri
+            photoUri = model.photoUri,
+            rua = model.rua,
+            bairro = model.bairro,
+            numero = model.numero,
+            cidade = model.cidade,
+            complemento = model.complemento,
+            semNumero = model.semNumero
         )
     }
 
@@ -27,7 +33,13 @@ class CompanyProfileViewMapper : ViewMapper<CompanyProfileView, CompanyProfile>(
             cnpj = view.cnpj,
             phoneNumber = view.phoneNumber,
             companySegment = view.companySegment,
-            photoUri = view.photoUri
+            photoUri = view.photoUri,
+            rua = view.rua,
+            bairro = view.bairro,
+            numero = view.numero,
+            cidade = view.cidade,
+            complemento = view.complemento,
+            semNumero = view.semNumero
         )
     }
 }

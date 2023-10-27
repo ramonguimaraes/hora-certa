@@ -19,14 +19,14 @@ import com.canhub.cropper.CropImageOptions
 import com.canhub.cropper.CropImageView
 import com.ramonguimaraes.horacerta.databinding.FragmentCompanyProfileBinding
 import com.ramonguimaraes.horacerta.domain.resource.Resource
-import com.ramonguimaraes.horacerta.presenter.companyProfile.viewModel.CompanyProfileViewModel
 import com.ramonguimaraes.horacerta.domain.user.model.AccountType
+import com.ramonguimaraes.horacerta.presenter.companyProfile.viewModel.CompanyProfileViewModel
 import com.ramonguimaraes.horacerta.presenter.viewUtils.Mask
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class CompanyProfileFragment : Fragment() {
 
-    private val viewModel: CompanyProfileViewModel by viewModel()
+    private val viewModel: CompanyProfileViewModel by sharedViewModel()
     private val binding: FragmentCompanyProfileBinding by lazy {
         FragmentCompanyProfileBinding.inflate(layoutInflater)
     }
@@ -38,6 +38,10 @@ class CompanyProfileFragment : Fragment() {
     ): View {
         configureBinding()
         configureSegmentsSpinner()
+
+        binding.editAddress.setOnClickListener {
+            AddressFragment().show(childFragmentManager, "")
+        }
 
         viewModel.profileViewState.observe(viewLifecycleOwner) {
             when (it) {
@@ -59,9 +63,8 @@ class CompanyProfileFragment : Fragment() {
             }
         }
 
-
         val registry = takePictureForResult()
-        binding.imgProfilePic.setOnClickListener {
+        binding.openGallery.setOnClickListener {
             registry.launch(
                 CropImageContractOptions(
                     Uri.EMPTY,
@@ -96,7 +99,7 @@ class CompanyProfileFragment : Fragment() {
                 }
 
                 is Resource.Success -> {
-                    if (it.result) {
+                    if (args.callFromLogin && it.result) {
                         goToHome()
                     }
                 }

@@ -42,8 +42,10 @@ class CompanyProfileRepositoryImpl(
 
     override suspend fun update(companyProfile: CompanyProfile): Resource<Boolean> {
         return try {
-            val downloadUir = uploadPhoto(companyProfile.photoUri, companyProfile.id)
-            companyProfile.photoUri = downloadUir
+            if (companyProfile.photoUri != Uri.EMPTY) {
+                val downloadUir = uploadPhoto(companyProfile.photoUri, companyProfile.companyUid)
+                companyProfile.photoUri = downloadUir
+            }
             db.collection(COLLECTION).document(companyProfile.id).update(companyProfile.toHashMap())
             Resource.Success(true)
         } catch (e: Exception) {
@@ -65,7 +67,13 @@ class CompanyProfileRepositoryImpl(
                     cnpj = snapShot.get("cnpj", String::class.java) ?: "",
                     phoneNumber = snapShot.get("phoneNumber", String::class.java) ?: "",
                     companySegment = snapShot.get("companySegment", String::class.java) ?: "",
-                    photoUri = downloadImage(snapShot.id)
+                    photoUri = downloadImage(uid ?: ""),
+                    rua = snapShot.get("rua", String::class.java) ?: "",
+                    bairro = snapShot.get("bairro", String::class.java) ?: "",
+                    numero = snapShot.get("numero", String::class.java) ?: "",
+                    cidade = snapShot.get("cidade", String::class.java) ?: "",
+                    complemento = snapShot.get("complemento", String::class.java) ?: "",
+                    semNumero = snapShot.get("semNumero", Boolean::class.java) ?: false
                 )
             }
             Resource.Success(companyProfile)
@@ -102,16 +110,22 @@ class CompanyProfileRepositoryImpl(
         val companies: MutableList<CompanyProfile> = mutableListOf()
 
         querySnapshot.forEach { snapShot ->
+            val companyUid = snapShot.get("companyUid", String::class.java)!!
             val companyProfile = CompanyProfile(
                 id = snapShot.id,
-                companyUid = snapShot.get("companyUid", String::class.java)!!,
+                companyUid = companyUid,
                 companyName = snapShot.get("companyName", String::class.java) ?: "",
                 cnpj = snapShot.get("cnpj", String::class.java) ?: "",
                 phoneNumber = snapShot.get("phoneNumber", String::class.java) ?: "",
                 companySegment = snapShot.get("companySegment", String::class.java) ?: "",
-                photoUri = downloadImage(snapShot.id)
+                photoUri = downloadImage(companyUid),
+                rua = snapShot.get("rua", String::class.java) ?: "",
+                bairro = snapShot.get("bairro", String::class.java) ?: "",
+                numero = snapShot.get("numero", String::class.java) ?: "",
+                cidade = snapShot.get("cidade", String::class.java) ?: "",
+                complemento = snapShot.get("complemento", String::class.java) ?: "",
+                semNumero = snapShot.get("semNumero", Boolean::class.java) ?: false
             )
-
             companies.add(companyProfile)
         }
 

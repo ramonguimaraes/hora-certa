@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ramonguimaraes.horacerta.domain.companyProfile.model.CompanyProfile
+import com.ramonguimaraes.horacerta.domain.companyProfile.useCase.AddressValidationUseCase
 import com.ramonguimaraes.horacerta.domain.companyProfile.useCase.CompanyProfileValidationUseCase
 import com.ramonguimaraes.horacerta.domain.companyProfile.useCase.LoadCompanyProfileUseCase
 import com.ramonguimaraes.horacerta.domain.companyProfile.useCase.SaveCompanyProfileUseCase
@@ -18,7 +19,8 @@ class CompanyProfileViewModel(
     private val saveCompanyProfileUseCase: SaveCompanyProfileUseCase,
     private val loadCompanyProfileUseCase: LoadCompanyProfileUseCase,
     private val companyProfileValidationUseCase: CompanyProfileValidationUseCase,
-    private val companyProfileViewMapper: CompanyProfileViewMapper
+    private val companyProfileViewMapper: CompanyProfileViewMapper,
+    private val addressValidationUseCase: AddressValidationUseCase
 ) : ViewModel() {
 
     val segments = listOf("Esporte", "Saúde", "Educação", "Beleza")
@@ -28,9 +30,8 @@ class CompanyProfileViewModel(
     private val mProfileViewState = MutableLiveData<Resource<CompanyProfile?>>()
     val profileViewState: LiveData<Resource<CompanyProfile?>> get() = mProfileViewState
 
-
     val profileView = MutableLiveData(CompanyProfileView())
-
+    val dismissDialog = MutableLiveData(false)
 
     init {
         loadProfileData()
@@ -101,5 +102,41 @@ class CompanyProfileViewModel(
             cnpjResult,
             segmentResult
         ).all { it.successFul }
+    }
+
+    private fun addressFormValidation(): Boolean {
+        return profileView.value?.let { profile ->
+            val streetNameResult = addressValidationUseCase.validateStreet(profile.rua)
+
+            val numberResult = addressValidationUseCase.validateNumber(
+                profile.numero,
+                profile.semNumero
+            )
+
+            val neighborhoodResult = addressValidationUseCase.validateNeighborhood(profile.bairro)
+
+            val cityResult = addressValidationUseCase.validateCity(profile.cidade)
+
+            profileView.value = profileView.value?.copy(
+                ruaErro = streetNameResult.errorMessage,
+                numeroErro = numberResult.errorMessage,
+                bairroErro = neighborhoodResult.errorMessage,
+                cidadeErro = cityResult.errorMessage
+            )
+
+            listOf(
+                streetNameResult,
+                numberResult,
+                neighborhoodResult,
+                cityResult
+            ).all { it.successFul }
+        } ?: false
+    }
+
+    fun saveAddress() {
+        if (addressFormValidation()) {
+            profileView.value = profileView.value
+            dismissDialog.postValue(true)
+        }
     }
 }
