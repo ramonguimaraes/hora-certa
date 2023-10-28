@@ -39,7 +39,7 @@ data class CompanyProfileView(
         }
 
         if (bairro.isNotBlank() && bairro.isNotBlank()) {
-            addressLine2 = "$bairro. $cidade" + complemento.ifBlank { "." }
+            addressLine2 = "$bairro. $cidade. $complemento"
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.ramonguimaraes.horacerta.presenter.companyProfile.viewModel
 
+import android.location.Address
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,6 +14,7 @@ import com.ramonguimaraes.horacerta.domain.companyProfile.useCase.SaveCompanyPro
 import com.ramonguimaraes.horacerta.domain.resource.Resource
 import com.ramonguimaraes.horacerta.presenter.companyProfile.mapper.CompanyProfileViewMapper
 import com.ramonguimaraes.horacerta.presenter.companyProfile.model.CompanyProfileView
+import com.ramonguimaraes.horacerta.utils.AddressUtil
 import kotlinx.coroutines.launch
 
 class CompanyProfileViewModel(
@@ -138,5 +140,14 @@ class CompanyProfileViewModel(
             profileView.value = profileView.value
             dismissDialog.postValue(true)
         }
+    }
+
+    fun setAddress(address: Address) {
+        profileView.value = profileView.value?.copy(
+            rua = address.thoroughfare ?: "",
+            numero = address.subThoroughfare ?: "",
+            cidade = address.subAdminArea ?: "",
+            uf = AddressUtil.getStateAbbreviation(address) ?: ""
+        )
     }
 }

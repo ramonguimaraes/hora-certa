@@ -9,7 +9,7 @@ import com.ramonguimaraes.horacerta.databinding.FragmentAddressBinding
 import com.ramonguimaraes.horacerta.presenter.companyProfile.viewModel.CompanyProfileViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class AddressFragment : BottomSheetDialogFragment() {
+class AddressBottomSheet : BottomSheetDialogFragment() {
 
     private val viewModel: CompanyProfileViewModel by sharedViewModel()
     private val binding: FragmentAddressBinding by lazy {
@@ -19,6 +19,7 @@ class AddressFragment : BottomSheetDialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
+
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
         binding.btnSave.setOnClickListener {

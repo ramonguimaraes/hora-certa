@@ -2,6 +2,7 @@ package com.ramonguimaraes.horacerta.presenter.companyProfile.ui
 
 import android.net.Uri
 import android.os.Bundle
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageContractOptions
 import com.canhub.cropper.CropImageOptions
 import com.canhub.cropper.CropImageView
+import com.ramonguimaraes.horacerta.R
 import com.ramonguimaraes.horacerta.databinding.FragmentCompanyProfileBinding
 import com.ramonguimaraes.horacerta.domain.resource.Resource
 import com.ramonguimaraes.horacerta.domain.user.model.AccountType
@@ -31,6 +33,8 @@ class CompanyProfileFragment : Fragment() {
         FragmentCompanyProfileBinding.inflate(layoutInflater)
     }
     private val args: CompanyProfileFragmentArgs by navArgs()
+    private var phoneMask: TextWatcher? = null
+    private var cnpjMask: TextWatcher? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +44,13 @@ class CompanyProfileFragment : Fragment() {
         configureSegmentsSpinner()
 
         binding.editAddress.setOnClickListener {
-            AddressFragment().show(childFragmentManager, "")
+            val frag = MapsFragment()
+            val supportFragmentManager = activity?.supportFragmentManager
+            supportFragmentManager?.beginTransaction()?.replace(
+                R.id.fragmentContainerView,
+                frag,
+                "MAPS_FRAGMENT"
+            )?.addToBackStack(null)?.commit()
         }
 
         viewModel.profileViewState.observe(viewLifecycleOwner) {
@@ -78,8 +88,26 @@ class CompanyProfileFragment : Fragment() {
         }
         saveObserver()
 
-        binding.edtCnpj.addTextChangedListener(Mask.mask(Mask.CNPJ_PATERN, binding.edtCnpj))
-        binding.edtPhone.addTextChangedListener(Mask.mask(Mask.PHONE_PATERN, binding.edtPhone))
+        if (phoneMask != null) {
+            binding.edtPhone.removeTextChangedListener(phoneMask)
+            binding.edtPhone.addTextChangedListener(phoneMask)
+            binding.edtPhone.setText("")
+        } else {
+            phoneMask = Mask.mask(Mask.PHONE_PATERN, binding.edtPhone)
+            binding.edtPhone.addTextChangedListener(phoneMask)
+            binding.edtPhone.setText("")
+        }
+
+        if (cnpjMask != null) {
+            binding.edtCnpj.removeTextChangedListener(cnpjMask)
+            binding.edtCnpj.addTextChangedListener(cnpjMask)
+            binding.edtCnpj.setText("")
+        } else {
+            cnpjMask = Mask.mask(Mask.CNPJ_PATERN, binding.edtCnpj)
+            binding.edtCnpj.addTextChangedListener(cnpjMask)
+            binding.edtCnpj.setText("")
+        }
+
         return binding.root
     }
 
@@ -146,6 +174,7 @@ class CompanyProfileFragment : Fragment() {
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
+
             }
         }
 
