@@ -33,8 +33,8 @@ object AddressUtil {
         "Tocantins" to "TO"
     )
 
-    fun getStateAbbreviation(address: Address): String? {
-        val state = address.adminArea
+    fun getStateAbbreviation(address: Address?): String? {
+        val state = address?.adminArea
         return stateAbbreviations[state]
     }
 }
