@@ -21,7 +21,9 @@ class CompanyProfileViewMapper : ViewMapper<CompanyProfileView, CompanyProfile>(
             numero = model.numero,
             cidade = model.cidade,
             complemento = model.complemento,
-            semNumero = model.semNumero
+            semNumero = model.semNumero,
+            latitude = model.latitude,
+            longitude = model.longitude
         )
     }
 
@@ -39,7 +41,9 @@ class CompanyProfileViewMapper : ViewMapper<CompanyProfileView, CompanyProfile>(
             numero = view.numero,
             cidade = view.cidade,
             complemento = view.complemento,
-            semNumero = view.semNumero
+            semNumero = view.semNumero,
+            latitude = view.latitude,
+            longitude = view.longitude
         )
     }
 }

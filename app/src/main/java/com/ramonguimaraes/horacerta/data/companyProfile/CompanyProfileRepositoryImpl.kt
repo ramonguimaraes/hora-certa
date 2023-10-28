@@ -75,7 +75,9 @@ class CompanyProfileRepositoryImpl(
                     numero = snapShot.get("numero", String::class.java) ?: "",
                     cidade = snapShot.get("cidade", String::class.java) ?: "",
                     complemento = snapShot.get("complemento", String::class.java) ?: "",
-                    semNumero = snapShot.get("semNumero", Boolean::class.java) ?: false
+                    semNumero = snapShot.get("semNumero", Boolean::class.java) ?: false,
+                    latitude = snapShot.get("latitude", Double::class.java),
+                    longitude = snapShot.get("longitude", Double::class.java)
                 )
             }
             Resource.Success(companyProfile)
@@ -155,7 +157,9 @@ class CompanyProfileRepositoryImpl(
                 numero = snapShot.get("numero", String::class.java) ?: "",
                 cidade = snapShot.get("cidade", String::class.java) ?: "",
                 complemento = snapShot.get("complemento", String::class.java) ?: "",
-                semNumero = snapShot.get("semNumero", Boolean::class.java) ?: false
+                semNumero = snapShot.get("semNumero", Boolean::class.java) ?: false,
+                latitude = snapShot.get("latitude", Double::class.java),
+                longitude = snapShot.get("longitude", Double::class.java)
             )
             companies.add(companyProfile)
         }

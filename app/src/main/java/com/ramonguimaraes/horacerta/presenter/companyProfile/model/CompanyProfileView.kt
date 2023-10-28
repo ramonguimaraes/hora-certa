@@ -30,7 +30,9 @@ data class CompanyProfileView(
     var semNumero: Boolean = false,
     var enderecoError: String? = null,
     var addressLine1: String = "Não informado",
-    var addressLine2: String = ""
+    var addressLine2: String = "",
+    var latitude: Double? = null,
+    var longitude: Double? = null
 ) {
 
     init {

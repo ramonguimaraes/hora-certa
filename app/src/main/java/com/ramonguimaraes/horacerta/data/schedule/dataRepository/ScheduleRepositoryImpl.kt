@@ -166,7 +166,9 @@ class ScheduleRepositoryImpl(private val db: FirebaseFirestore) : ScheduleReposi
                     companyName = company?.companyName ?: "",
                     photoUri = company?.photoUri ?: Uri.EMPTY,
                     phone = company?.phoneNumber ?: "",
-                    date = it.date
+                    date = it.date,
+                    latitude = company?.latitude,
+                    longitude = company?.longitude
                 )
             }
 
@@ -201,7 +203,9 @@ class ScheduleRepositoryImpl(private val db: FirebaseFirestore) : ScheduleReposi
                 cnpj = snapShot.get("cnpj", String::class.java) ?: "",
                 phoneNumber = snapShot.get("phoneNumber", String::class.java) ?: "",
                 companySegment = snapShot.get("companySegment", String::class.java) ?: "",
-                photoUri = snapShot.get("photoUri", String::class.java)?.toUri() ?: Uri.EMPTY
+                photoUri = snapShot.get("photoUri", String::class.java)?.toUri() ?: Uri.EMPTY,
+                latitude = snapShot.get("latitude", Double::class.java),
+                longitude = snapShot.get("longitude", Double::class.java)
             )
         }
 

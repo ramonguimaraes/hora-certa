@@ -16,6 +16,7 @@ import com.ramonguimaraes.horacerta.domain.schedule.model.toTimeStamp
 import com.ramonguimaraes.horacerta.domain.services.model.Service
 import com.ramonguimaraes.horacerta.generated.callback.OnClickListener
 import com.ramonguimaraes.horacerta.presenter.viewUtils.DefaultDiffCallback
+import com.ramonguimaraes.horacerta.presenter.viewUtils.extensions.gone
 import com.ramonguimaraes.horacerta.presenter.viewUtils.extensions.visible
 import com.ramonguimaraes.horacerta.utils.extensions.formattedDate
 import com.squareup.picasso.Picasso
@@ -66,6 +67,10 @@ class ClientScheduleAdapter :
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ClientAppointment) {
 
+            if (item.latitude == null || item.longitude == null) {
+                binding.btnAddress.gone()
+            }
+
             if (item.showDateLabel) {
                 binding.dateLabel.text = item.date.formattedDate()
                 binding.dateLabel.visible()
@@ -87,7 +92,7 @@ class ClientScheduleAdapter :
             }
 
             binding.btnAddress.setOnClickListener {
-                addressClick
+                addressClick.invoke(item)
             }
 
             binding.root.setOnClickListener { clickListener.invoke(item) }
