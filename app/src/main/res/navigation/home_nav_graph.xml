@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_schedule_to_scheduleRegistrationFragment"
             app:destination="@id/scheduleRegistrationFragment" />
+        <action
+            android:id="@+id/action_schedule_to_cashFlowFragment"
+            app:destination="@id/cashFlowFragment" />
     </fragment>
     <fragment
         android:id="@+id/scheduleRegistrationFragment"
@@ -65,4 +68,8 @@
             android:id="@+id/action_client_schedule_to_scheduleRegistrationFragment"
             app:destination="@id/scheduleRegistrationFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/cashFlowFragment"
+        android:name="com.ramonguimaraes.horacerta.presenter.cashFlow.ui.CashFlowFragment"
+        android:label="CashFlowFragment" />
 </navigation>

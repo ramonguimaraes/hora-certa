@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.ramonguimaraes.horacerta.R
@@ -32,6 +33,10 @@ class ScheduleFragment : Fragment() {
     ): View {
         mBinding.viewModel = scheduleViewModel
         mBinding.lifecycleOwner = viewLifecycleOwner
+
+        mBinding.cash.setOnClickListener {
+            showPopupMenu(it)
+        }
 
         scheduleViewModel.showDatePickerEvent.observe(viewLifecycleOwner) {
             if (it) {
@@ -106,19 +111,22 @@ class ScheduleFragment : Fragment() {
         val action = ScheduleFragmentDirections
             .actionScheduleToScheduleRegistrationFragment(companyUID = scheduleViewModel.companyUid)
         findNavController().navigate(action)
-        /*
-        val args = Bundle()
-        args.putString("companyUID", scheduleViewModel.companyUid)
+    }
 
-        val fragment = ScheduleRegistrationFragment()
-        fragment.arguments = args
+    private fun showPopupMenu(view: View) {
+        val popupMenu = PopupMenu(requireContext(), view)
+        popupMenu.menuInflater.inflate(R.menu.schedule_menu, popupMenu.menu)
 
-        val supportFragmentManager = activity?.supportFragmentManager
-        supportFragmentManager?.beginTransaction()?.replace(
-            R.id.fragmentContainerView,
-            fragment,
-            "scheduleRegistrationFragment"
-        )?.addToBackStack(null)?.commit()
-         */
+        popupMenu.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.cash_register -> {
+                    findNavController().navigate(R.id.action_schedule_to_cashFlowFragment)
+                    true
+                }
+                else -> false
+            }
+        }
+
+        popupMenu.show()
     }
 }
