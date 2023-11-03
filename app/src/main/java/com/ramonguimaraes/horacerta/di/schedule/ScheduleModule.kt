@@ -16,5 +16,5 @@ fun scheduleModule() = module {
     factory { SaveScheduledTimeUseCase(get()) }
     factory { DeleteScheduledTimeUseCase(get()) }
     viewModel { ScheduleRegistrationViewModel(get(), get(), get(), get(), get()) }
-    viewModel { ScheduleViewModel(get(), get()) }
+    viewModel { ScheduleViewModel(get(), get(), get()) }
 }

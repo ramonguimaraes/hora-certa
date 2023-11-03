@@ -179,6 +179,22 @@ class ScheduleRepositoryImpl(private val db: FirebaseFirestore) : ScheduleReposi
         }
     }
 
+    override suspend fun delete(
+        appointmentId: String,
+        scheduledTimes: List<ScheduledTime>
+    ): Resource<Boolean> {
+        return try {
+            db.collection(SCHEDULE_APPOINTMENT).document(appointmentId).delete().await()
+            scheduledTimes.forEach {
+                db.collection(COLLECTION).document(it.id).delete().await()
+            }
+            Resource.Success(true)
+        } catch (e: Exception) {
+            Log.e(TAG, e.message.toString())
+            Resource.Failure(e)
+        }
+    }
+
     override suspend fun delete(appointment: ClientAppointment): Resource<Boolean> {
         return try {
             db.collection(SCHEDULE_APPOINTMENT).document(appointment.appointmentId).delete().await()

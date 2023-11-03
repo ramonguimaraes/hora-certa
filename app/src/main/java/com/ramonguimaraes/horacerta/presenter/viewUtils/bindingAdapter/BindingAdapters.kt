@@ -1,6 +1,8 @@
 package com.ramonguimaraes.horacerta.presenter.viewUtils.bindingAdapter
 
+import android.annotation.SuppressLint
 import android.net.Uri
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
@@ -8,7 +10,9 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import com.ramonguimaraes.horacerta.R
+import com.ramonguimaraes.horacerta.utils.toCurrency
 import com.squareup.picasso.Picasso
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -90,3 +94,17 @@ fun setUri(view: ImageView, uri: Uri?) {
     }
 }
 
+@SuppressLint("SetTextI18n")
+@BindingAdapter("android:money")
+fun setText(view: TextView, value: Any) {
+    try {
+        (value as Double)
+        view.text = if (value.isNaN()) {
+            0.0.toCurrency()
+        } else {
+            value.toCurrency()
+        }
+    } catch (e: ParseException) {
+        Log.e("BindingAdapter", e.toString())
+    }
+}

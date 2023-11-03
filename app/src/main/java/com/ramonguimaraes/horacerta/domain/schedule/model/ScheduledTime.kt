@@ -1,14 +1,18 @@
 package com.ramonguimaraes.horacerta.domain.schedule.model
 
+import android.os.Parcelable
 import com.google.firebase.Timestamp
+import kotlinx.parcelize.Parcelize
+import java.io.Serializable
 import java.util.Calendar
 
+@Parcelize
 data class ScheduledTime(
     var id: String= "",
     val time: Calendar = Calendar.getInstance(),
     val clientUid: String = "",
     val companyUid: String = ""
-)
+): Parcelable
 
 fun ScheduledTime.toHashMap(): HashMap<String, Any> {
     return hashMapOf(

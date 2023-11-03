@@ -4,6 +4,8 @@ import com.ramonguimaraes.horacerta.di.authentication.authModule
 import com.ramonguimaraes.horacerta.di.authentication.createAccountModule
 import com.ramonguimaraes.horacerta.di.authentication.firebaseModule
 import com.ramonguimaraes.horacerta.di.authentication.loginModule
+import com.ramonguimaraes.horacerta.di.cashFlow.cashFlowModule
+import com.ramonguimaraes.horacerta.di.clientSchedule.clientScheduleModule
 import com.ramonguimaraes.horacerta.di.companies.companiesModule
 import com.ramonguimaraes.horacerta.di.companyProfile.companyProfileModule
 import com.ramonguimaraes.horacerta.di.home.homeModule
@@ -25,6 +27,7 @@ object KoinModule {
         homeModule(),
         splashScreenModule(),
         companiesModule(),
-        clientScheduleModule()
+        clientScheduleModule(),
+        cashFlowModule()
     )
 }

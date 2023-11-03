@@ -41,6 +41,25 @@
             app:argType="string"
             app:nullable="true"
             android:defaultValue="@null" />
+        <argument
+            android:name="services"
+            app:argType="com.ramonguimaraes.horacerta.domain.services.model.Service[]"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="appointmentId"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="scheduledTimes"
+            app:argType="com.ramonguimaraes.horacerta.domain.schedule.model.ScheduledTime[]"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="date"
+            app:argType="long"
+            android:defaultValue="-1L" />
     </fragment>
     <fragment
         android:id="@+id/schedule_config"

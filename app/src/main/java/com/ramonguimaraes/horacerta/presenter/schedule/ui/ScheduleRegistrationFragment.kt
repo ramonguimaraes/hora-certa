@@ -56,8 +56,17 @@ class ScheduleRegistrationFragment : Fragment() {
         }
 
         viewModel.services.observe(viewLifecycleOwner) { services ->
+            /*
             if (args.clientAppointment != null) {
                 val checkedIds = args.clientAppointment?.services?.map { it.id } ?: listOf()
+                val checkedServices = viewModel.setCheckedServices(services, checkedIds)
+                servicesAdapter.submitList(checkedServices)
+                return@observe
+            }
+            */
+
+            if (!args.services.isNullOrEmpty()) {
+                val checkedIds = args.services?.map { it.id } ?: listOf()
                 val checkedServices = viewModel.setCheckedServices(services, checkedIds)
                 servicesAdapter.submitList(checkedServices)
                 return@observe
@@ -87,7 +96,7 @@ class ScheduleRegistrationFragment : Fragment() {
         }
 
         availableHorsAdapter.setOnClick {
-            if (args.clientAppointment != null) {
+            if (args.appointmentId != null) {
                 showRescheduleDialogDialog(it)
                 return@setOnClick
             }
@@ -112,6 +121,7 @@ class ScheduleRegistrationFragment : Fragment() {
             }
         }
 
+        /*
         if (args.clientAppointment != null) {
             val year = args.clientAppointment?.date?.get(Calendar.YEAR)
             val mouth = args.clientAppointment?.date?.get(Calendar.MONTH)
@@ -120,6 +130,18 @@ class ScheduleRegistrationFragment : Fragment() {
             if (year != null && mouth != null && dayOfMonth != null) {
                 viewModel.setDate(year, mouth, dayOfMonth)
             }
+        }
+        */
+
+        if (args.date != -1L) {
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = args.date
+
+            val year = calendar.get(Calendar.YEAR)
+            val mouth = calendar.get(Calendar.MONTH)
+            val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+
+            viewModel.setDate(year, mouth, dayOfMonth)
         }
         return binding.root
     }
@@ -145,8 +167,19 @@ class ScheduleRegistrationFragment : Fragment() {
             .setTitle("Reagendamento")
             .setMessage(message)
             .setPositiveButton("Reagendar") { dialog, _ ->
+                /*
                 args.clientAppointment?.let { clientAppointment ->
+
                     viewModel.reschedule(timeInterval, clientAppointment)
+                }
+                */
+
+                args.appointmentId?.let {
+                    viewModel.reschedule(
+                        timeInterval,
+                        args.appointmentId ?: "",
+                        args.scheduledTimes?.toList() ?: listOf()
+                    )
                 }
                 dialog.dismiss()
             }

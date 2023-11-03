@@ -12,4 +12,5 @@ interface ScheduleRepository {
     suspend fun load(date: Date, companyUid: String): Resource<List<Appointment>>
     suspend fun load(clientUid: String): Resource<List<ClientAppointment>>
     suspend fun delete(appointment: ClientAppointment): Resource<Boolean>
+    suspend fun delete(appointmentId: String, scheduledTimes: List<ScheduledTime>): Resource<Boolean>
 }

@@ -28,3 +28,15 @@ fun Calendar.formattedDate(): String {
 
     return "$dayOfWeek - ${get(Calendar.DAY_OF_MONTH)} $monthName. ${get(Calendar.YEAR)}"
 }
+
+fun Calendar.isToday(): Boolean {
+    val today = Calendar.getInstance()
+    return this.get(Calendar.YEAR) == today.get(Calendar.YEAR) &&
+            this.get(Calendar.MONTH) == today.get(Calendar.MONTH) &&
+            this.get(Calendar.DAY_OF_MONTH) == today.get(Calendar.DAY_OF_MONTH)
+}
+
+fun Calendar.isRetroactive(): Boolean {
+    val today = Calendar.getInstance()
+    return this.before(today)
+}

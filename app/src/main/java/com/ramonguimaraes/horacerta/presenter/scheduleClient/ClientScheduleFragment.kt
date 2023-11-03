@@ -100,16 +100,19 @@ class ClientScheduleFragment : Fragment() {
     }
 
     private fun scheduleActions(clientAppointment: ClientAppointment) {
-        ScheduleActionBottomSheet(cancel = {
-            cancelAlert(clientAppointment)
-        }, {
-            val action = ClientScheduleFragmentDirections
-                .actionClientScheduleToScheduleRegistrationFragment(
-                    clientAppointment = clientAppointment,
-                    companyUID = clientAppointment.companyUid
-                )
-            findNavController().navigate(action)
-        }).show(
+        ScheduleActionBottomSheet(
+            cancel = {
+                cancelAlert(clientAppointment)
+            },
+            reschedule = {
+                val action = ClientScheduleFragmentDirections
+                    .actionClientScheduleToScheduleRegistrationFragment(
+                        clientAppointment = clientAppointment,
+                        companyUID = clientAppointment.companyUid
+                    )
+                findNavController().navigate(action)
+            }
+        ).show(
             parentFragmentManager, ""
         )
     }
