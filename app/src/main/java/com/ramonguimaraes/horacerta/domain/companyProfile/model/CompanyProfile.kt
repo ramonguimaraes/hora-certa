@@ -16,10 +16,12 @@ class CompanyProfile(
     var numero: String = "",
     var cidade: String = "",
     var complemento: String = "",
-    var semNumero: Boolean = false
+    var semNumero: Boolean = false,
+    var latitude: Double? = null,
+    var longitude: Double? = null
 )
 
-fun CompanyProfile.toHashMap(): HashMap<String, Any> {
+fun CompanyProfile.toHashMap(): HashMap<String, Any?> {
     return hashMapOf(
         "companyUid" to companyUid,
         "companyName" to companyName,
@@ -33,6 +35,8 @@ fun CompanyProfile.toHashMap(): HashMap<String, Any> {
         "numero" to numero,
         "cidade" to cidade,
         "complemento" to complemento,
-        "semNumero" to semNumero
+        "semNumero" to semNumero,
+        "latitude" to latitude,
+        "longitude" to longitude
     )
 }

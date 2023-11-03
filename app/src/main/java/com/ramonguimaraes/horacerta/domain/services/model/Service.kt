@@ -1,7 +1,9 @@
 package com.ramonguimaraes.horacerta.domain.services.model
 
-import java.util.UUID
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 class Service(
     //var uid: UUID = UUID.randomUUID(),
     var id: String = "",
@@ -10,7 +12,7 @@ class Service(
     var price: Double = 0.0,
     var estimatedDuration: Long = 0,
     var checked: Boolean = false
-)
+): Parcelable
 
 fun Service.toHashMap(): HashMap<String, Any> {
     return hashMapOf(

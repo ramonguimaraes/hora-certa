@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ramonguimaraes.horacerta.domain.authentication.useCase.GetCurrentUserUseCase
 import com.ramonguimaraes.horacerta.domain.resource.Resource
+import com.ramonguimaraes.horacerta.domain.schedule.model.ScheduledTime
 import com.ramonguimaraes.horacerta.domain.schedule.model.TimeInterval
 import com.ramonguimaraes.horacerta.domain.schedule.useCase.GetAvailableHorsUseCase
 import com.ramonguimaraes.horacerta.domain.schedule.useCase.DeleteScheduledTimeUseCase
@@ -137,6 +138,20 @@ class ScheduleRegistrationViewModel(
                     companyUid = companyUid
                 )
                 mSaveResult.postValue(result)
+            }
+        }
+    }
+
+    fun reschedule(
+        timeInterval: TimeInterval,
+        appointmentId: String,
+        scheduledTimes: List<ScheduledTime>
+    ) {
+        viewModelScope.launch {
+            deleteScheduledTimeUseCase.delete(appointmentId, scheduledTimes).mapResourceSuccess {
+                if (it) {
+                    save(timeInterval)
+                }
             }
         }
     }

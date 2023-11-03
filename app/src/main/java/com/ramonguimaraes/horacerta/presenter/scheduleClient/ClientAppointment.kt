@@ -18,7 +18,9 @@ data class ClientAppointment(
     var photoUri: Uri,
     var phone: String,
     var date: Calendar,
-    var showDateLabel: Boolean = false
+    var showDateLabel: Boolean = false,
+    var latitude: Double?,
+    var longitude: Double?
 ): Serializable {
 
     fun getHourString(): String {

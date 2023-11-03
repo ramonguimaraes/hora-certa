@@ -1,6 +1,7 @@
 package com.ramonguimaraes.horacerta.data.companyProfile
 
 import android.net.Uri
+import android.net.http.HttpException
 import android.util.Log
 import androidx.core.net.toUri
 import com.google.android.gms.tasks.Task
@@ -18,6 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.io.File
+import java.io.IOException
 
 class CompanyProfileRepositoryImpl(
     private val db: FirebaseFirestore,
@@ -73,7 +75,9 @@ class CompanyProfileRepositoryImpl(
                     numero = snapShot.get("numero", String::class.java) ?: "",
                     cidade = snapShot.get("cidade", String::class.java) ?: "",
                     complemento = snapShot.get("complemento", String::class.java) ?: "",
-                    semNumero = snapShot.get("semNumero", Boolean::class.java) ?: false
+                    semNumero = snapShot.get("semNumero", Boolean::class.java) ?: false,
+                    latitude = snapShot.get("latitude", Double::class.java),
+                    longitude = snapShot.get("longitude", Double::class.java)
                 )
             }
             Resource.Success(companyProfile)
@@ -84,10 +88,18 @@ class CompanyProfileRepositoryImpl(
         }
     }
 
-    override suspend fun load(): Resource<List<CompanyProfile>> {
+    override suspend fun load(city: String, uf: String): Resource<List<CompanyProfile>> {
         return try {
-            val querySnapshot = db.collection(COLLECTION).get().await()
-            Resource.Success(convertToCompaniesList(querySnapshot))
+            val querySnapshot = db.collection(COLLECTION)
+                .whereEqualTo("cidade", city)
+                .whereEqualTo("uf", uf)
+                .get().await()
+            val companies = convertToCompaniesList(querySnapshot)
+            if (companies.isEmpty()) {
+                Resource.Failure(EmptyListException("Nenhuma empresa encontrada na sua região"))
+            } else {
+                Resource.Success(companies)
+            }
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, e.toString())
@@ -95,14 +107,35 @@ class CompanyProfileRepositoryImpl(
         }
     }
 
-    override suspend fun loadBySegment(segment: String): Resource<List<CompanyProfile>> {
+    class EmptyListException(private val msg: String = "Lista vazia"): Exception() {
+        override val message: String
+            get() = msg
+    }
+
+    override suspend fun loadBySegment(segment: String, city: String, uf: String): Resource<List<CompanyProfile>> {
         return try {
-            val querySnapshot = db.collection(COLLECTION).whereEqualTo("companySegment", segment).get().await()
-            Resource.Success(convertToCompaniesList(querySnapshot))
+            val querySnapshot = db.collection(COLLECTION)
+                .whereEqualTo("companySegment", segment)
+                .whereEqualTo("cidade", city)
+                .whereEqualTo("uf", uf)
+                .get().await()
+
+            val companies = convertToCompaniesList(querySnapshot)
+            return if (companies.isEmpty()) {
+                Resource.Failure(EmptyListException("Nenhuma empresa encontrada na sua região"))
+            } else {
+                Resource.Success(companies)
+            }
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, e.toString())
-            Resource.Failure(e)
+
+            val exception = when(e) {
+                is IOException -> IOException("Problema de conexão")
+                else -> Exception("Erro desconhecido")
+            }
+
+            Resource.Failure(exception)
         }
     }
 
@@ -124,7 +157,9 @@ class CompanyProfileRepositoryImpl(
                 numero = snapShot.get("numero", String::class.java) ?: "",
                 cidade = snapShot.get("cidade", String::class.java) ?: "",
                 complemento = snapShot.get("complemento", String::class.java) ?: "",
-                semNumero = snapShot.get("semNumero", Boolean::class.java) ?: false
+                semNumero = snapShot.get("semNumero", Boolean::class.java) ?: false,
+                latitude = snapShot.get("latitude", Double::class.java),
+                longitude = snapShot.get("longitude", Double::class.java)
             )
             companies.add(companyProfile)
         }

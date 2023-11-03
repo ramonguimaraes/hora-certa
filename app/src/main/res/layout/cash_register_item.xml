@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/txtDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="29/10/23 - 08:30" />
+
+        <TextView
+            android:id="@+id/txtClientName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="@+id/txtDate"
+            app:layout_constraintTop_toBottomOf="@+id/txtDate"
+            tools:text="Client Name" />
+
+        <TextView
+            android:id="@+id/txtServices"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@+id/txtClientName"
+            app:layout_constraintTop_toBottomOf="@+id/txtClientName"
+            tools:text="Corte de Cabelo 1  R$ 12,00" />
+
+        <TextView
+            android:id="@+id/txtTotalLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Total:"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/txtServices"
+            app:layout_constraintTop_toBottomOf="@+id/txtServices" />
+
+        <TextView
+            android:id="@+id/txtTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            app:layout_constraintBottom_toBottomOf="@+id/txtTotalLabel"
+            app:layout_constraintStart_toEndOf="@+id/txtTotalLabel"
+            app:layout_constraintTop_toTopOf="@+id/txtTotalLabel"
+            tools:text="R$ 20,00" />
+
+        <TextView
+            android:id="@+id/txtPaymentMethodLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Forma de pagamento:"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/txtTotalLabel"
+            app:layout_constraintTop_toBottomOf="@+id/txtTotalLabel" />
+
+        <TextView
+            android:id="@+id/textView20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            app:layout_constraintBottom_toBottomOf="@+id/txtPaymentMethodLabel"
+            app:layout_constraintStart_toEndOf="@+id/txtPaymentMethodLabel"
+            app:layout_constraintTop_toBottomOf="@+id/txtTotal"
+            tools:text="Dinheiro" />
+
+        <View
+            android:id="@+id/divider6"
+            android:layout_width="411dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtPaymentMethodLabel" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

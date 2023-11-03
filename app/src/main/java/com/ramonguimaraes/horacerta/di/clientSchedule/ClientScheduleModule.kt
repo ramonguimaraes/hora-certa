@@ -1,4 +1,4 @@
-package com.ramonguimaraes.horacerta.di
+package com.ramonguimaraes.horacerta.di.clientSchedule
 
 import com.ramonguimaraes.horacerta.presenter.scheduleClient.viewModel.ClientScheduleViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel

@@ -147,7 +147,9 @@ class CompanyProfileViewModel(
             rua = address.thoroughfare ?: "",
             numero = address.subThoroughfare ?: "",
             cidade = address.subAdminArea ?: "",
-            uf = AddressUtil.getStateAbbreviation(address) ?: ""
+            uf = AddressUtil.getStateAbbreviation(address) ?: "",
+            latitude = address.latitude,
+            longitude = address.longitude
         )
     }
 }

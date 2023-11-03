@@ -33,6 +33,19 @@
             tools:itemCount="3"
             tools:listitem="@layout/company_profile_item" />
 
+        <TextView
+            android:id="@+id/error"
+            android:textAlignment="center"
+            android:visibility="gone"
+            android:layout_marginHorizontal="50dp"
+            android:text="Não encontramos nenhuma empresa na sua região"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spnSegments"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
         <Spinner
             android:id="@+id/spnSegments"
             android:layout_width="0dp"

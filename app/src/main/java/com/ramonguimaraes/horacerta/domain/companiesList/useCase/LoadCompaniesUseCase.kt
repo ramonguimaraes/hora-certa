@@ -8,11 +8,11 @@ class LoadCompaniesUseCase(
     private val companyProfileRepository: CompanyProfileRepository
 ) {
 
-    suspend fun execute(): Resource<List<CompanyProfile>> {
-        return companyProfileRepository.load()
+    suspend fun execute(city: String, uf: String): Resource<List<CompanyProfile>> {
+        return companyProfileRepository.load(city = city, uf = uf)
     }
 
-    suspend fun execute(segment: String): Resource<List<CompanyProfile>> {
-        return companyProfileRepository.loadBySegment(segment)
+    suspend fun execute(segment: String, city: String, uf: String): Resource<List<CompanyProfile>> {
+        return companyProfileRepository.loadBySegment(segment, city, uf)
     }
 }
