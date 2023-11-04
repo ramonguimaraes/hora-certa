@@ -32,8 +32,6 @@ class ScheduleConfigViewModel(
     var daysOfWeek = listOf<DayOfWeek>()
     var isUpdating = false
 
-    private val dayOfWeek = MutableLiveData(DayOfWeek.SUNDAY)
-
     init {
         scheduleConfig.value = ScheduleConfig(
             companyUid = userUseCase.currentUid() ?: "",
@@ -101,7 +99,7 @@ class ScheduleConfigViewModel(
     }
 
     private fun validateDayOfWeek(): Boolean {
-        val dayOfWeek = dayOfWeek.value
+        val dayOfWeek = scheduleConfig.value?.dayOfWeek
         return dayOfWeek != null && daysOfWeek.none { it.day == dayOfWeek.day }
     }
 
@@ -139,7 +137,9 @@ class ScheduleConfigViewModel(
 
     fun setDayOfWeek(dayOfWeek: DayOfWeek?) {
         if (dayOfWeek != null) {
-            scheduleConfig.value?.dayOfWeek = dayOfWeek
+            scheduleConfig.value = scheduleConfig.value?.copy(
+                dayOfWeek = dayOfWeek
+            )
         }
     }
 }

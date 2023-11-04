@@ -8,26 +8,42 @@
         android:layout_height="match_parent"
         tools:context=".presenter.scheduleConfig.ui.ScheduleConfigListFragment">
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Configure seus horarios"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
+        <ImageView
+            android:id="@+id/ic"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="19dp"
+            android:layout_marginTop="32dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_alarm"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="#2196F3" />
+
+        <TextView
+            android:id="@+id/label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="9dp"
+            android:includeFontPadding="false"
+            android:text="Horarios de Funcionamento"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/ic"
+            app:layout_constraintStart_toEndOf="@+id/ic"
+            app:layout_constraintTop_toTopOf="@+id/ic" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvScheduleConfig"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginTop="20dp"
             tools:listitem="@layout/schedule_config_item_layout"
             tools:itemCount="5"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textView2" />
+            app:layout_constraintTop_toBottomOf="@id/label" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabAddConfig"

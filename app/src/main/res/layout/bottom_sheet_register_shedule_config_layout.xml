@@ -38,9 +38,10 @@
 
             <RadioButton
                 android:id="@+id/radioButtonSunday"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
+                android:layout_weight="1"
                 android:background="@drawable/day_of_week_background_selector"
                 android:button="@android:color/transparent"
                 android:clickable="@{!viewModel.updating}"
@@ -52,9 +53,10 @@
 
             <RadioButton
                 android:id="@+id/radioButtonMonday"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
+                android:layout_weight="1"
                 android:background="@drawable/day_of_week_background_selector"
                 android:button="@android:color/transparent"
                 android:clickable="@{!viewModel.updating}"
@@ -66,9 +68,10 @@
 
             <RadioButton
                 android:id="@+id/radioButtonTuesday"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
+                android:layout_weight="1"
                 android:background="@drawable/day_of_week_background_selector"
                 android:button="@android:color/transparent"
                 android:clickable="@{!viewModel.updating}"
@@ -80,9 +83,10 @@
 
             <RadioButton
                 android:id="@+id/radioButtonWednesday"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
+                android:layout_weight="1"
                 android:background="@drawable/day_of_week_background_selector"
                 android:button="@android:color/transparent"
                 android:clickable="@{!viewModel.updating}"
@@ -94,9 +98,10 @@
 
             <RadioButton
                 android:id="@+id/radioButtonThursday"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
+                android:layout_weight="1"
                 android:background="@drawable/day_of_week_background_selector"
                 android:button="@android:color/transparent"
                 android:clickable="@{!viewModel.updating}"
@@ -108,9 +113,10 @@
 
             <RadioButton
                 android:id="@+id/radioButtonFriday"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
+                android:layout_weight="1"
                 android:background="@drawable/day_of_week_background_selector"
                 android:button="@android:color/transparent"
                 android:clickable="@{!viewModel.updating}"
@@ -122,9 +128,10 @@
 
             <RadioButton
                 android:id="@+id/radioButtonSaturday"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
+                android:layout_weight="1"
                 android:background="@drawable/day_of_week_background_selector"
                 android:button="@android:color/transparent"
                 android:clickable="@{!viewModel.updating}"
@@ -265,16 +272,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
+            android:backgroundTint="@color/purple_200"
+            android:onClick="@{() -> viewModel.delete()}"
             android:text="delete"
             android:textColor="@color/white"
-            android:backgroundTint="@color/purple_200"
-            app:visibility="@{viewModel.updating}"
-            android:onClick="@{() -> viewModel.delete()}"
             app:layout_constraintBottom_toBottomOf="@+id/btnSave"
             app:layout_constraintEnd_toStartOf="@+id/btnSave"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/btnSave" />
+            app:layout_constraintTop_toTopOf="@+id/btnSave"
+            app:visibility="@{viewModel.updating}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

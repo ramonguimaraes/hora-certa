@@ -3,68 +3,76 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp">
 
-        <TextView
-            android:id="@+id/txtDayOfWeek"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="Segunda-feira"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/txtLabelMorning"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Manhã"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/txtDayOfWeek"
-            app:layout_constraintTop_toBottomOf="@+id/txtDayOfWeek" />
+            <TextView
+                android:id="@+id/txtDayOfWeek"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                tools:text="Segunda-feira"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/txtAfternoonLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tarde"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/txtLabelMorning"
-            app:layout_constraintTop_toBottomOf="@+id/txtLabelMorning" />
+            <TextView
+                android:id="@+id/txtLabelMorning"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Manhã"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/txtDayOfWeek"
+                app:layout_constraintTop_toBottomOf="@+id/txtDayOfWeek" />
 
-        <TextView
-            android:id="@+id/txtMoningTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="07:00 até 12:00"
-            app:layout_constraintBottom_toBottomOf="@+id/txtLabelMorning"
-            app:layout_constraintStart_toEndOf="@+id/txtLabelMorning"
-            app:layout_constraintTop_toTopOf="@+id/txtLabelMorning" />
+            <TextView
+                android:id="@+id/txtAfternoonLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tarde"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/txtLabelMorning"
+                app:layout_constraintTop_toBottomOf="@+id/txtLabelMorning" />
 
-        <TextView
-            android:id="@+id/txtAfternoonTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="13:00 até 20:00"
-            app:layout_constraintBottom_toBottomOf="@+id/txtAfternoonLabel"
-            app:layout_constraintStart_toEndOf="@+id/txtAfternoonLabel"
-            app:layout_constraintTop_toTopOf="@+id/txtAfternoonLabel" />
+            <TextView
+                android:id="@+id/txtMoningTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                tools:text="07:00 até 12:00"
+                app:layout_constraintBottom_toBottomOf="@+id/txtLabelMorning"
+                app:layout_constraintStart_toEndOf="@+id/txtLabelMorning"
+                app:layout_constraintTop_toTopOf="@+id/txtLabelMorning" />
 
-        <View
-            android:id="@+id/divider3"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="8dp"
-            android:background="?android:attr/listDivider"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtAfternoonLabel" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/txtAfternoonTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                tools:text="13:00 até 20:00"
+                app:layout_constraintBottom_toBottomOf="@+id/txtAfternoonLabel"
+                app:layout_constraintStart_toEndOf="@+id/txtAfternoonLabel"
+                app:layout_constraintTop_toTopOf="@+id/txtAfternoonLabel" />
+
+            <View
+                android:id="@+id/divider3"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtAfternoonLabel" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 </layout>

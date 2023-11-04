@@ -7,12 +7,10 @@ import androidx.lifecycle.viewModelScope
 import com.ramonguimaraes.horacerta.domain.resource.Resource
 import com.ramonguimaraes.horacerta.domain.scheduleConfig.model.ScheduleConfig
 import com.ramonguimaraes.horacerta.domain.scheduleConfig.useCase.ScheduleConfigListUseCase
-import com.ramonguimaraes.horacerta.domain.scheduleConfig.useCase.ScheduleConfigRemoveUseCase
 import kotlinx.coroutines.launch
 
 class ScheduleConfigListViewModel(
-    private val scheduleConfigListUseCase: ScheduleConfigListUseCase,
-    private val scheduleConfigRemoveUseCase: ScheduleConfigRemoveUseCase
+    private val scheduleConfigListUseCase: ScheduleConfigListUseCase
 ) : ViewModel() {
 
     private val mScheduleConfigList = MutableLiveData<Resource<List<ScheduleConfig>>>()
@@ -24,7 +22,12 @@ class ScheduleConfigListViewModel(
 
     fun loadScheduleConfigList() {
         mScheduleConfigList.postValue(Resource.Loading)
-        viewModelScope.launch { mScheduleConfigList.postValue(scheduleConfigListUseCase.invoke()) }
+        viewModelScope.launch {
+            val result = scheduleConfigListUseCase().mapResourceSuccess { list ->
+                list.sortedBy { item -> item.dayOfWeek.day }
+            }
+            mScheduleConfigList.postValue(result)
+        }
     }
 
     fun verifyListSize(): Boolean {
@@ -32,13 +35,5 @@ class ScheduleConfigListViewModel(
         return list?.let {
             it.size >= 7
         } == true
-    }
-
-    fun remove(scheduleConfig: ScheduleConfig) {
-        viewModelScope.launch {
-            scheduleConfigRemoveUseCase.invoke(scheduleConfig.id)
-        }.invokeOnCompletion {
-            loadScheduleConfigList()
-        }
     }
 }

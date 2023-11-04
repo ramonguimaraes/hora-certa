@@ -18,5 +18,5 @@ fun scheduleConfigModule() = module {
     factory { ScheduleConfigListUseCase(get(), get()) }
     factory { ScheduleConfigRemoveUseCase(get()) }
     viewModel { ScheduleConfigViewModel(get(), get(), get()) }
-    viewModel { ScheduleConfigListViewModel(get(), get())}
+    viewModel { ScheduleConfigListViewModel(get())}
 }
