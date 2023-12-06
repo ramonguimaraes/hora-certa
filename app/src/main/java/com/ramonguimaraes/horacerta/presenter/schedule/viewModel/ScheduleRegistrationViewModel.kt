@@ -10,6 +10,7 @@ import com.ramonguimaraes.horacerta.domain.schedule.model.ScheduledTime
 import com.ramonguimaraes.horacerta.domain.schedule.model.TimeInterval
 import com.ramonguimaraes.horacerta.domain.schedule.useCase.GetAvailableHorsUseCase
 import com.ramonguimaraes.horacerta.domain.schedule.useCase.DeleteScheduledTimeUseCase
+import com.ramonguimaraes.horacerta.domain.schedule.useCase.RescheduleUseCase
 import com.ramonguimaraes.horacerta.domain.schedule.useCase.SaveScheduledTimeUseCase
 import com.ramonguimaraes.horacerta.domain.services.model.Service
 import com.ramonguimaraes.horacerta.domain.services.userCase.LoadServicesUseCase
@@ -24,6 +25,7 @@ class ScheduleRegistrationViewModel(
     private val getAvailableHorsUseCase: GetAvailableHorsUseCase,
     private val saveScheduledTimeUseCase: SaveScheduledTimeUseCase,
     private val deleteScheduledTimeUseCase: DeleteScheduledTimeUseCase,
+    private val rescheduleUseCase: RescheduleUseCase,
     private val loadServiceUseCase: LoadServicesUseCase,
     private val userUseCase: GetCurrentUserUseCase
 ) : ViewModel() {
@@ -142,28 +144,35 @@ class ScheduleRegistrationViewModel(
         }
     }
 
-    fun reschedule(
+    fun update(
         timeInterval: TimeInterval,
         appointmentId: String,
         scheduledTimes: List<ScheduledTime>
     ) {
-        viewModelScope.launch {
-            deleteScheduledTimeUseCase.delete(appointmentId, scheduledTimes).mapResourceSuccess {
-                if (it) {
-                    save(timeInterval)
+        val calendar = date.value
+        val totalTime = totalTime.value
+        val services = services.value
+        val user = currentUser.value
+
+        if (totalTime != null && services != null && user != null && calendar != null) {
+            calendar.set(Calendar.HOUR_OF_DAY, timeInterval.time.hour)
+            calendar.set(Calendar.MINUTE, timeInterval.time.minute)
+            calendar.set(Calendar.SECOND, 0)
+            viewModelScope.launch {
+                withContext(Dispatchers.IO) {
+                    val result = rescheduleUseCase.execute(appointmentId, scheduledTimes, calendar, user.uid)
+                    mSaveResult.postValue(result)
                 }
             }
         }
     }
 
-    fun reschedule(timeInterval: TimeInterval, appointment: ClientAppointment) {
-        viewModelScope.launch {
-            deleteScheduledTimeUseCase.delete(appointment).mapResourceSuccess {
-                if (it) {
-                    save(timeInterval)
-                }
-            }
-        }
+    fun reschedule(
+        timeInterval: TimeInterval,
+        appointmentId: String,
+        scheduledTimes: List<ScheduledTime>
+    ) {
+        update(timeInterval, appointmentId, scheduledTimes)
     }
 
     fun updateTotalTime(item: Service, isChecked: Boolean) {

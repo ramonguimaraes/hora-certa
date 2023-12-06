@@ -4,6 +4,7 @@ import com.ramonguimaraes.horacerta.data.schedule.dataRepository.ScheduleReposit
 import com.ramonguimaraes.horacerta.domain.schedule.repository.ScheduleRepository
 import com.ramonguimaraes.horacerta.domain.schedule.useCase.DeleteScheduledTimeUseCase
 import com.ramonguimaraes.horacerta.domain.schedule.useCase.GetAvailableHorsUseCase
+import com.ramonguimaraes.horacerta.domain.schedule.useCase.RescheduleUseCase
 import com.ramonguimaraes.horacerta.domain.schedule.useCase.SaveScheduledTimeUseCase
 import com.ramonguimaraes.horacerta.presenter.schedule.viewModel.ScheduleRegistrationViewModel
 import com.ramonguimaraes.horacerta.presenter.schedule.viewModel.ScheduleViewModel
@@ -15,6 +16,7 @@ fun scheduleModule() = module {
     factory { GetAvailableHorsUseCase(get(), get()) }
     factory { SaveScheduledTimeUseCase(get()) }
     factory { DeleteScheduledTimeUseCase(get()) }
-    viewModel { ScheduleRegistrationViewModel(get(), get(), get(), get(), get()) }
+    factory { RescheduleUseCase(get()) }
+    viewModel { ScheduleRegistrationViewModel(get(), get(), get(), get(), get(), get()) }
     viewModel { ScheduleViewModel(get(), get(), get()) }
 }

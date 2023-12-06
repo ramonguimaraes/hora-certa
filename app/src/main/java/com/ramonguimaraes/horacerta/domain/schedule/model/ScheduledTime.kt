@@ -9,7 +9,7 @@ import java.util.Calendar
 @Parcelize
 data class ScheduledTime(
     var id: String= "",
-    val time: Calendar = Calendar.getInstance(),
+    var time: Calendar = Calendar.getInstance(),
     val clientUid: String = "",
     val companyUid: String = ""
 ): Parcelable

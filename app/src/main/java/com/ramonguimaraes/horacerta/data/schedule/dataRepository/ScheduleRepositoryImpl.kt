@@ -25,7 +25,8 @@ class ScheduleRepositoryImpl(private val db: FirebaseFirestore) : ScheduleReposi
 
     override suspend fun save(
         appointment: Appointment,
-        scheduledTimes: List<ScheduledTime>
+        scheduledTimes: List<ScheduledTime>,
+        createdBy: String
     ): Resource<Boolean> {
         return try {
             db.runTransaction { transaction ->
@@ -40,7 +41,7 @@ class ScheduleRepositoryImpl(private val db: FirebaseFirestore) : ScheduleReposi
                 val appointmentReference = db.collection(SCHEDULE_APPOINTMENT).document()
                 transaction.set(
                     appointmentReference,
-                    appointmentHashMap(appointment, scheduledTimesReferences)
+                    appointmentHashMap(appointment, scheduledTimesReferences, createdBy)
                 )
             }.await()
             Resource.Success(true)
@@ -52,7 +53,8 @@ class ScheduleRepositoryImpl(private val db: FirebaseFirestore) : ScheduleReposi
 
     private fun appointmentHashMap(
         appointment: Appointment,
-        scheduledTimes: List<DocumentReference>
+        scheduledTimes: List<DocumentReference>,
+        createdBy: String
     ): HashMap<String, Any> {
         return hashMapOf(
             "scheduledTimes" to scheduledTimes.map { it.id },
@@ -60,7 +62,8 @@ class ScheduleRepositoryImpl(private val db: FirebaseFirestore) : ScheduleReposi
             "companyUid" to appointment.companyUid,
             "clientUid" to appointment.clientUid,
             "clientName" to appointment.clientName,
-            "date" to appointment.date.toTimeStamp()
+            "date" to appointment.date.toTimeStamp(),
+            "createdBy" to createdBy
         )
     }
 
@@ -191,6 +194,31 @@ class ScheduleRepositoryImpl(private val db: FirebaseFirestore) : ScheduleReposi
             Resource.Success(true)
         } catch (e: Exception) {
             Log.e(TAG, e.message.toString())
+            Resource.Failure(e)
+        }
+    }
+
+    override suspend fun reschedule(
+        appointmentId: String,
+        scheduledTimes: List<ScheduledTime>,
+        newDate: Calendar,
+        createdBy: String
+    ): Resource<Boolean> {
+        return try {
+            val fields: HashMap<String, Any> = hashMapOf(
+                "date" to newDate.toTimeStamp(),
+                "createdBy" to  createdBy
+            )
+            db.collection(SCHEDULE_APPOINTMENT).document(appointmentId).update(fields).await()
+            scheduledTimes.forEach {
+                db.collection(COLLECTION).document(it.id).update("time", newDate.toTimeStamp()).await()
+                newDate.set(Calendar.MINUTE, newDate.get(Calendar.MINUTE) + 30)
+            }
+
+            Resource.Success(true)
+        } catch (e: Exception) {
+            Log.e(TAG, e.message.toString())
+            e.printStackTrace()
             Resource.Failure(e)
         }
     }
