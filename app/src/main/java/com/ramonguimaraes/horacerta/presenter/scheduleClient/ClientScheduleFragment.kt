@@ -108,7 +108,11 @@ class ClientScheduleFragment : Fragment() {
                 val action = ClientScheduleFragmentDirections
                     .actionClientScheduleToScheduleRegistrationFragment(
                         clientAppointment = clientAppointment,
-                        companyUID = clientAppointment.companyUid
+                        companyUID = clientAppointment.companyUid,
+                        appointmentId = clientAppointment.appointmentId,
+                        services = clientAppointment.services.toTypedArray(),
+                        scheduledTimes = clientAppointment.scheduledTimes.toTypedArray(),
+                        date = clientAppointment.date.timeInMillis
                     )
                 findNavController().navigate(action)
             }

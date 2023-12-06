@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
@@ -101,7 +102,12 @@ class ScheduleRegistrationFragment : Fragment() {
                 return@setOnClick
             }
 
-            showConfirmDialog(it)
+            if (viewModel.totalTime.value!! > 0) {
+
+                showConfirmDialog(it)
+            } else {
+                Toast.makeText(context, "Por favor selecione ao menos 1 serviço", Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.backButton.setOnClickListener {
@@ -167,13 +173,6 @@ class ScheduleRegistrationFragment : Fragment() {
             .setTitle("Reagendamento")
             .setMessage(message)
             .setPositiveButton("Reagendar") { dialog, _ ->
-                /*
-                args.clientAppointment?.let { clientAppointment ->
-
-                    viewModel.reschedule(timeInterval, clientAppointment)
-                }
-                */
-
                 args.appointmentId?.let {
                     viewModel.reschedule(
                         timeInterval,
@@ -198,13 +197,23 @@ class ScheduleRegistrationFragment : Fragment() {
         val year = Calendar.getInstance().get(Calendar.YEAR)
         val month = Calendar.getInstance().get(Calendar.MONTH)
         val dayOfMonth = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+        val currentDate = Calendar.getInstance()
 
-        DatePickerDialog(
+        val dataPicker = DatePickerDialog(
             requireContext(),
             { _, year, month, dayOfMonth ->
-                viewModel.setDate(year, month, dayOfMonth)
+                val selectedDate = Calendar.getInstance()
+                selectedDate.set(year, month, dayOfMonth)
+
+                if (selectedDate.after(currentDate)) {
+                    viewModel.setDate(year, month, dayOfMonth)
+                } else {
+                    Toast.makeText(requireContext(), "Data invalida", Toast.LENGTH_SHORT).show()
+                }
             },
             year, month, dayOfMonth
-        ).show()
+        )
+        dataPicker.datePicker.minDate = currentDate.time.time
+        dataPicker.show()
     }
 }

@@ -1,72 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp">
 
-        <TextView
-            android:id="@+id/txtTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="Corte de cabelo 1"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/txtPriceLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Valor:"
-            android:textStyle="normal"
-            app:layout_constraintStart_toStartOf="@+id/txtTitle"
-            app:layout_constraintTop_toBottomOf="@+id/txtTitle" />
+            <TextView
+                android:id="@+id/txtTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Corte de cabelo 1"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/txtEstimatedDurationLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Duração:"
-            android:textStyle="normal"
-            app:layout_constraintStart_toStartOf="@+id/txtPriceLabel"
-            app:layout_constraintTop_toBottomOf="@+id/txtPriceLabel" />
+            <TextView
+                android:id="@+id/txtPriceLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Valor:"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="@+id/txtTitle"
+                app:layout_constraintTop_toBottomOf="@+id/txtTitle" />
 
-        <TextView
-            android:id="@+id/txtPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="R$ 10,00"
-            app:layout_constraintBottom_toBottomOf="@+id/txtPriceLabel"
-            app:layout_constraintStart_toEndOf="@+id/txtPriceLabel"
-            app:layout_constraintTop_toTopOf="@+id/txtPriceLabel" />
+            <TextView
+                android:id="@+id/txtEstimatedDurationLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Duração:"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="@+id/txtPriceLabel"
+                app:layout_constraintTop_toBottomOf="@+id/txtPriceLabel" />
 
-        <TextView
-            android:id="@+id/txtEstimatedDuration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="120m"
-            app:layout_constraintBottom_toBottomOf="@+id/txtEstimatedDurationLabel"
-            app:layout_constraintStart_toEndOf="@+id/txtEstimatedDurationLabel"
-            app:layout_constraintTop_toTopOf="@+id/txtEstimatedDurationLabel" />
+            <TextView
+                android:id="@+id/txtPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="R$ 10,00"
+                app:layout_constraintBottom_toBottomOf="@+id/txtPriceLabel"
+                app:layout_constraintStart_toEndOf="@+id/txtPriceLabel"
+                app:layout_constraintTop_toTopOf="@+id/txtPriceLabel" />
 
-        <View
-            android:id="@+id/divider4"
-            android:layout_width="409dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="8dp"
-            android:background="?android:attr/listDivider"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtEstimatedDurationLabel" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/txtEstimatedDuration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="120m"
+                app:layout_constraintBottom_toBottomOf="@+id/txtEstimatedDurationLabel"
+                app:layout_constraintStart_toEndOf="@+id/txtEstimatedDurationLabel"
+                app:layout_constraintTop_toTopOf="@+id/txtEstimatedDurationLabel" />
+
+            <View
+                android:id="@+id/divider4"
+                android:layout_width="409dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtEstimatedDurationLabel" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 </layout>

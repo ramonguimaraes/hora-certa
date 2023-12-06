@@ -4,7 +4,8 @@ data class User(
     val uid: String = "",
     val name:  String = "",
     val email: String = "",
-    val accountType: AccountType = AccountType.NONE
+    val accountType: AccountType = AccountType.NONE,
+    val deviceToken: String = ""
 )
 
 fun User.toHashMap(): HashMap<String, Any> {
@@ -12,6 +13,7 @@ fun User.toHashMap(): HashMap<String, Any> {
         "uid" to uid,
         "name" to name,
         "email" to email,
-        "accountType" to accountType
+        "accountType" to accountType,
+        "deviceToken" to deviceToken
     )
 }

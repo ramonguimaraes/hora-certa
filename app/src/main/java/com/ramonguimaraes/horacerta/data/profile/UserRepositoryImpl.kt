@@ -3,6 +3,7 @@ package com.ramonguimaraes.horacerta.data.profile
 import android.util.Log
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.messaging.FirebaseMessaging
 import com.ramonguimaraes.horacerta.domain.resource.Resource
 import com.ramonguimaraes.horacerta.domain.user.model.User
 import com.ramonguimaraes.horacerta.domain.user.model.toHashMap
@@ -14,8 +15,7 @@ class UserRepositoryImpl(private val db: FirebaseFirestore) : UserRepository {
 
     override suspend fun save(user: User): Resource<DocumentReference?> {
         return try {
-            val result = db.collection(DOCUMENT)
-                .add(user.toHashMap()).await()
+            val result = db.collection(DOCUMENT).add(user.toHashMap()).await()
             Resource.Success(result)
         } catch (e: Exception) {
             Log.e(TAG, e.message.toString())
@@ -44,6 +44,14 @@ class UserRepositoryImpl(private val db: FirebaseFirestore) : UserRepository {
     override suspend fun load(uid: String): Resource<User?> {
         return try {
             val result = db.collection(DOCUMENT).whereEqualTo("uid", uid).get().await()
+
+            FirebaseMessaging.getInstance().token.addOnSuccessListener { token ->
+                db.collection(DOCUMENT).document(result.single().id).update("deviceToken", token)
+                    .addOnSuccessListener {
+                        Log.d("USER-TOKEN", "new user token $token")
+                    }
+            }
+
             val user = result.toObjects(User::class.java).single()
 
             Resource.Success(user)
